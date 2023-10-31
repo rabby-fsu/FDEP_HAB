@@ -18,8 +18,8 @@ model_A_url = 'https://github.com/rabby-fsu/Chlorophyll-a_Estimation_Tool/blob/M
 
 
 # Load the pre-trained models locally
-with open("xgb_model_Bayesian_01.pkl", "rb") as model_file_A:
-    model_A = pickle.load(model_file_A)
+#with open("xgb_model_Bayesian_01.pkl", "rb") as model_file_A:
+    #model_A = pickle.load(model_file_A)
 
 #model_B_path = 'C:/Users/88017/rf_model_HAB_Grid_02.pkl'
 #with open(model_B_path, "rb") as model_file_B:
@@ -31,10 +31,10 @@ with open("xgb_model_Bayesian_01.pkl", "rb") as model_file_A:
 #model_B = joblib.load('rf_model_HAB_Random_02.joblib')
 
 # Function to load a model from GitHub
-#def load_model_from_github(url):
-    #response = requests.get(url)
-    #model = pickle.load(BytesIO(response.content))
-    #return model
+def load_model_from_github(url):
+    response = requests.get(url)
+    model = pickle.load(BytesIO(response.content))
+    return model
 
 # Define the Streamlit app pages
 pages = ['Home','Model A: Using Physical Chemical Water Quality Parameters', 'Model B: Using Physical Chemical Water Quality and Meteorological Parameters']
@@ -72,7 +72,7 @@ if page == 'Model A: Using Physical Chemical Water Quality Parameters':
 
         
         # Load Model A from GitHub
-        #model_A = load_model_from_github(model_A_url)
+        model_A = load_model_from_github(model_A_url)
         
         # Make predictions using Model A
         predictions = model_A.predict(test_data)
@@ -100,7 +100,7 @@ elif page == 'Model B: Using Physical Chemical Water Quality and Meteorological 
         test_data = pd.read_csv(uploaded_file)
         
         # Load Model B from GitHub
-        #model_B = load_model_from_github(model_B_url)
+        model_B = load_model_from_github(model_B_url)
         
         # Make predictions using Model B
         predictions = model_B.predict(test_data)
