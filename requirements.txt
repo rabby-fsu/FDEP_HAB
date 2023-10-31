@@ -6,4 +6,4 @@ pickle
 joblib
 io 
 BytesIO
-base 64
+base64
