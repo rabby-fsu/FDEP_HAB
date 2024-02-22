@@ -29,6 +29,10 @@ predicted_chlorophyll = xgb_regressor_1.predict(X)
 # Add predicted chlorophyll-a concentrations as a new column in the DataFrame
 df['Predicted'] = predicted_chlorophyll
 
+# Introduction Page
+st.title('Introduction')
+st.write('This is an application to evaluate the Apalachicola Bay Model.')
+
 
 st.map(df,
     latitude='Latitude',
