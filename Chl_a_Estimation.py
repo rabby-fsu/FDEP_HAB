@@ -31,7 +31,7 @@ df['Predicted Chlorophyll-a (ug/L)'] = predicted_chlorophyll
 
 
 st.map(df,
-    latitude=['Latitude',
+    latitude='Latitude',
     longitude='Longitude',
     size='Predicted Chlorophyll-a (ug/L)')
 
