@@ -62,13 +62,13 @@ def update_map_with_evaluation_results():
 
 # Introduction Page
 st.sidebar.title('Pages')
-selected_page = st.sidebar.radio('Go to', ['Introduction', 'Evaluate Model', 'Ungauged Stations'])
+selected_page = st.sidebar.radio('Go to', ['Introduction', 'Apalachicola Bay-Estuary', 'Pensacola-Perdido Bay-Estuary'])
 
 if selected_page == 'Introduction':
     st.title('Introduction')
     st.write('This is an application to evaluate the Apalachicola Bay Model.')
 
-elif selected_page == 'Modeling Apalachicola Bay's Chlorophyll-a Concentration':
+elif selected_page == 'Apalachicola Bay-Estuary':
     st.title('Evaluate the Apalachicola Bay Model')
     
     # Button to evaluate the model
