@@ -38,20 +38,28 @@ def evaluate_model_per_station(station_data):
     
     return train_r2, test_r2, train_rmse, test_rmse
 
+
 # Function to update map with evaluation results
 def update_map_with_evaluation_results():
+    # Create combined training data by randomly selecting 80% data from each station
+    combined_training_data = pd.DataFrame(columns=df.columns)
+    for station in df['Station'].unique():
+        station_data = df[df['Station'] == station]
+        train_data, _ = train_test_split(station_data, test_size=0.2, random_state=42)
+        combined_training_data = pd.concat([combined_training_data, train_data])
+    
     # Display map with gauged stations
-    st.map(df, latitude='lat', longitude='lon', use_container_width=True)
+    st.map(df, latitude='Latitude', longitude='Longitude', use_container_width=True)
 
     # Iterate through each station
-    for station in df['station_code'].unique():
+    for station in df['Station'].unique():
         st.write(f"Evaluating Station {station}")
         
         # Filter data for the current station
-        station_data = df[df['station_code'] == station]
+        station_data = df[df['Station'] == station]
         
         # Evaluate model for the current station
-        train_r2, test_r2, train_rmse, test_rmse = evaluate_model_per_station(station_data)
+        train_r2, test_r2, train_rmse, test_rmse = evaluate_model_per_station(station_data, combined_training_data)
         
         # Display evaluation results
         st.write(f"Station {station} - Prediction Accuracy:")
@@ -59,6 +67,7 @@ def update_map_with_evaluation_results():
         st.write(f"Testing R2: {test_r2}")
         st.write(f"Training RMSE: {train_rmse}")
         st.write(f"Testing RMSE: {test_rmse}")
+
 
 # Introduction Page
 st.sidebar.title('Pages')
