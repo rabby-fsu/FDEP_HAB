@@ -27,11 +27,11 @@ xgb_regressor_1.fit(X_train, y_train)
 predicted_chlorophyll = xgb_regressor_1.predict(X)
 
 # Add predicted chlorophyll-a concentrations as a new column in the DataFrame
-df['Predicted Chlorophyll-a (ug/L)'] = predicted_chlorophyll
+df['Predicted'] = predicted_chlorophyll
 
 
 st.map(df,
     latitude='Latitude',
     longitude='Longitude',
-    size='Predicted Chlorophyll-a (ug/L)')
+    size='Predicted')
 
