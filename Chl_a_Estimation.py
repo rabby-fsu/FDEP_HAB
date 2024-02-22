@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-import cartopy.crs as ccrs
 from sklearn.model_selection import train_test_split
 from xgboost import XGBRegressor
 import streamlit as st
