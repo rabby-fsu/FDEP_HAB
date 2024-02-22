@@ -29,10 +29,9 @@ predicted_chlorophyll = xgb_regressor_1.predict(X)
 # Add predicted chlorophyll-a concentrations as a new column in the DataFrame
 df['Predicted Chlorophyll-a (ug/L)'] = predicted_chlorophyll
 
-# Add Latitude and Longitude columns
-df['Latitude'] = df['Lat']
-df['Longitude'] = df['Long']
 
-# Display the map using Streamlit
-st.map(df[['Latitude', 'Longitude', 'Predicted Chlorophyll-a (ug/L)']])
+st.map(df,
+    latitude=['Latitude',
+    longitude='Longitude',
+    size='Predicted Chlorophyll-a (ug/L)')
 
