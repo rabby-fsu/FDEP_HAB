@@ -69,6 +69,10 @@ if selected_page == 'Introduction':
     st.write('This is an application to evaluate the Apalachicola Bay Model.')
 
 elif selected_page == 'Apalachicola Bay-Estuary':
+    st.map(df,
+    latitude='Latitude',
+    longitude='Longitude',
+    size='Predicted')
     st.title('Evaluate the Apalachicola Bay Model')
     
     # Button to evaluate the model
