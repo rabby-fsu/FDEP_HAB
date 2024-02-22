@@ -41,10 +41,10 @@ def evaluate_model_per_station(station_data):
 # Function to update map with evaluation results
 def update_map_with_evaluation_results():
     # Display map with gauged stations
-    st.map(df, latitude='Latitude', longitude='Longitude', use_container_width=True)
+    st.map(df, latitude='lat', longitude='lon', use_container_width=True)
 
     # Iterate through each station
-    for station in df['Station'].unique():
+    for station in df['station_code'].unique():
         st.write(f"Evaluating Station {station}")
         
         # Filter data for the current station
