@@ -14,13 +14,18 @@ selected_features = ['Salinity(ppt)', 'Turbidity(NTU)', 'DO(mg/l)', 'pH', 'ATemp
                      'ATemp_max_4dlag', 'ATemp_max_5dlag', 'ATemp_max_6dlag',
                      'ATemp_max_7dlag']
 
+# Create combined training data by randomly selecting 80% data from each station
+combined_training_data = pd.DataFrame(columns=df.columns)
+for station in df['station_code'].unique():
+    station_data = df[df['station_code'] == station]
+    train_data, test_data = train_test_split(station_data, test_size=0.2, random_state=42)
+    combined_training_data = pd.concat([combined_training_data, train_data])
+    combined_testing_data = pd.concat([combined_training_data, test_data])
+
 # Function to evaluate model per station
-def evaluate_model_per_station(station_data):
-    X = station_data[selected_features]
-    y = station_data['Chlorophyll-a (ug/L)']
-    
-    # Split data into train and test sets
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+def training(combined_training_data):
+    X_train = combined_training_data[selected_features]
+    y_train = combined_training_data['Chlorophyll-a (ug/L)']
     
     # Initialize and fit the XGBoost Regressor
     xgb_regressor = XGBRegressor(n_estimators=334, max_depth=4, learning_rate=0.07818940902700418, random_state=42)
@@ -28,15 +33,12 @@ def evaluate_model_per_station(station_data):
     
     # Predictions
     y_train_pred = xgb_regressor.predict(X_train)
-    y_test_pred = xgb_regressor.predict(X_test)
     
     # Evaluation metrics
     train_r2 = r2_score(y_train, y_train_pred)
-    test_r2 = r2_score(y_test, y_test_pred)
     train_rmse = np.sqrt(mean_squared_error(y_train, y_train_pred))
-    test_rmse = np.sqrt(mean_squared_error(y_test, y_test_pred))
     
-    return train_r2, test_r2, train_rmse, test_rmse
+    return train_r2, train_rmse,
 
 
 # Function to update map with evaluation results
