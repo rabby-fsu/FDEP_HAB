@@ -52,11 +52,11 @@ def update_map_with_evaluation_results():
     st.map(df, latitude='Latitude', longitude='Longitude', use_container_width=True)
 
     # Iterate through each station
-    for station in df['Station'].unique():
+    for station in df['station_code'].unique():
         st.write(f"Evaluating Station {station}")
         
         # Filter data for the current station
-        station_data = df[df['Station'] == station]
+        station_data = df[df['station_code'] == station]
         
         # Evaluate model for the current station
         train_r2, test_r2, train_rmse, test_rmse = evaluate_model_per_station(station_data, combined_training_data)
