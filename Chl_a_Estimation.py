@@ -48,7 +48,7 @@ def update_map_with_evaluation_results():
         st.write(f"Evaluating Station {station}")
         
         # Filter data for the current station
-        station_data = df[df['Station'] == station]
+        station_data = df[df['station_code'] == station]
         
         # Evaluate model for the current station
         train_r2, test_r2, train_rmse, test_rmse = evaluate_model_per_station(station_data)
