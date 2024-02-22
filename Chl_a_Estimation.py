@@ -68,7 +68,7 @@ if selected_page == 'Introduction':
     st.title('Introduction')
     st.write('This is an application to evaluate the Apalachicola Bay Model.')
 
-elif selected_page == 'Evaluate Model':
+elif selected_page == 'Modeling Apalachicola Bay's Chlorophyll-a Concentration':
     st.title('Evaluate the Apalachicola Bay Model')
     
     # Button to evaluate the model
