@@ -3,6 +3,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from xgboost import XGBRegressor
 import streamlit as st
+import matplotlib.pyplot as plt
 
 # Load data
 df = pd.read_csv('DataFile_ML_All.csv')
