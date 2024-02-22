@@ -43,8 +43,8 @@ def evaluate_model_per_station(station_data):
 def update_map_with_evaluation_results():
     # Create combined training data by randomly selecting 80% data from each station
     combined_training_data = pd.DataFrame(columns=df.columns)
-    for station in df['Station'].unique():
-        station_data = df[df['Station'] == station]
+    for station in df['station_code'].unique():
+        station_data = df[df['station_code'] == station]
         train_data, _ = train_test_split(station_data, test_size=0.2, random_state=42)
         combined_training_data = pd.concat([combined_training_data, train_data])
     
