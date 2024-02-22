@@ -13,7 +13,7 @@ selected_features = ['Salinity(ppt)', 'Turbidity(NTU)', 'DO(mg/l)', 'pH', 'ATemp
                      'ATemp_max_1dlag', 'ATemp_max_2dlag', 'ATemp_max_3dlag',
                      'ATemp_max_4dlag', 'ATemp_max_5dlag', 'ATemp_max_6dlag',
                      'ATemp_max_7dlag']
-dd
+
 # Function to evaluate model per station
 def evaluate_model_per_station(station_data):
     X = station_data[selected_features]
