@@ -59,7 +59,7 @@ elif selected_page == 'Apalachicola Bay-Estuary':
 
     # Map with station markers
     for index, row in station_locations.iterrows():
-        st.map(pd.DataFrame({'Latitude': [row['lat']], 'Longitude': [row['lon']], 'Count': [row['Count']]}),
+        st.map(pd.DataFrame({'lat': [row['lat']], 'lon': [row['lon']], 'Count': [row['Count']]}),
                 use_container_width=True)
       
     st.title('Evaluate the Apalachicola Bay Model')
