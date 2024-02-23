@@ -102,8 +102,8 @@ elif selected_page == 'Apalachicola Bay-Estuary':
     #st.map(df_ap_nut,latitude='lat',longitude='lon',use_container_width=True)
         
     # Define map window size
-    map_width = 80
-    map_height = 60
+    map_width = 800
+    map_height = 600
 
     # Show map at the top left corner with defined size
     map_container = st.empty()
