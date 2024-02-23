@@ -171,13 +171,8 @@ elif selected_page == 'Apalachicola Bay-Estuary':
         st.write(f"Number of Features: {X.shape[1]}")
         st.write(f"Selected Features: {selected_features}")
         st.write(f"Target Variable: Chlorophyll-a (ug/L)")
-        # Split the data into train and test sets
-        #X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
         # Display the train and test sample sizes
-        st.write("## Train/Test Sample Sizes")
-        st.write(f"Train Samples: {len(X_train)}")
-        st.write(f"Test Samples: {len(X_test)}")
+        st.write("## Train/Test Sample Sizes: 80% Training and 20% Testing")
 
         # Display model's hyperparameters
         st.write("## Model's Hyperparameters")
