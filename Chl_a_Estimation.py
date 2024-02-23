@@ -59,19 +59,6 @@ for i, station in enumerate(sorted_station_codes):
 # Sort station coordinates by longitude
 sorted_station_coordinates = sorted(station_coordinates.items(), key=lambda x: x[1][0])
 
-# Annotate station names and handle overlapping
-used_coordinates = set()
-for i, (station, (lon, lat)) in enumerate(sorted_station_coordinates):
-    arrow_shift = 0
-    while (lon, lat) in used_coordinates:  # Check for overlapping
-        lat += 0.015  # Adjust the latitude to avoid overlapping
-        arrow_shift += 1
-
-    # Annotate station name with arrow
-    ax.annotate(station, xy=(lon, lat), xytext=(15, 15), textcoords='offset points', fontsize=15, color='red',
-                arrowprops=dict(facecolor='red', arrowstyle='->'))
-
-    used_coordinates.add((lon, lat))
 
 
 # Function to create map
@@ -88,7 +75,21 @@ def create_map(selected_year, selected_month):
 
     # Plot chlorophyll-a concentration using color plot
     sc = ax.scatter(filtered_df['lon'], filtered_df['lat'], s=100, c=filtered_df['Chlorophyll-a (ug/L)'], cmap='viridis', edgecolor='black')
+  
+    # Annotate station names and handle overlapping
+    used_coordinates = set()
+    for i, (station, (lon, lat)) in enumerate(sorted_station_coordinates):
+        arrow_shift = 0
+        while (lon, lat) in used_coordinates:  # Check for overlapping
+            lat += 0.015  # Adjust the latitude to avoid overlapping
+            arrow_shift += 1
 
+        # Annotate station name with arrow
+        ax.annotate(station, xy=(lon, lat), xytext=(15, 15), textcoords='offset points', fontsize=15, color='red',
+                    arrowprops=dict(facecolor='red', arrowstyle='->'))
+
+        used_coordinates.add((lon, lat))
+      
     # Add color bar
     cbar = plt.colorbar(sc, ax=ax, orientation='vertical', pad=0.02)
     cbar.set_label('Chlorophyll-a (ug/L)')
