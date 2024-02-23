@@ -50,7 +50,7 @@ elif selected_page == 'Apalachicola Bay-Estuary':
     st.map(df,
     latitude='Latitude',
     longitude='Longitude',
-    use_container_width=True')
+    use_container_width=True)
       
     st.title('Evaluate the Apalachicola Bay Model')
     # Create combined training data by randomly selecting 80% data from each station
