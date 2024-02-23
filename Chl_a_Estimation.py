@@ -47,6 +47,33 @@ num_ticks = 5
 lon_ticks = np.linspace(extent[0], extent[1], num_ticks)
 lat_ticks = np.linspace(extent[2], extent[3], num_ticks)
 
+# Sort station codes based on longitude
+sorted_station_codes = sorted(df['station_code'].unique(), key=lambda x: df[df['station_code'] == x]['lon'].iloc[0])
+
+# Create a dictionary to store coordinates for each station
+station_coordinates = defaultdict(list)
+for i, station in enumerate(sorted_station_codes):
+    station_name = f'G{i+1}'
+    station_coordinates[station_name] = (df[df['station_code'] == station]['lon'].iloc[0], filtered_df[df['station_code'] == station]['lat'].iloc[0])
+
+# Sort station coordinates by longitude
+sorted_station_coordinates = sorted(station_coordinates.items(), key=lambda x: x[1][0])
+
+# Annotate station names and handle overlapping
+used_coordinates = set()
+for i, (station, (lon, lat)) in enumerate(sorted_station_coordinates):
+    arrow_shift = 0
+    while (lon, lat) in used_coordinates:  # Check for overlapping
+        lat += 0.015  # Adjust the latitude to avoid overlapping
+        arrow_shift += 1
+
+    # Annotate station name with arrow
+    ax.annotate(station, xy=(lon, lat), xytext=(15, 15), textcoords='offset points', fontsize=15, color='red',
+                arrowprops=dict(facecolor='red', arrowstyle='->'))
+
+    used_coordinates.add((lon, lat))
+
+
 # Function to create map
 def create_map(selected_year, selected_month):
     # Filter data for the selected year and month
@@ -59,18 +86,6 @@ def create_map(selected_year, selected_month):
     # Plot coastlines
     ax.coastlines()
 
-    # Sort station codes based on longitude
-    sorted_station_codes = sorted(filtered_df['station_code'].unique(), key=lambda x: filtered_df[filtered_df['station_code'] == x]['lon'].iloc[0])
-
-    # Create a dictionary to store coordinates for each station
-    station_coordinates = defaultdict(list)
-    for i, station in enumerate(sorted_station_codes):
-        station_name = f'G{i+1}'
-        station_coordinates[station_name] = (filtered_df[filtered_df['station_code'] == station]['lon'].iloc[0], filtered_df[filtered_df['station_code'] == station]['lat'].iloc[0])
-
-    # Sort station coordinates by longitude
-    sorted_station_coordinates = sorted(station_coordinates.items(), key=lambda x: x[1][0])
-
     # Plot chlorophyll-a concentration using color plot
     sc = ax.scatter(filtered_df['lon'], filtered_df['lat'], s=100, c=filtered_df['Chlorophyll-a (ug/L)'], cmap='viridis', edgecolor='black')
 
@@ -78,19 +93,6 @@ def create_map(selected_year, selected_month):
     cbar = plt.colorbar(sc, ax=ax, orientation='vertical', pad=0.02)
     cbar.set_label('Chlorophyll-a (ug/L)')
 
-    # Annotate station names and handle overlapping
-    used_coordinates = set()
-    for i, (station, (lon, lat)) in enumerate(sorted_station_coordinates):
-        arrow_shift = 0
-        while (lon, lat) in used_coordinates:  # Check for overlapping
-            lat += 0.005  # Adjust the latitude to avoid overlapping
-            arrow_shift += 1
-
-        # Annotate station name with arrow
-        ax.annotate(station, xy=(lon, lat), xytext=(15, 15), textcoords='offset points', fontsize=15, color='red',
-                    arrowprops=dict(facecolor='red', arrowstyle='->'))
-
-        used_coordinates.add((lon, lat))
     # Set x and y ticks as longitude and latitude
     ax.set_xticks(lon_ticks)
     ax.set_yticks(lat_ticks)
