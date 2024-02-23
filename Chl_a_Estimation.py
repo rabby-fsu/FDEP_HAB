@@ -97,14 +97,14 @@ if selected_page == 'Introduction':
     st.write('This is an application to evaluate the Apalachicola Bay Model.')
 
 elif selected_page == 'Apalachicola Bay-Estuary':
-    st.header('Gauged Stations')
-    st.map(df_ap_nut,latitude='lat',longitude='lon',use_container_width=True)
+    #st.header('Gauged Stations')
+    #st.map(df_ap_nut,latitude='lat',longitude='lon',use_container_width=True)
     # Subpage navigation for Apalachicola Bay-Estuary
     subpage_selected = st.sidebar.radio('Go to', ['Historical Observation', 'Prediction', 'Vulnerability'])
     # Content for subpages of Apalachicola Bay-Estuary
     if subpage_selected == 'Historical Observation':
       
-        st.header('Historical Observation')
+        st.header('Historical Observations')
 
         df_ap_nut = pd.read_csv('combined_AP_nut.csv')
         df_ap_nut['Date'] = pd.to_datetime(df_ap_nut['Date'])
