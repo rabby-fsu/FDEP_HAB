@@ -5,6 +5,7 @@ from sklearn.metrics import r2_score, mean_squared_error
 from xgboost import XGBRegressor
 import streamlit as st
 import threading
+from queue import Queue
 import matplotlib.pyplot as plt
 import pydeck as pdk
 import folium
@@ -42,15 +43,18 @@ def train_model(X_train, y_train):
     model = XGBRegressor(n_estimators=334, max_depth=4, learning_rate=0.07818940902700418, random_state=42)
     model.fit(X_train, y_train)
 
-    return model
+    model_queue.put(model)
+model_queue = Queue()  
+
 # Start training the model in a separate thread
-model_training_thread = threading.Thread(target=train_model, args=(X, y))
+model_training_thread = threading.Thread(target=train_model, args=(X, y, model_queue))
 model_training_thread.start()
-# Wait for the training thread to finish
+
+# Wait for the thread to finish and get the trained model
 model_training_thread.join()
 
-# Obtain the trained model from the thread
-trained_model = model_training_thread.result()
+# Get the trained model from the queue
+trained_model = model_queue.get()
 
 
 # Function to create map
