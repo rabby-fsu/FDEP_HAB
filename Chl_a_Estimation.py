@@ -124,7 +124,7 @@ elif selected_page == 'Apalachicola Bay-Estuary':
       st.write(f"Test R^2 Score: {test_r2}")
       st.write(f"Test RMSE: {test_rmse}")
     
-    st.title('Historical Observations'):
+    st.title('Historical Observations')
     df_ap_nut = pd.read_csv('combined_AP_nut.csv')
     df_ap_nut['Date'] = pd.to_datetime(df_ap_nut['Date'])
 
