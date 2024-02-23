@@ -99,8 +99,16 @@ if selected_page == 'Introduction':
 elif selected_page == 'Apalachicola Bay-Estuary':
     
     st.title('Historically Gauged Stations')
-    st.map(df_ap_nut,latitude='lat',longitude='lon',use_container_width=True)
+    #st.map(df_ap_nut,latitude='lat',longitude='lon',use_container_width=True)
+        
+    # Define map window size
+    map_width = 800
+    map_height = 600
 
+    # Show map at the top left corner with defined size
+    st.markdown(f'<div style="width:{map_width}px;height:{map_height}px;overflow:hidden;border:1px solid black;">', unsafe_allow_html=True)
+    st.map(df_ap_nut, latitude='lat', longitude='lon')
+    st.markdown('</div>', unsafe_allow_html=True)
 
     # Button to evaluate the model
     if st.button('Evaluate Model'):
