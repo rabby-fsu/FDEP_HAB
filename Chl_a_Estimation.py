@@ -72,8 +72,8 @@ elif selected_page == 'Apalachicola Bay-Estuary':
     st.write(f"Training RMSE: {train_rmse}")
     # Display R2 and RMSE for testing data
     st.write("## Test Data Metrics")
-    st.write(f"Test R^2 Score: {train_r2}")
-    st.write(f"Test RMSE: {train_rmse}")
+    st.write(f"Test R^2 Score: {test_r2}")
+    st.write(f"Test RMSE: {test_rmse}")
     
     # Initialize lists to store R2 and RMSE for each station's test data
     test_r2_scores = []
