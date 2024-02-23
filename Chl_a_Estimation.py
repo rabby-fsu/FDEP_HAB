@@ -76,7 +76,7 @@ def create_map(selected_year, selected_month):
     ax.coastlines()
 
     # Plot chlorophyll-a concentration using color plot
-    sc = ax.scatter(filtered_df['lon'], filtered_df['lat'], s=100, c=filtered_df['Chlorophyll-a (ug/L)'], cmap='gradual_yellow_green', edgecolor='black')
+    sc = ax.scatter(filtered_df['lon'], filtered_df['lat'], s=100, c=filtered_df['Chlorophyll-a (ug/L)'], cmap='BuGn', edgecolor='black')
   
     # Annotate station names and handle overlapping
     used_coordinates = set()
