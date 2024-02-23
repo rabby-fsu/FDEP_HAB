@@ -42,7 +42,8 @@ elif selected_page == 'Apalachicola Bay-Estuary':
         combined_testing_data = pd.concat([combined_testing_data, test_data])
         # Store the number of samples for this station in the list
         station_samples.append({'Station': station, 'Training Samples': len(train_data), 'Testing Samples': len(test_data)})
-        
+    st.write("## Summary of the Dataset")
+    st.table(station_samples)  
 
     # Use combined_training_data for the following model
     X_train = combined_training_data[selected_features]
@@ -58,6 +59,4 @@ elif selected_page == 'Apalachicola Bay-Estuary':
     # Evaluation metrics
     train_r2 = r2_score(y_train, y_train_pred)
     train_rmse = np.sqrt(mean_squared_error(y_train, y_train_pred))
-    st.write("## Summary of the Dataset")
-    st.table(station_samples)
     
