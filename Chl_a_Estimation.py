@@ -68,7 +68,7 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
     st.title('Gauged Stations')
 
     # Create the map
-    map_data = df[['Latitude', 'Longitude']]
+    map_data = df[['lat', 'lon']]
     st.map(map_data, use_container_width=True)
 
     # Button to detect clicks
