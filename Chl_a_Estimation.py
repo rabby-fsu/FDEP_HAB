@@ -65,22 +65,23 @@ elif selected_page == 'Apalachicola Bay-Estuary':
 
 
 elif selected_page == 'Pensacola-Perdido Bay-Estuary':
+
     st.title('Gauged Stations')
 
     # Create a Pydeck layer
     layer = pdk.Layer(
         'ScatterplotLayer',
         data=df,
-        get_position='[lon, lat]',
+        get_position='[Longitude, Latitude]',
         get_radius=50,
-        get_fill_color='[0, 255*Chlorophyll-a(ug/L), 0, 255]',
+        get_fill_color='[0, 255*Chlorophyll-a, 0, 255]',
         pickable=True,
     )
 
     # Set the initial view state
     view_state = pdk.ViewState(
-        latitude=29.6788,
-        longitude=-84.8636,
+        latitude=df['Latitude'].mean(),
+        longitude=df['Longitude'].mean(),
         zoom=8,
         pitch=0,
     )
@@ -92,6 +93,4 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
         layers=[layer],
     ))
 
-    # Button to evaluate the model
-    #if st.button('Evaluate Model'):
 
