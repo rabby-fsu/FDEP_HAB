@@ -39,14 +39,12 @@ def color_marker(chl_a):
         return 'green'  # No bloom
     else:
         return 'red'  # Bloom
-
+# Calculate Map extent
+extent = [filtered_df['lon'].min(), filtered_df['lon'].max(), filtered_df['lat'].min(), filtered_df['lat'].max()]
 # Function to create map
 def create_map(selected_year, selected_month):
     # Filter data for the selected year and month
     filtered_df = df[(df['Date'].dt.year == selected_year) & (df['Date'].dt.month == selected_month)]
-
-    # Calculate extent
-    extent = [filtered_df['lon'].min(), filtered_df['lon'].max(), filtered_df['lat'].min(), filtered_df['lat'].max()]
 
     # Calculate number of ticks
     num_ticks = 5
@@ -70,7 +68,12 @@ def create_map(selected_year, selected_month):
 
     # Sort station coordinates by longitude
     sorted_station_coordinates = sorted(station_coordinates.items(), key=lambda x: x[1][0])
+    # Plot chlorophyll-a concentration using color plot
+    sc = ax.scatter(filtered_df['Long'], filtered_df['Lat'], s=100, c=filtered_df['Chlorophyll-a (ug/L)'], cmap='viridis', edgecolor='black')
 
+    # Add color bar
+    cbar = plt.colorbar(sc, ax=ax, orientation='vertical', pad=0.02)
+    cbar.set_label('Chlorophyll-a (ug/L)')
     # Annotate station names and handle overlapping
     used_coordinates = set()
     for i, (station, (lon, lat)) in enumerate(sorted_station_coordinates):
@@ -85,9 +88,6 @@ def create_map(selected_year, selected_month):
 
         used_coordinates.add((lon, lat))
 
-    # Plot markers
-    for index, row in filtered_df.iterrows():
-        ax.scatter(row['lon'], row['lat'], s=100, c=color_marker(row['Chlorophyll-a (ug/L)']))
 
     # Set x and y ticks
     ax.set_xticks(lon_ticks)
