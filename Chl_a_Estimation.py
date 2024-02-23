@@ -50,17 +50,6 @@ elif selected_page == 'Apalachicola Bay-Estuary':
     latitude='Latitude',
     longitude='Longitude',
     size='Predicted')
-
-
-    st.title('Gauged Stations_2')
-    station_counts = df['station_code'].value_counts()
-    station_locations = df.groupby('station_code').first()[['lat', 'lon']]
-    station_locations['Count'] = station_counts
-
-    # Map with station markers
-    for index, row in station_locations.iterrows():
-        st.map(pd.DataFrame({'lat': [row['lat']], 'lon': [row['lon']], 'Count': [row['Count']]}),
-                use_container_width=True)
       
     st.title('Evaluate the Apalachicola Bay Model')
     # Create combined training data by randomly selecting 80% data from each station
