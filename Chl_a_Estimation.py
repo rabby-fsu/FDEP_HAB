@@ -184,7 +184,7 @@ elif selected_page == 'Apalachicola Bay-Estuary':
 
         # Display model's hyperparameters
         st.write("## Model's Hyperparameters")
-        uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
+      
         # Button to evaluate the model
         if st.button('Evaluate Model'):
             y_train_pred = trained_model.predict(X_train)
