@@ -105,13 +105,16 @@ elif selected_page == 'Apalachicola Bay-Estuary':
     map_width = 800
     map_height = 600
 
-    # Show map at the top left corner with defined size
-    map_container = st.empty()
-    with map_container:
-        st.markdown(f'<div style="position:relative;width:{map_width}px;height:{map_height}px;">', unsafe_allow_html=True)
-        st.map(df_ap_nut, latitude='lat', longitude='lon')
-        st.markdown('</div>', unsafe_allow_html=True)
-      
+    # Create a folium map object
+    m = folium.Map(location=[latitude_value, longitude_value], zoom_start=zoom_value, width=map_width, height=map_height)
+
+    # Add markers for each point
+    for index, row in df_ap_nut.iterrows():
+        folium.Marker([row['lat'], row['lon']], popup=row['popup_text']).add_to(m)
+
+    # Display the map using folium_static
+    st.markdown(folium.folium_static(m))
+
     # Button to evaluate the model
     if st.button('Evaluate Model'):
       # Predictions
