@@ -43,7 +43,6 @@ for station in df['station_code'].unique():
     train_data, test_data = train_test_split(station_data, test_size=0.2, random_state=42)
     combined_training_data = pd.concat([combined_training_data, train_data])
     combined_testing_data = pd.concat([combined_training_data, test_data])
-
 X_train = combined_training_data[selected_features]
 y_train = combined_training_data['Chlorophyll-a (ug/L)']
     
