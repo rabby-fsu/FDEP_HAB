@@ -125,8 +125,8 @@ elif selected_page == 'Apalachicola Bay-Estuary':
         # Create a dictionary to store coordinates for each station
         station_coordinates = defaultdict(list)
         for i, station in enumerate(sorted_station_codes):
-        station_name = f'G{i+1}'
-        station_coordinates[station_name] = (df_ap_nut[df_ap_nut['station_code'] == station]['lon'].iloc[0], df_ap_nut[df_ap_nut['station_code'] == station]['lat'].iloc[0])
+          station_name = f'G{i+1}'
+          station_coordinates[station_name] = (df_ap_nut[df_ap_nut['station_code'] == station]['lon'].iloc[0], df_ap_nut[df_ap_nut['station_code'] == station]['lat'].iloc[0])
 
         # Sort station coordinates by longitude
         sorted_station_coordinates = sorted(station_coordinates.items(), key=lambda x: x[1][0])
