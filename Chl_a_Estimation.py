@@ -4,6 +4,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error
 from xgboost import XGBRegressor
 import streamlit as st
+import threading
 import matplotlib.pyplot as plt
 import pydeck as pdk
 import folium
@@ -21,6 +22,8 @@ from sklearn.metrics import r2_score, mean_squared_error
 # Load data
 df = pd.read_csv('DataFile_ML_All.csv')
 df_ap_nut = pd.read_csv('combined_AP_nut.csv')
+# Convert 'Date' column to datetime
+df['Date'] = pd.to_datetime(df['Date'])
 
 # Define selected features
 selected_features = ['Salinity(ppt)', 'Turbidity(NTU)', 'DO(mg/l)', 'pH', 'ATemp_max',
@@ -32,11 +35,19 @@ X = df[selected_features]
 y = df['Chlorophyll-a (ug/L)']
 
 
-# Convert 'Date' column to datetime
-df['Date'] = pd.to_datetime(df['Date'])
+# Function to train the model
+def train_model(X, y):
+    # Split the data into train and test sets
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
+    # Train your model here (replace this with your actual model training code)
+    model = XGBRegressor(n_estimators=334, max_depth=4, learning_rate=0.07818940902700418, random_state=42)
+    model.fit(X_train, y_train)
 
-
+    return model
+# Start training the model in a separate thread
+model_training_thread = threading.Thread(target=train_model, args=(X, y))
+model_training_thread.start()
 
 # Function to create map
 def create_map(selected_year, selected_month):
@@ -87,11 +98,11 @@ def create_map(selected_year, selected_month):
 
 
 # Perform train-test split
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+#X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     
 # Initialize and fit the XGBoost Regressor
-xgb_regressor = XGBRegressor(n_estimators=334, max_depth=4, learning_rate=0.07818940902700418, random_state=42)
-xgb_regressor.fit(X_train, y_train)
+#xgb_regressor = XGBRegressor(n_estimators=334, max_depth=4, learning_rate=0.07818940902700418, random_state=42)
+#xgb_regressor.fit(X_train, y_train)
     
 
 #Introduction Page
@@ -161,7 +172,7 @@ elif selected_page == 'Apalachicola Bay-Estuary':
           st.write(f"Selected Features: {selected_features}")
           st.write(f"Target Variable: Chlorophyll-a (ug/L)")
           # Split the data into train and test sets
-          X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+          #X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
           # Display the train and test sample sizes
           st.write("## Train/Test Sample Sizes")
@@ -173,7 +184,7 @@ elif selected_page == 'Apalachicola Bay-Estuary':
           uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
           # Button to evaluate the model
           if st.button('Evaluate Model'):
-            # Predictions
+            xgb_regressor = model
             y_train_pred = xgb_regressor.predict(X_train)
             y_test_pred = xgb_regressor.predict(X_test)
     
