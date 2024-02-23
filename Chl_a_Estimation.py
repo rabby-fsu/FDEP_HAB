@@ -7,7 +7,7 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import pydeck as pdk
 import folium
-from streamlit_folium import folium_static
+
 
 # Load data
 df = pd.read_csv('DataFile_ML_All.csv')
