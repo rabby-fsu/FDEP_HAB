@@ -81,9 +81,9 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
     layer = pdk.Layer(
         'ScatterplotLayer',
         data=df,
-        get_position='[Longitude, Latitude]',
+        get_position='[lon, lat]',
         get_radius=50,
-        get_fill_color='[0, 255*Chlorophyll-a, 0, 255]',
+        get_fill_color='[0, 255*Chlorophyll-a(ug/L), 0, 255]',
         pickable=True,
     )
 
