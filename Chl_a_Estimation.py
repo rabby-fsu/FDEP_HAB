@@ -62,6 +62,6 @@ elif selected_page == 'Apalachicola Bay-Estuary':
     # Evaluation metrics
     train_r2 = r2_score(y_train, y_train_pred)
     train_rmse = np.sqrt(mean_squared_error(y_train, y_train_pred))
-    st.write("## Samples per Station Summary (Training)")
-    st.table(samples_per_station_df)
+    st.write("## Summary of the Dataset")
+    st.table(station_samples)
     
