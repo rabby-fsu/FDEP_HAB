@@ -76,7 +76,19 @@ def create_map(selected_year, selected_month):
 
     # Plot coastlines
     ax.coastlines()
+        # Annotate station names and handle overlapping
+    used_coordinates = set()
+    for i, (station, (lon, lat)) in enumerate(sorted_station_coordinates):
+        arrow_shift = 0
+        while (lon, lat) in used_coordinates:  # Check for overlapping
+            lat += 0.015  # Adjust the latitude to avoid overlapping
+            arrow_shift += 0.5
 
+        # Annotate station name with arrow
+        ax.annotate(station, xy=(lon, lat), xytext=(15, 15), textcoords='offset points', fontsize=10, color='red',
+                    arrowprops=dict(facecolor='red', arrowstyle='->'))
+
+        used_coordinates.add((lon, lat))
     # Plot chlorophyll-a concentration using color plot
     sc = ax.scatter(filtered_df['lon'], filtered_df['lat'], s=100, c=filtered_df['Chlorophyll-a (ug/L)'], cmap='BuGn', edgecolor='black',vmin=df_ap_nut['Chlorophyll-a (ug/L)'].min(), vmax=df_ap_nut['Chlorophyll-a (ug/L)'].max())
     #sc = ax.scatter(filtered_df['lon'], filtered_df['lat'], s=100, c=filtered_df['Chlorophyll-a (ug/L)'], cmap='BuGn', edgecolor='black',vmin=df_ap_nut['Chlorophyll-a (ug/L)'].min(), vmax=df_ap_nut['Chlorophyll-a (ug/L)'].max())
@@ -90,19 +102,6 @@ def create_map(selected_year, selected_month):
         used_coordinates.add((x, y))
         ax.scatter(x, y, s=100, c=filtered_df['Chlorophyll-a (ug/L)'].iloc[i], cmap='BuGn', edgecolor='black', vmin=df_ap_nut['Chlorophyll-a (ug/L)'].min(), vmax=df_ap_nut['Chlorophyll-a (ug/L)'].max())
 
-    # Annotate station names and handle overlapping
-    used_coordinates = set()
-    for i, (station, (lon, lat)) in enumerate(sorted_station_coordinates):
-        arrow_shift = 0
-        while (lon, lat) in used_coordinates:  # Check for overlapping
-            lat += 0.015  # Adjust the latitude to avoid overlapping
-            arrow_shift += 0.5
-
-        # Annotate station name with arrow
-        ax.annotate(station, xy=(lon, lat), xytext=(15, 15), textcoords='offset points', fontsize=10, color='red',
-                    arrowprops=dict(facecolor='red', arrowstyle='->'))
-
-        used_coordinates.add((lon, lat))
       
     # Add color bar
     cbar = plt.colorbar(sc, ax=ax, orientation='vertical', pad=0.02)
