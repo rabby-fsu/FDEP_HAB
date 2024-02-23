@@ -40,7 +40,7 @@ def color_marker(chl_a):
     else:
         return 'red'  # Bloom
 # Calculate Map extent
-extent = [filtered_df['lon'].min(), filtered_df['lon'].max(), filtered_df['lat'].min(), filtered_df['lat'].max()]
+extent = [df['lon'].min(), df['lon'].max(), df['lat'].min(), df['lat'].max()]
 # Function to create map
 def create_map(selected_year, selected_month):
     # Filter data for the selected year and month
