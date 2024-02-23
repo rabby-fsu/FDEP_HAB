@@ -9,6 +9,19 @@ import pydeck as pdk
 import folium
 import cartopy.crs as ccrs
 from collections import defaultdict
+import matplotlib.colors as mcolors
+
+# Define yellow and green colors
+yellow = '#FFFF00'  # Yellow color
+green = '#008000'   # Green color
+
+# Define the colormap with a gradual transition from yellow to green
+colors = [yellow, green]
+n_bins = 100  # Number of bins for the colormap
+cmap_name = 'gradual_yellow_green'
+gradual_yellow_green = mcolors.LinearSegmentedColormap.from_list(cmap_name, colors, N=n_bins)
+
+
 
 # Load data
 df = pd.read_csv('DataFile_ML_All.csv')
@@ -74,7 +87,7 @@ def create_map(selected_year, selected_month):
     ax.coastlines()
 
     # Plot chlorophyll-a concentration using color plot
-    sc = ax.scatter(filtered_df['lon'], filtered_df['lat'], s=100, c=filtered_df['Chlorophyll-a (ug/L)'], cmap='viridis', edgecolor='black')
+    sc = ax.scatter(filtered_df['lon'], filtered_df['lat'], s=100, c=filtered_df['Chlorophyll-a (ug/L)'], cmap='gradual_yellow_green', edgecolor='black')
   
     # Annotate station names and handle overlapping
     used_coordinates = set()
