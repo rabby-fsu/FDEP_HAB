@@ -216,35 +216,35 @@ elif selected_page == 'Apalachicola Bay-Estuary':
 
             # Display the plots
             st.pyplot(fig)
-          # Upload user's CSV file
-          uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
+        # Upload user's CSV file
+        uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
 
-          if uploaded_file is not None:
-              user_data = pd.read_csv(uploaded_file)
-              # Ask the user to match column names with selected features
-              st.write("### Match Column Names")
-              selected_columns = {}
-              for feature in selected_features:
-                  selected_columns[feature] = st.selectbox(f"Select column for '{feature}'", user_data.columns)
-              # Extract the selected columns from user_data
-              user_data_selected = user_data[list(selected_columns.values())]
+        if uploaded_file is not None:
+            user_data = pd.read_csv(uploaded_file)
+            # Ask the user to match column names with selected features
+            st.write("### Match Column Names")
+            selected_columns = {}
+            for feature in selected_features:
+                selected_columns[feature] = st.selectbox(f"Select column for '{feature}'", user_data.columns)
+            # Extract the selected columns from user_data
+            user_data_selected = user_data[list(selected_columns.values())]
             
-              # Ensure column names match expected features
-              if set(user_data_selected.columns) == set(selected_features):
-                 # Make predictions
-                 user_data['Predicted Chlorophyll-a (ug/L)'] = xgb_regressor.predict(user_data[selected_features])
-                 #make prediction
-                 user_data['Predicted Chlorophyll-a (ug/L)'] = xgb_regressor.predict(user_data_selected)
+            # Ensure column names match expected features
+            if set(user_data_selected.columns) == set(selected_features):
+                # Make predictions
+                user_data['Predicted Chlorophyll-a (ug/L)'] = xgb_regressor.predict(user_data[selected_features])
+                #make prediction
+                user_data['Predicted Chlorophyll-a (ug/L)'] = xgb_regressor.predict(user_data_selected)
 
-                 #  Display the modified DataFrame
-                 st.write("## Predicted Data")
-                 st.write(user_data)
+                #  Display the modified DataFrame
+                st.write("## Predicted Data")
+                st.write(user_data)
 
-                 # Download the results as a CSV file
-                 st.write("Download the results as a CSV file.")
-                 csv = user_data.to_csv(index=False)
-                 b64 = base64.b64encode(csv.encode()).decode()  # B64 encoding
-                 href = f'<a href="data:file/csv;base64,{b64}" download="model_b_predictions.csv">Download CSV</a>'
-                 st.markdown(href, unsafe_allow_html=True)
-              else:
-                 st.write("Uploaded CSV file does not contain expected features.")
+                # Download the results as a CSV file
+                st.write("Download the results as a CSV file.")
+                csv = user_data.to_csv(index=False)
+                b64 = base64.b64encode(csv.encode()).decode()  # B64 encoding
+                href = f'<a href="data:file/csv;base64,{b64}" download="model_b_predictions.csv">Download CSV</a>'
+                st.markdown(href, unsafe_allow_html=True)
+            else:
+                st.write("Uploaded CSV file does not contain expected features.")
