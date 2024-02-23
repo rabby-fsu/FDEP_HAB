@@ -51,7 +51,7 @@ elif selected_page == 'Apalachicola Bay-Estuary':
     y_test = combined_testing_data['Chlorophyll-a (ug/L)']
     
     # Initialize and fit the XGBoost Regressor
-    xgb_regressor = XGBRegressor(n_estimators=200, max_depth=4, learning_rate=0.07818940902700418, random_state=42)
+    xgb_regressor = XGBRegressor(n_estimators=180, max_depth=4, learning_rate=0.07818940902700418, random_state=42)
     xgb_regressor.fit(X_train, y_train)
     
     # Predictions
