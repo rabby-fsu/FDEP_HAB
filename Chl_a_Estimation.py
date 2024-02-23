@@ -41,15 +41,16 @@ def color_marker(chl_a):
         return 'red'  # Bloom
 # Calculate Map extent
 extent = [df['lon'].min(), df['lon'].max(), df['lat'].min(), df['lat'].max()]
+
+# Calculate number of ticks
+num_ticks = 5
+lon_ticks = np.linspace(extent[0], extent[1], num_ticks)
+lat_ticks = np.linspace(extent[2], extent[3], num_ticks)
 # Function to create map
 def create_map(selected_year, selected_month):
     # Filter data for the selected year and month
     filtered_df = df[(df['Date'].dt.year == selected_year) & (df['Date'].dt.month == selected_month)]
 
-    # Calculate number of ticks
-    num_ticks = 5
-    lon_ticks = np.linspace(extent[0], extent[1], num_ticks)
-    lat_ticks = np.linspace(extent[2], extent[3], num_ticks)
 
     # Create main plot with specified extent
     fig = plt.figure(figsize=(10, 8))
@@ -69,7 +70,7 @@ def create_map(selected_year, selected_month):
     # Sort station coordinates by longitude
     sorted_station_coordinates = sorted(station_coordinates.items(), key=lambda x: x[1][0])
     # Plot chlorophyll-a concentration using color plot
-    sc = ax.scatter(filtered_df['Long'], filtered_df['Lat'], s=100, c=filtered_df['Chlorophyll-a (ug/L)'], cmap='viridis', edgecolor='black')
+    sc = ax.scatter(filtered_df['lon'], filtered_df['Lat'], s=100, c=filtered_df['Chlorophyll-a (ug/L)'], cmap='viridis', edgecolor='black')
 
     # Add color bar
     cbar = plt.colorbar(sc, ax=ax, orientation='vertical', pad=0.02)
