@@ -97,10 +97,60 @@ if selected_page == 'Introduction':
     st.write('This is an application to evaluate the Apalachicola Bay Model.')
 
 elif selected_page == 'Apalachicola Bay-Estuary':
-    
-    st.title('Historically Gauged Stations')
+    st.title('Apalachicola Bay-Estuary Page')
+    st.header('Gauged Stations')
+  
     st.map(df_ap_nut,latitude='lat',longitude='lon',use_container_width=True)
+    # Subpage navigation for Apalachicola Bay-Estuary
+    subpage_selected = st.sidebar.radio('Go to', ['Historical Observation', 'Prediction', 'Vulnerability'])
+    # Content for subpages of Apalachicola Bay-Estuary
+    if subpage_selected == 'Historical Observation':
+      
+        st.header('Historical Observation')
 
+        df_ap_nut = pd.read_csv('combined_AP_nut.csv')
+        df_ap_nut['Date'] = pd.to_datetime(df_ap_nut['Date'])
+
+        # Calculate Map extent
+        extent = [df_ap_nut['lon'].min()-0.2, df_ap_nut['lon'].max()+0.2, df_ap_nut['lat'].min()-0.2, df_ap_nut['lat'].max()+0.2]
+
+        # Calculate number of ticks
+        num_ticks = 5
+        lon_ticks = np.linspace(extent[0], extent[1], num_ticks)
+        lat_ticks = np.linspace(extent[2], extent[3], num_ticks)
+
+        # Sort station codes based on longitude
+        sorted_station_codes = sorted(df_ap_nut['station_code'].unique(), key=lambda x: df_ap_nut[df_ap_nut['station_code'] == x]['lon'].iloc[0])
+
+        # Create a dictionary to store coordinates for each station
+        station_coordinates = defaultdict(list)
+        for i, station in enumerate(sorted_station_codes):
+        station_name = f'G{i+1}'
+        station_coordinates[station_name] = (df_ap_nut[df_ap_nut['station_code'] == station]['lon'].iloc[0], df_ap_nut[df_ap_nut['station_code'] == station]['lat'].iloc[0])
+
+        # Sort station coordinates by longitude
+        sorted_station_coordinates = sorted(station_coordinates.items(), key=lambda x: x[1][0])
+        st.title('Spatial Distribution of Chlorophyll-a Concentrations')
+    
+        # Set default values for year and month based on the data range
+        min_date = df_ap_nut['Date'].min().date()
+        max_date = df_ap_nut['Date'].max().date()
+        default_date = min_date + (max_date - min_date) // 2
+        default_year = default_date.year
+        default_month = default_date.month
+    
+        # Slider for selecting year and month
+        selected_year = st.slider('Select Year', min_value=min_date.year, max_value=max_date.year, value=default_year)
+        selected_month = st.slider('Select Month', min_value=1, max_value=12, value=default_month)
+    
+        # Create map based on selected year and month
+        fig = create_map(selected_year, selected_month)
+
+        # Display the map
+        st.pyplot(fig)
+
+
+  
     # Button to evaluate the model
     if st.button('Evaluate Model'):
       # Predictions
@@ -122,45 +172,3 @@ elif selected_page == 'Apalachicola Bay-Estuary':
       st.write("## Test Data Metrics")
       st.write(f"Test R^2 Score: {test_r2}")
       st.write(f"Test RMSE: {test_rmse}")
-    
-    st.title('Historical Observations')
-    df_ap_nut = pd.read_csv('combined_AP_nut.csv')
-    df_ap_nut['Date'] = pd.to_datetime(df_ap_nut['Date'])
-
-    # Calculate Map extent
-    extent = [df_ap_nut['lon'].min()-0.2, df_ap_nut['lon'].max()+0.2, df_ap_nut['lat'].min()-0.2, df_ap_nut['lat'].max()+0.2]
-
-    # Calculate number of ticks
-    num_ticks = 5
-    lon_ticks = np.linspace(extent[0], extent[1], num_ticks)
-    lat_ticks = np.linspace(extent[2], extent[3], num_ticks)
-
-    # Sort station codes based on longitude
-    sorted_station_codes = sorted(df_ap_nut['station_code'].unique(), key=lambda x: df_ap_nut[df_ap_nut['station_code'] == x]['lon'].iloc[0])
-
-    # Create a dictionary to store coordinates for each station
-    station_coordinates = defaultdict(list)
-    for i, station in enumerate(sorted_station_codes):
-      station_name = f'G{i+1}'
-      station_coordinates[station_name] = (df_ap_nut[df_ap_nut['station_code'] == station]['lon'].iloc[0], df_ap_nut[df_ap_nut['station_code'] == station]['lat'].iloc[0])
-
-    # Sort station coordinates by longitude
-    sorted_station_coordinates = sorted(station_coordinates.items(), key=lambda x: x[1][0])
-    st.title('Spatial Distribution of Chlorophyll-a Concentrations')
-    
-    # Set default values for year and month based on the data range
-    min_date = df_ap_nut['Date'].min().date()
-    max_date = df_ap_nut['Date'].max().date()
-    default_date = min_date + (max_date - min_date) // 2
-    default_year = default_date.year
-    default_month = default_date.month
-    
-    # Slider for selecting year and month
-    selected_year = st.slider('Select Year', min_value=min_date.year, max_value=max_date.year, value=default_year)
-    selected_month = st.slider('Select Month', min_value=1, max_value=12, value=default_month)
-    
-    # Create map based on selected year and month
-    fig = create_map(selected_year, selected_month)
-
-    # Display the map
-    st.pyplot(fig)
