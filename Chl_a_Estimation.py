@@ -112,4 +112,4 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
     map_data = create_map(selected_year, selected_month)
 
     # Render the map
-    folium_static(map_data)
+    st.write(map_data._repr_html_(), unsafe_allow_html=True)
