@@ -72,7 +72,7 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
     layer = pdk.Layer(
         'ScatterplotLayer',
         data=df,
-        get_position='[Longitude, Latitude]',
+        get_position='[lon, lat]',
         get_radius=50,
         get_fill_color='[0, 255*Chlorophyll-a, 0, 255]',
         pickable=True,
@@ -80,8 +80,8 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
 
     # Set the initial view state
     view_state = pdk.ViewState(
-        latitude=df['Latitude'].mean(),
-        longitude=df['Longitude'].mean(),
+        latitude=df['lat'].mean(),
+        longitude=df['lon'].mean(),
         zoom=8,
         pitch=0,
     )
