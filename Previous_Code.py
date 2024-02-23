@@ -49,4 +49,36 @@ st.map(df,
         # Store the number of samples for this station in the list
         station_samples.append({'Station': station, 'Training Samples': len(train_data), 'Testing Samples': len(test_data)})
     st.write("## Summary of the Dataset")
-    st.table(station_samples)  
+    st.table(station_samples) 
+
+    # Initialize lists to store R2 and RMSE for each station's test data
+    test_r2_scores = []
+    test_rmse_scores = []
+
+    # Evaluate model on each station's test data
+    for station in df['station_code'].unique():
+        station_test_data = combined_testing_data[combined_testing_data['station_code'] == station]
+        X_test = station_test_data[selected_features]
+        y_test = station_test_data['Chlorophyll-a (ug/L)']
+        
+        # Predictions on test data
+        y_test_pred = xgb_regressor.predict(X_test)
+
+        # Evaluation metrics for test data
+        test_r2 = r2_score(y_test, y_test_pred)
+        test_rmse = np.sqrt(mean_squared_error(y_test, y_test_pred))
+        
+        # Append scores to lists
+        test_r2_scores.append(test_r2)
+        test_rmse_scores.append(test_rmse)
+
+    # Create DataFrame for test data metrics
+    test_metrics_df = pd.DataFrame({
+        'Station': df['station_code'].unique(),
+        'Test R^2 Score': test_r2_scores,
+        'Test RMSE': test_rmse_scores
+    })
+
+    # Display test data metrics table
+    st.write("## Test Data Metrics")
+    st.table(test_metrics_df)
