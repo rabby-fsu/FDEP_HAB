@@ -69,26 +69,14 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
 
     # Create the map
     map_data = df[['lat', 'lon']]
-    st.map(map_data, use_container_width=True)
-
-    # Button to detect clicks
-    if st.button("Detect Clicks"):
-        click_data = st.container()
-        with click_data:
-            st.write("Click on the map to see Chlorophyll-a values at that location.")
-
-            # Function to handle map clicks
-            def on_map_click(event):
-                selected_location = {'Latitude': event['lat'], 'Longitude': event['lon']}
-                return selected_location
-
-            # Event listener for map clicks
-            selected_location = st.map_click_handler(on_map_click)
-
-            if selected_location:
-                # Filter data for the selected location
-                selected_location_data = df[(df['Latitude'] == selected_location['Latitude']) & (df['Longitude'] == selected_location['Longitude'])]
-
-                # Display boxplot of Chlorophyll-a for the selected location
+    clicked = st.button("Click on the map to get Chlorophyll-a (ug/L)")
+    if clicked:
+        click_result = st.map(map_data)
+        if click_result:
+            clicked_point = (click_result["lat"], click_result["lon"])
+            selected_location_data = df[(df['lat'] == clicked_point[0]) & (df['lon'] == clicked_point[1])]
+            if not selected_location_data.empty:
                 st.write("Boxplot of Chlorophyll-a (ug/L) for the selected location:")
                 st.write(selected_location_data['Chlorophyll-a (ug/L)'].plot(kind='box'))
+            else:
+                st.write("No data available for the selected location.")
