@@ -70,7 +70,7 @@ def create_map(selected_year, selected_month):
     # Sort station coordinates by longitude
     sorted_station_coordinates = sorted(station_coordinates.items(), key=lambda x: x[1][0])
     # Plot chlorophyll-a concentration using color plot
-    sc = ax.scatter(filtered_df['lon'], filtered_df['Lat'], s=100, c=filtered_df['Chlorophyll-a (ug/L)'], cmap='viridis', edgecolor='black')
+    sc = ax.scatter(filtered_df['lon'], filtered_df['lat'], s=100, c=filtered_df['Chlorophyll-a (ug/L)'], cmap='viridis', edgecolor='black')
 
     # Add color bar
     cbar = plt.colorbar(sc, ax=ax, orientation='vertical', pad=0.02)
