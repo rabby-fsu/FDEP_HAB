@@ -6,7 +6,7 @@ from xgboost import XGBRegressor
 import streamlit as st
 import pydeck as pdk
 
-import matplotlib
+import matplotlib.pyplot as plt
 
 # Load data
 df = pd.read_csv('DataFile_ML_All.csv')
