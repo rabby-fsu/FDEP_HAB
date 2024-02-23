@@ -110,7 +110,7 @@ elif selected_page == 'Apalachicola Bay-Estuary':
 
     # Add markers for each point
     for index, row in df_ap_nut.iterrows():
-        folium.Marker([row['lat'], row['lon']], popup=row['popup_text']).add_to(m)
+        folium.Marker([row['lat'], row['lon']] ).add_to(m)
 
     # Display the map using folium_static
     st.markdown(folium.folium_static(m))
