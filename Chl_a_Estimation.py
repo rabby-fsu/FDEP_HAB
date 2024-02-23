@@ -83,7 +83,7 @@ def create_map(selected_year, selected_month):
     for i, (station, (lon, lat)) in enumerate(sorted_station_coordinates):
         arrow_shift = 0
         while (lon, lat) in used_coordinates:  # Check for overlapping
-            lat += 0.02  # Adjust the latitude to avoid overlapping
+            lat += 0.005  # Adjust the latitude to avoid overlapping
             arrow_shift += 1
 
         # Annotate station name with arrow
@@ -91,6 +91,16 @@ def create_map(selected_year, selected_month):
                     arrowprops=dict(facecolor='red', arrowstyle='->'))
 
         used_coordinates.add((lon, lat))
+    # Set x and y ticks as longitude and latitude
+    ax.set_xticks(lon_ticks)
+    ax.set_yticks(lat_ticks)
+
+    # Set labels for x and y ticks
+    ax.set_xticklabels([f"{x:.1f}" for x in lon_ticks])
+    ax.set_yticklabels([f"{y:.1f}" for y in lat_ticks])
+    ax.set_xlabel('Longitude')
+    ax.set_ylabel('Latitude')
+    ax.set_title('Geographic Map withChlorophyll-a Concentration')
 
     return fig
 
