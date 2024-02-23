@@ -106,10 +106,12 @@ elif selected_page == 'Apalachicola Bay-Estuary':
     map_height = 60
 
     # Show map at the top left corner with defined size
-    st.markdown(f'<div style="width:{map_width}px;height:{map_height}px;overflow:hidden;border:1px solid black;">', unsafe_allow_html=True)
-    st.map(df_ap_nut, latitude='lat', longitude='lon')
-    st.markdown('</div>', unsafe_allow_html=True)
-
+    map_container = st.empty()
+    with map_container:
+        st.markdown(f'<div style="position:relative;width:{map_width}px;height:{map_height}px;">', unsafe_allow_html=True)
+        st.map(df_ap_nut, latitude='lat', longitude='lon')
+        st.markdown('</div>', unsafe_allow_html=True)
+      
     # Button to evaluate the model
     if st.button('Evaluate Model'):
       # Predictions
