@@ -97,9 +97,7 @@ if selected_page == 'Introduction':
     st.write('This is an application to evaluate the Apalachicola Bay Model.')
 
 elif selected_page == 'Apalachicola Bay-Estuary':
-    st.title('Apalachicola Bay-Estuary Page')
     st.header('Gauged Stations')
-  
     st.map(df_ap_nut,latitude='lat',longitude='lon',use_container_width=True)
     # Subpage navigation for Apalachicola Bay-Estuary
     subpage_selected = st.sidebar.radio('Go to', ['Historical Observation', 'Prediction', 'Vulnerability'])
