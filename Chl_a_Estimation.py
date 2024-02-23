@@ -106,7 +106,7 @@ elif selected_page == 'Apalachicola Bay-Estuary':
     map_height = 600
 
     # Create a folium map object
-    m = folium.Map(location=[latitude_value, longitude_value], zoom_start=zoom_value, width=map_width, height=map_height)
+    m = folium.Map(location=[lat, lon], zoom_start=zoom_value, width=map_width, height=map_height)
 
     # Add markers for each point
     for index, row in df_ap_nut.iterrows():
