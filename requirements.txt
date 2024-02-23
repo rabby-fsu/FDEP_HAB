@@ -1,6 +1,5 @@
 streamlit
-pydeck
-bokeh
+
 numpy    
 pandas  
 plotly.express
