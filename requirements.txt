@@ -2,7 +2,7 @@ streamlit
 pydeck
 numpy    
 pandas  
-plotly
+plotly.express
 requests
 xgboost 
 scikit-learn
