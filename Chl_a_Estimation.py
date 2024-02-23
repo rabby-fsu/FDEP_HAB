@@ -235,5 +235,5 @@ elif selected_page == 'Apalachicola Bay-Estuary':
                  b64 = base64.b64encode(csv.encode()).decode()  # B64 encoding
                  href = f'<a href="data:file/csv;base64,{b64}" download="model_b_predictions.csv">Download CSV</a>'
                  st.markdown(href, unsafe_allow_html=True)
-               else:
+              else:
                  st.write("Uploaded CSV file does not contain expected features.")
