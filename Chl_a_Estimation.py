@@ -14,13 +14,6 @@ selected_features = ['Salinity(ppt)', 'Turbidity(NTU)', 'DO(mg/l)', 'pH', 'ATemp
                      'ATemp_max_4dlag', 'ATemp_max_5dlag', 'ATemp_max_6dlag',
                      'ATemp_max_7dlag']
 
-# Create combined training data by randomly selecting 80% data from each station
-combined_training_data = pd.DataFrame(columns=df.columns)
-for station in df['station_code'].unique():
-    station_data = df[df['station_code'] == station]
-    train_data, test_data = train_test_split(station_data, test_size=0.2, random_state=42)
-    combined_training_data = pd.concat([combined_training_data, train_data])
-    combined_testing_data = pd.concat([combined_training_data, test_data])
 
 # Function to evaluate model per station
 def training(combined_training_data):
@@ -86,6 +79,14 @@ elif selected_page == 'Apalachicola Bay-Estuary':
     longitude='Longitude',
     size='Predicted')
     st.title('Evaluate the Apalachicola Bay Model')
+    # Create combined training data by randomly selecting 80% data from each station
+    combined_training_data = pd.DataFrame(columns=df.columns)
+    for station in df['station_code'].unique():
+        station_data = df[df['station_code'] == station]
+        train_data, test_data = train_test_split(station_data, test_size=0.2, random_state=42)
+    combined_training_data = pd.concat([combined_training_data, train_data])
+    combined_testing_data = pd.concat([combined_training_data, test_data])
+
     
     # Button to evaluate the model
     if st.button('Evaluate Model'):
