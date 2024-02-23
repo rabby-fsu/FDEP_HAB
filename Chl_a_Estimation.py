@@ -28,12 +28,8 @@ elif selected_page == 'Apalachicola Bay-Estuary':
                      'ATemp_max_7dlag']
     
     st.title('Gauged Stations')
-    st.map(df,
-    latitude='Latitude',
-    longitude='Longitude',
-    use_container_width=True)
-      
-    st.title('Evaluate the Apalachicola Bay Model')
+    st.map(df,latitude='Latitude',longitude='Longitude',use_container_width=True)
+
 
     # Create combined training data by randomly selecting 80% data from each station
     combined_training_data = pd.DataFrame(columns=df.columns)
