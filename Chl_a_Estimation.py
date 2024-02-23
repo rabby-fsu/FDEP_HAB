@@ -26,16 +26,6 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 xgb_regressor = XGBRegressor(n_estimators=334, max_depth=4, learning_rate=0.07818940902700418, random_state=42)
 xgb_regressor.fit(X_train, y_train)
     
-# Predictions
-y_train_pred = xgb_regressor.predict(X_train)
-y_test_pred = xgb_regressor.predict(X_test)
-    
-# Evaluation metrics
-train_r2 = r2_score(y_train, y_train_pred)
-train_rmse = np.sqrt(mean_squared_error(y_train, y_train_pred))
-    
-test_r2 = r2_score(y_test, y_test_pred)
-test_rmse = np.sqrt(mean_squared_error(y_test, y_test_pred))
 
 # Introduction Page
 st.sidebar.title('Pages')
@@ -53,13 +43,23 @@ elif selected_page == 'Apalachicola Bay-Estuary':
 
     # Button to evaluate the model
     if st.button('Evaluate Model'):
+      # Predictions
+      y_train_pred = xgb_regressor.predict(X_train)
+      y_test_pred = xgb_regressor.predict(X_test)
+    
+      # Evaluation metrics
+      train_r2 = r2_score(y_train, y_train_pred)
+      train_rmse = np.sqrt(mean_squared_error(y_train, y_train_pred))
+    
+      test_r2 = r2_score(y_test, y_test_pred)
+      test_rmse = np.sqrt(mean_squared_error(y_test, y_test_pred))
       
-       # Display R2 and RMSE for training data
-       st.write("## Training Data Metrics")
-       st.write(f"Training R^2 Score: {train_r2}")
-       st.write(f"Training RMSE: {train_rmse}")
-       # Display R2 and RMSE for testing data
-       st.write("## Test Data Metrics")
-       st.write(f"Test R^2 Score: {test_r2}")
-       st.write(f"Test RMSE: {test_rmse}")
+      # Display R2 and RMSE for training data
+      st.write("## Training Data Metrics")
+      st.write(f"Training R^2 Score: {train_r2}")
+      st.write(f"Training RMSE: {train_rmse}")
+      # Display R2 and RMSE for testing data
+      st.write("## Test Data Metrics")
+      st.write(f"Test R^2 Score: {test_r2}")
+      st.write(f"Test RMSE: {test_rmse}")
     
