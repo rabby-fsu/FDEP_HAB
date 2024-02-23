@@ -75,8 +75,3 @@ elif selected_page == 'Apalachicola Bay-Estuary':
     # Button to evaluate the model
     if st.button('Evaluate Model'):
 
-
-elif selected_page == 'Ungauged Stations':
-    st.title('Show Ungauged Stations')
-    st.write('This page is currently under development.')
-
