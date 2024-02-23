@@ -4,7 +4,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error
 from xgboost import XGBRegressor
 import streamlit as st
-import pydeck as pdk
+
 
 from bokeh.plotting import figure
 
