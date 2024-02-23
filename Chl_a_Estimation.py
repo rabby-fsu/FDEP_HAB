@@ -20,6 +20,33 @@ selected_features = ['Salinity(ppt)', 'Turbidity(NTU)', 'DO(mg/l)', 'pH', 'ATemp
 X = df[selected_features]
 y = df['Chlorophyll-a (ug/L)']
 
+
+# Function to create colored markers based on chlorophyll-a concentration
+def color_marker(chl_a):
+    if chl_a <= 5:
+        return 'green'  # No bloom
+    else:
+        return 'red'  # Bloom
+
+# Function to create Folium map
+def create_map(year, month):
+    # Filter data for the selected year and month
+    filtered_df = df[(df['Year'] == year) & (df['Month'] == month)]
+
+    # Create map centered at mean latitude and longitude
+    map_data = folium.Map(location=[df['Latitude'].mean(), df['Longitude'].mean()], zoom_start=10)
+
+    # Add markers for each data point
+    for index, row in filtered_df.iterrows():
+        folium.Marker([row['Latitude'], row['Longitude']],
+                      popup=f"Chlorophyll-a (ug/L): {row['Chlorophyll-a (ug/L)']}",
+                      icon=folium.Icon(color=color_marker(row['Chlorophyll-a (ug/L)']))).add_to(map_data)
+
+    # Display the map
+    return map_data
+
+
+
 # Perform train-test split
 #X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     
@@ -65,18 +92,14 @@ elif selected_page == 'Apalachicola Bay-Estuary':
       st.write(f"Test RMSE: {test_rmse}")
     
 elif selected_page == 'Pensacola-Perdido Bay-Estuary':
-    st.title('Gauged Stations')
+    st.title('Spatial Distribution of Chlorophyll-a Concentrations')
 
-    # Create the map
-    map_data = df[['lat', 'lon']]
-    clicked = st.button("Click on the map to get Chlorophyll-a (ug/L)")
-    if clicked:
-        click_result = st.map(map_data)
-        if click_result:
-            clicked_point = (click_result["lat"], click_result["lon"])
-            selected_location_data = df[(df['lat'] == clicked_point[0]) & (df['lon'] == clicked_point[1])]
-            if not selected_location_data.empty:
-                st.write("Boxplot of Chlorophyll-a (ug/L) for the selected location:")
-                st.write(selected_location_data['Chlorophyll-a (ug/L)'].plot(kind='box'))
-            else:
-                st.write("No data available for the selected location.")
+    # Controls for year and month selection
+    year = st.slider('Select Year', min_value=df['Year'].min(), max_value=df['Year'].max())
+    month = st.slider('Select Month', min_value=1, max_value=12)
+
+    # Create map based on selected year and month
+    map_data = create_map(year, month)
+
+    # Render the map
+    folium_static(map_data)
