@@ -6,7 +6,6 @@ from xgboost import XGBRegressor
 import streamlit as st
 import pydeck as pdk
 
-import matplotlib.pyplot as plt
 
 # Load data
 df = pd.read_csv('DataFile_ML_All.csv')
@@ -64,7 +63,45 @@ elif selected_page == 'Apalachicola Bay-Estuary':
     combined_training_data = pd.concat([combined_training_data, train_data])
     combined_testing_data = pd.concat([combined_training_data, test_data])
 
-    
+
+
+import streamlit as st
+import pandas as pd
+import pydeck as pdk
+
+# Load data
+df = pd.read_csv('DataFile_ML_All.csv')
+
+# Your code here...
+
+elif selected_page == 'Pensacola-Perdido Bay-Estuary':
+    st.title('Gauged Stations')
+
+    # Create a Pydeck layer
+    layer = pdk.Layer(
+        'ScatterplotLayer',
+        data=df,
+        get_position='[Longitude, Latitude]',
+        get_radius=50,
+        get_fill_color='[0, 255*Chlorophyll-a, 0, 255]',
+        pickable=True,
+    )
+
+    # Set the initial view state
+    view_state = pdk.ViewState(
+        latitude=29.6788,
+        longitude=-84.8636,
+        zoom=8,
+        pitch=0,
+    )
+
+    # Render the Pydeck chart
+    st.pydeck_chart(pdk.Deck(
+        map_style='mapbox://styles/mapbox/light-v9',
+        initial_view_state=view_state,
+        layers=[layer],
+    ))
+
     # Button to evaluate the model
     #if st.button('Evaluate Model'):
 
