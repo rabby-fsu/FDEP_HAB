@@ -57,34 +57,3 @@ elif selected_page == 'Apalachicola Bay-Estuary':
     train_r2 = r2_score(y_train, y_train_pred)
     train_rmse = np.sqrt(mean_squared_error(y_train, y_train_pred))
     
-    # Create DataFrame for Pydeck
-    scatter_data = pd.DataFrame({'Actual': y_train, 'Predicted': y_train_pred})
-
-    # Create a Pydeck scatterplot layer
-    scatter_layer = pdk.Layer(
-        'ScatterplotLayer',
-        data=scatter_data,
-        get_position='[Actual, Predicted]',
-        get_radius=50,
-        get_fill_color=[0, 255, 0, 255],
-        pickable=True,
-    )
-
-    # Set the initial view state
-    view_state = pdk.ViewState(
-        latitude=scatter_data['Actual'].mean(),
-        longitude=scatter_data['Predicted'].mean(),
-        zoom=8,
-        pitch=0,
-    )
-
-    # Render the Pydeck chart
-    st.pydeck_chart(pdk.Deck(
-        map_style='mapbox://styles/mapbox/light-v9',
-        initial_view_state=view_state,
-        layers=[scatter_layer],
-    ))
-
-    # Display R2 and RMSE for training
-    st.write(f"Training R^2 Score: {train_r2}")
-    st.write(f"Training RMSE: {train_rmse}")
