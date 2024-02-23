@@ -6,6 +6,7 @@ from xgboost import XGBRegressor
 import streamlit as st
 import matplotlib.pyplot as plt
 import pydeck as pdk
+import folium
 
 # Load data
 df = pd.read_csv('DataFile_ML_All.csv')
@@ -63,3 +64,4 @@ elif selected_page == 'Apalachicola Bay-Estuary':
       st.write(f"Test R^2 Score: {test_r2}")
       st.write(f"Test RMSE: {test_rmse}")
     
+elif selected_page == 'Apalachicola Bay-Estuary':
