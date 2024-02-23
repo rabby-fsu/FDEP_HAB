@@ -2,7 +2,7 @@ streamlit
 pydeck
 numpy    
 pandas  
-matplotlib>=3.3.4
+plotly
 requests
 xgboost 
 scikit-learn
