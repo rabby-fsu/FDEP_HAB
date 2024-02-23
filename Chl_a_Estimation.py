@@ -73,7 +73,7 @@ def create_map(selected_year, selected_month):
     ax.set_yticklabels([f"{y:.1f}" for y in lat_ticks])
     ax.set_xlabel('Longitude')
     ax.set_ylabel('Latitude')
-    ax.set_title('Geographic Map withChlorophyll-a Concentration')
+    #ax.set_title('Geographic Map withChlorophyll-a Concentration')
 
     return fig
 
@@ -144,7 +144,7 @@ elif selected_page == 'Apalachicola Bay-Estuary':
         fig = create_map(selected_year, selected_month)
 
         # Display the map
-        with st.container(height= 400, border=True):
+        with st.container(height= 500, border=True):
            st.pyplot(fig)
 
 
