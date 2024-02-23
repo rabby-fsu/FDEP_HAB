@@ -21,6 +21,9 @@ X = df[selected_features]
 y = df['Chlorophyll-a (ug/L)']
 
 
+# Convert 'Date' column to datetime
+df['Date'] = pd.to_datetime(df['Date'])
+
 # Function to create colored markers based on chlorophyll-a concentration
 def color_marker(chl_a):
     if chl_a <= 5:
@@ -29,9 +32,9 @@ def color_marker(chl_a):
         return 'red'  # Bloom
 
 # Function to create Folium map
-def create_map(year, month):
-    # Filter data for the selected year and month
-    filtered_df = df[(df['Year'] == year) & (df['Month'] == month)]
+def create_map(selected_date):
+    # Filter data for the selected date
+    filtered_df = df[df['Date'].dt.date == selected_date]
 
     # Create map centered at mean latitude and longitude
     map_data = folium.Map(location=[df['Latitude'].mean(), df['Longitude'].mean()], zoom_start=10)
@@ -44,7 +47,6 @@ def create_map(year, month):
 
     # Display the map
     return map_data
-
 
 
 # Perform train-test split
@@ -94,12 +96,11 @@ elif selected_page == 'Apalachicola Bay-Estuary':
 elif selected_page == 'Pensacola-Perdido Bay-Estuary':
     st.title('Spatial Distribution of Chlorophyll-a Concentrations')
 
-    # Controls for year and month selection
-    year = st.slider('Select Year', min_value=df['Year'].min(), max_value=df['Year'].max())
-    month = st.slider('Select Month', min_value=1, max_value=12)
+    # Controls for date selection
+    selected_date = st.date_input('Select Date', min_value=df['Date'].min(), max_value=df['Date'].max())
 
-    # Create map based on selected year and month
-    map_data = create_map(year, month)
+    # Create map based on selected date
+    map_data = create_map(selected_date)
 
     # Render the map
     folium_static(map_data)
