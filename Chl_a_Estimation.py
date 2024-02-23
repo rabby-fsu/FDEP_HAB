@@ -112,8 +112,8 @@ elif selected_page == 'Apalachicola Bay-Estuary':
     for index, row in df_ap_nut.iterrows():
         folium.Marker([row['lat'], row['lon']] ).add_to(m)
 
-    # Display the map using folium_static
-    st.markdown(folium.folium_static(m))
+    map_html = m._repr_html_()
+    st.markdown(map_html, unsafe_allow_html=True)
 
     # Button to evaluate the model
     if st.button('Evaluate Model'):
