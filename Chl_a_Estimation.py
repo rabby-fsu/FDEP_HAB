@@ -51,12 +51,15 @@ elif selected_page == 'Apalachicola Bay-Estuary':
     st.map(df,latitude='Latitude',longitude='Longitude',use_container_width=True)
 
 
-    # Display R2 and RMSE for training data
-    st.write("## Training Data Metrics")
-    st.write(f"Training R^2 Score: {train_r2}")
-    st.write(f"Training RMSE: {train_rmse}")
-    # Display R2 and RMSE for testing data
-    st.write("## Test Data Metrics")
-    st.write(f"Test R^2 Score: {test_r2}")
-    st.write(f"Test RMSE: {test_rmse}")
+    # Button to evaluate the model
+    if st.button('Evaluate Model'):
+      
+       # Display R2 and RMSE for training data
+       st.write("## Training Data Metrics")
+       st.write(f"Training R^2 Score: {train_r2}")
+       st.write(f"Training RMSE: {train_rmse}")
+       # Display R2 and RMSE for testing data
+       st.write("## Test Data Metrics")
+       st.write(f"Test R^2 Score: {test_r2}")
+       st.write(f"Test RMSE: {test_rmse}")
     
