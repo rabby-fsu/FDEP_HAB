@@ -172,14 +172,14 @@ elif selected_page == 'Apalachicola Bay-Estuary':
         st.write(f"Selected Features: {selected_features}")
         st.write(f"Target Variable: Chlorophyll-a (ug/L)")
         # Display the train and test sample sizes
-        st.write("## Train/Test Sample Sizes: 80% Training and 20% Testing")
+        st.write("Train/Test Sample Sizes: 80% Training and 20% Testing")
 
         # Display model's hyperparameters
         st.write("## Model's Hyperparameters")
         uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
         # Button to evaluate the model
         if st.button('Evaluate Model'):
-            xgb_regressor = model
+            xgb_regressor = train_model(X,y)
             y_train_pred = xgb_regressor.predict(X_train)
             y_test_pred = xgb_regressor.predict(X_test)
     
