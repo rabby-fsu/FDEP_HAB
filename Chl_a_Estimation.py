@@ -38,7 +38,7 @@ def create_map(selected_year, selected_month):
     filtered_df = df_ap_nut[(df_ap_nut['Date'].dt.year == selected_year) & (df_ap_nut['Date'].dt.month == selected_month)]
 
     # Create main plot with specified extent
-    fig = plt.figure(figsize=(8, 4))
+    fig = plt.figure(figsize=(6, 4))
     ax = fig.add_subplot(111, projection=ccrs.PlateCarree(), extent=extent)
 
     # Plot coastlines
@@ -48,11 +48,11 @@ def create_map(selected_year, selected_month):
     for i, (station, (lon, lat)) in enumerate(sorted_station_coordinates):
         arrow_shift = 0
         while (lon, lat) in used_coordinates:  # Check for overlapping
-            lat += 0.015  # Adjust the latitude to avoid overlapping
-            arrow_shift += 0.5
+            lat += 0.0015  # Adjust the latitude to avoid overlapping
+            arrow_shift += 0.05
 
         # Annotate station name with arrow
-        ax.annotate(station, xy=(lon, lat), xytext=(15, 15), textcoords='offset points', fontsize=10, color='red',
+        ax.annotate(station, xy=(lon, lat), xytext=(15, 15), textcoords='offset points', fontsize=8, color='red',
                     arrowprops=dict(facecolor='red', arrowstyle='->'))
 
         used_coordinates.add((lon, lat))
