@@ -38,7 +38,7 @@ y = df['Chlorophyll-a (ug/L)']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # Function to train the model
-def train_model(X_train, y_train):
+def train_model(X_train, y_train,model_queue):
     # Train your model here (replace this with your actual model training code)
     model = XGBRegressor(n_estimators=334, max_depth=4, learning_rate=0.07818940902700418, random_state=42)
     model.fit(X_train, y_train)
