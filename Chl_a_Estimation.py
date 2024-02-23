@@ -64,33 +64,4 @@ elif selected_page == 'Apalachicola Bay-Estuary':
     combined_testing_data = pd.concat([combined_training_data, test_data])
 
 
-elif selected_page == 'Pensacola-Perdido Bay-Estuary':
-
-    st.title('Gauged Stations')
-
-    # Create a Pydeck layer
-    layer = pdk.Layer(
-        'ScatterplotLayer',
-        data=df,
-        get_position='[lon, lat]',
-        get_radius=50,
-        get_fill_color='[0, 255*Chlorophyll-a, 0, 255]',
-        pickable=True,
-    )
-
-    # Set the initial view state
-    view_state = pdk.ViewState(
-        latitude=df['lat'].mean(),
-        longitude=df['lon'].mean(),
-        zoom=8,
-        pitch=0,
-    )
-
-    # Render the Pydeck chart
-    st.pydeck_chart(pdk.Deck(
-        map_style='mapbox://styles/mapbox/light-v9',
-        initial_view_state=view_state,
-        layers=[layer],
-    ))
-
 
