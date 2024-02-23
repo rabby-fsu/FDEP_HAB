@@ -144,7 +144,7 @@ elif selected_page == 'Apalachicola Bay-Estuary':
         fig = create_map(selected_year, selected_month)
 
         # Display the map
-        with st.container():
+        with st.container(height=120, border=True):
            st.pyplot(fig)
 
 
