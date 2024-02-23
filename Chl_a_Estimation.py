@@ -34,12 +34,10 @@ selected_features = ['Salinity(ppt)', 'Turbidity(NTU)', 'DO(mg/l)', 'pH', 'ATemp
 X = df[selected_features]
 y = df['Chlorophyll-a (ug/L)']
 
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # Function to train the model
-def train_model(X, y):
-    # Split the data into train and test sets
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
+def train_model(X_train, y_train):
     # Train your model here (replace this with your actual model training code)
     model = XGBRegressor(n_estimators=334, max_depth=4, learning_rate=0.07818940902700418, random_state=42)
     model.fit(X_train, y_train)
@@ -48,6 +46,12 @@ def train_model(X, y):
 # Start training the model in a separate thread
 model_training_thread = threading.Thread(target=train_model, args=(X, y))
 model_training_thread.start()
+# Wait for the training thread to finish
+model_training_thread.join()
+
+# Obtain the trained model from the thread
+trained_model = model_training_thread.result()
+
 
 # Function to create map
 def create_map(selected_year, selected_month):
@@ -179,9 +183,8 @@ elif selected_page == 'Apalachicola Bay-Estuary':
         uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
         # Button to evaluate the model
         if st.button('Evaluate Model'):
-            xgb_regressor = train_model(X,y)
-            y_train_pred = xgb_regressor.predict(X_train)
-            y_test_pred = xgb_regressor.predict(X_test)
+            y_train_pred = trained_model.predict(X_train)
+            y_test_pred = trained_model.predict(X_test)
     
             # Evaluation metrics
             train_r2 = r2_score(y_train, y_train_pred)
@@ -227,9 +230,9 @@ elif selected_page == 'Apalachicola Bay-Estuary':
             # Ensure column names match expected features
             if set(user_data_selected.columns) == set(selected_features):
                 # Make predictions
-                user_data['Predicted Chlorophyll-a (ug/L)'] = xgb_regressor.predict(user_data[selected_features])
+                user_data['Predicted Chlorophyll-a (ug/L)'] = trained_model.predict(user_data[selected_features])
                 #make prediction
-                user_data['Predicted Chlorophyll-a (ug/L)'] = xgb_regressor.predict(user_data_selected)
+                user_data['Predicted Chlorophyll-a (ug/L)'] = trained_model.predict(user_data_selected)
 
                 #  Display the modified DataFrame
                 st.write("## Predicted Data")
