@@ -6,7 +6,6 @@ from xgboost import XGBRegressor
 import streamlit as st
 
 
-from bokeh.plotting import figure
 
 
 # Introduction Page
