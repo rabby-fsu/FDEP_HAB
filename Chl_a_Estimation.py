@@ -40,7 +40,7 @@ def color_marker(chl_a):
     else:
         return 'red'  # Bloom
 # Calculate Map extent
-extent = [df['lon'].min(), df['lon'].max(), df['lat'].min(), df['lat'].max()]
+extent = [df['lon'].min()-0.2, df['lon'].max()+0.2, df['lat'].min()-0.2, df['lat'].max()+0.2]
 
 # Calculate number of ticks
 num_ticks = 5
