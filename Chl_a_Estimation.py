@@ -57,7 +57,7 @@ def create_map(selected_year, selected_month):
 
         used_coordinates.add((lon, lat))
     # Plot chlorophyll-a concentration using color plot
-    sc = ax.scatter(filtered_df['lon'], filtered_df['lat'], s=100, c=filtered_df['Chlorophyll-a (ug/L)'], cmap='BuGn', edgecolor='black',vmin=df_ap_nut['Chlorophyll-a (ug/L)'].min(), vmax=df_ap_nut['Chlorophyll-a (ug/L)'].max())
+    sc = ax.scatter(filtered_df['lon'], filtered_df['lat'], s=100, c=filtered_df['Chlorophyll-a (ug/L)'], cmap='BuGn', edgecolor='black',vmin=df_ap_nut['Chlorophyll-a (ug/L)'].min(), vmax=30)
     #sc = ax.scatter(filtered_df['lon'], filtered_df['lat'], s=100, c=filtered_df['Chlorophyll-a (ug/L)'], cmap='BuGn', edgecolor='black',vmin=df_ap_nut['Chlorophyll-a (ug/L)'].min(), vmax=df_ap_nut['Chlorophyll-a (ug/L)'].max())
 
     # Add color bar
