@@ -64,16 +64,6 @@ elif selected_page == 'Apalachicola Bay-Estuary':
     combined_testing_data = pd.concat([combined_training_data, test_data])
 
 
-
-import streamlit as st
-import pandas as pd
-import pydeck as pdk
-
-# Load data
-df = pd.read_csv('DataFile_ML_All.csv')
-
-# Your code here...
-
 elif selected_page == 'Pensacola-Perdido Bay-Estuary':
     st.title('Gauged Stations')
 
