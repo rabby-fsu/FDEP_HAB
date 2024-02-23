@@ -68,19 +68,27 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
     st.title('Gauged Stations')
 
     # Create the map
-    map_data = df[['lat', 'lon']]
+    map_data = df[['Latitude', 'Longitude']]
     st.map(map_data, use_container_width=True)
 
-    # Get click coordinates
-    click_coordinates = st.map_clicks()
+    # Button to detect clicks
+    if st.button("Detect Clicks"):
+        click_data = st.container()
+        with click_data:
+            st.write("Click on the map to see Chlorophyll-a values at that location.")
 
-    if click_coordinates:
-        # Extract click coordinates
-        click_lat, click_lon = click_coordinates["lat"], click_coordinates["lon"]
+            # Function to handle map clicks
+            def on_map_click(event):
+                selected_location = {'Latitude': event['lat'], 'Longitude': event['lon']}
+                return selected_location
 
-        # Filter data for the selected location
-        selected_location_data = df[(df['Latitude'] == click_lat) & (df['Longitude'] == click_lon)]
+            # Event listener for map clicks
+            selected_location = st.map_click_handler(on_map_click)
 
-        # Display boxplot of Chlorophyll-a for the selected location
-        st.write("Boxplot of Chlorophyll-a (ug/L) for the selected location:")
-        st.write(selected_location_data['Chlorophyll-a (ug/L)'].plot(kind='box'))
+            if selected_location:
+                # Filter data for the selected location
+                selected_location_data = df[(df['Latitude'] == selected_location['Latitude']) & (df['Longitude'] == selected_location['Longitude'])]
+
+                # Display boxplot of Chlorophyll-a for the selected location
+                st.write("Boxplot of Chlorophyll-a (ug/L) for the selected location:")
+                st.write(selected_location_data['Chlorophyll-a (ug/L)'].plot(kind='box'))
