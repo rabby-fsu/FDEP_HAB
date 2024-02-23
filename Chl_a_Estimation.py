@@ -10,6 +10,12 @@ import folium
 import cartopy.crs as ccrs
 from collections import defaultdict
 import matplotlib.colors as mcolors
+import requests
+from io import BytesIO
+import base64
+import seaborn as sns
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import r2_score, mean_squared_error
 
 
 # Load data
@@ -81,11 +87,11 @@ def create_map(selected_year, selected_month):
 
 
 # Perform train-test split
-#X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     
 # Initialize and fit the XGBoost Regressor
-#xgb_regressor = XGBRegressor(n_estimators=334, max_depth=4, learning_rate=0.07818940902700418, random_state=42)
-#xgb_regressor.fit(X_train, y_train)
+xgb_regressor = XGBRegressor(n_estimators=334, max_depth=4, learning_rate=0.07818940902700418, random_state=42)
+xgb_regressor.fit(X_train, y_train)
     
 
 #Introduction Page
@@ -147,26 +153,54 @@ elif selected_page == 'Apalachicola Bay-Estuary':
         with st.container(height= 500, border=True):
            st.pyplot(fig)
 
+        if subpage_selected == 'Prediction':
+          # Display a table summarizing the data size and selected features
+          st.write("## Data Summary")
+          st.write(f"Number of Samples: {len(X)}")
+          st.write(f"Number of Features: {X.shape[1]}")
+          st.write(f"Selected Features: {selected_features}")
+          st.write(f"Target Variable: Chlorophyll-a (ug/L)")
+          # Split the data into train and test sets
+          X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-  
-    # Button to evaluate the model
-    if st.button('Evaluate Model'):
-      # Predictions
-      y_train_pred = xgb_regressor.predict(X_train)
-      y_test_pred = xgb_regressor.predict(X_test)
+          # Display the train and test sample sizes
+          st.write("## Train/Test Sample Sizes")
+          st.write(f"Train Samples: {len(X_train)}")
+          st.write(f"Test Samples: {len(X_test)}")
+
+          # Display model's hyperparameters
+          st.write("## Model's Hyperparameters")
+          # Button to evaluate the model
+          if st.button('Evaluate Model'):
+            # Predictions
+            y_train_pred = xgb_regressor.predict(X_train)
+            y_test_pred = xgb_regressor.predict(X_test)
     
-      # Evaluation metrics
-      train_r2 = r2_score(y_train, y_train_pred)
-      train_rmse = np.sqrt(mean_squared_error(y_train, y_train_pred))
+            # Evaluation metrics
+            train_r2 = r2_score(y_train, y_train_pred)
+            train_rmse = np.sqrt(mean_squared_error(y_train, y_train_pred))
     
-      test_r2 = r2_score(y_test, y_test_pred)
-      test_rmse = np.sqrt(mean_squared_error(y_test, y_test_pred))
+            test_r2 = r2_score(y_test, y_test_pred)
+            test_rmse = np.sqrt(mean_squared_error(y_test, y_test_pred))
       
-      # Display R2 and RMSE for training data
-      st.write("## Training Data Metrics")
-      st.write(f"Training R^2 Score: {train_r2}")
-      st.write(f"Training RMSE: {train_rmse}")
-      # Display R2 and RMSE for testing data
-      st.write("## Test Data Metrics")
-      st.write(f"Test R^2 Score: {test_r2}")
-      st.write(f"Test RMSE: {test_rmse}")
+            # Plot Actual vs Predicted Chlorophyll-a for train and test datasets
+            fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+
+            # Train dataset plot
+            sns.scatterplot(x=y_train, y=y_train_pred, ax=axes[0])
+            axes[0].set_title('Actual vs. Predicted Chlorophyll-a (Train)')
+            axes[0].set_xlabel('Actual Chlorophyll-a (ug/L)')
+            axes[0].set_ylabel('Predicted Chlorophyll-a (ug/L)')
+            axes[0].plot([y.min(), y.max()], [y.min(), y.max()], 'k--', lw=2)
+            axes[0].text(0.1, 0.9, f'R2: {train_r2:.2f}\nRMSE: {train_rmse:.2f}', transform=axes[0].transAxes)
+
+            # Test dataset plot
+            sns.scatterplot(x=y_test, y=y_test_pred, ax=axes[1])
+            axes[1].set_title('Actual vs. Predicted Chlorophyll-a (Test)')
+            axes[1].set_xlabel('Actual Chlorophyll-a (ug/L)')
+            axes[1].set_ylabel('Predicted Chlorophyll-a (ug/L)')
+            axes[1].plot([y.min(), y.max()], [y.min(), y.max()], 'k--', lw=2)
+            axes[1].text(0.1, 0.9, f'R2: {test_r2:.2f}\nRMSE: {test_rmse:.2f}', transform=axes[1].transAxes)
+
+            # Display the plots
+            st.pyplot(fig)
