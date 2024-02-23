@@ -143,20 +143,20 @@ elif selected_page == 'Apalachicola Bay-Estuary':
     
 elif selected_page == 'Pensacola-Perdido Bay-Estuary':
     st.title('Spatial Distribution of Chlorophyll-a Concentrations')
+    
+    # Set default values for year and month based on the data range
+    min_date = df['Date'].min().date()
+    max_date = df['Date'].max().date()
+    default_date = min_date + (max_date - min_date) // 2
+    default_year = default_date.year
+    default_month = default_date.month
+    
+    # Slider for selecting year and month
+    selected_year = st.slider('Select Year', min_value=min_date.year, max_value=max_date.year, value=default_year)
+    selected_month = st.slider('Select Month', min_value=1, max_value=12, value=default_month)
+    
+    # Create map based on selected year and month
+    fig = create_map(selected_year, selected_month)
 
-# Load data
-# Assuming df contains the necessary data with columns: 'Date', 'Long', 'Lat', 'Chlorophyll-a (ug/L)', 'Station'
-
-# Get unique years and months
-unique_years = df['Date'].dt.year.unique()
-unique_months = df['Date'].dt.month.unique()
-
-# Sidebar widgets
-selected_year = st.sidebar.selectbox('Select Year', unique_years)
-selected_month = st.sidebar.selectbox('Select Month', unique_months)
-
-# Create map
-fig = create_map(selected_year, selected_month)
-
-# Display the plot
-st.pyplot(fig)
+    # Display the map
+    st.pyplot(fig)
