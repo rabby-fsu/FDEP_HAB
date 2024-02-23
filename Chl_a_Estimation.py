@@ -48,8 +48,8 @@ def create_map(selected_year, selected_month):
     for i, (station, (lon, lat)) in enumerate(sorted_station_coordinates):
         arrow_shift = 0
         while (lon, lat) in used_coordinates:  # Check for overlapping
-            lat += 0.0015  # Adjust the latitude to avoid overlapping
-            arrow_shift += 0.05
+            lat += 0.015  # Adjust the latitude to avoid overlapping
+            arrow_shift += 0.2
 
         # Annotate station name with arrow
         ax.annotate(station, xy=(lon, lat), xytext=(15, 15), textcoords='offset points', fontsize=8, color='red',
