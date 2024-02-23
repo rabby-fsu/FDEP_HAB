@@ -18,7 +18,7 @@ selected_features = ['Salinity(ppt)', 'Turbidity(NTU)', 'DO(mg/l)', 'pH', 'ATemp
 
 
 # Function to evaluate model per station
-#def training(combined_training_data):
+def training(combined_training_data):
     X_train = combined_training_data[selected_features]
     y_train = combined_training_data['Chlorophyll-a (ug/L)']
     
