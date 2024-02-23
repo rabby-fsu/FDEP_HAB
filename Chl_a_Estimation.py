@@ -99,21 +99,7 @@ if selected_page == 'Introduction':
 elif selected_page == 'Apalachicola Bay-Estuary':
     
     st.title('Historically Gauged Stations')
-    #st.map(df_ap_nut,latitude='lat',longitude='lon',use_container_width=True)
-        
-    # Define map window size
-    map_width = 800
-    map_height = 600
-
-    # Create a folium map object
-    m = folium.Map(location=[df_ap_nut['lat'].mean(), df_ap_nut['lon'].mean()], zoom_start=10, width=map_width, height=map_height)
-
-    # Add markers for each point
-    for index, row in df_ap_nut.iterrows():
-        folium.Marker([row['lat'], row['lon']] ).add_to(m)
-
-    map_html = m._repr_html_()
-    st.markdown(map_html, unsafe_allow_html=True)
+    st.map(df_ap_nut,latitude='lat',longitude='lon',use_container_width=True)
 
     # Button to evaluate the model
     if st.button('Evaluate Model'):
