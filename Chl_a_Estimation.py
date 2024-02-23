@@ -28,7 +28,7 @@ y = df['Chlorophyll-a (ug/L)']
 #xgb_regressor.fit(X_train, y_train)
     
 
-Introduction Page
+#Introduction Page
 st.sidebar.title('Pages')
 selected_page = st.sidebar.radio('Go to', ['Introduction', 'Apalachicola Bay-Estuary', 'Pensacola-Perdido Bay-Estuary'])
 
