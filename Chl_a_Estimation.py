@@ -26,22 +26,22 @@ df['Date'] = pd.to_datetime(df['Date'])
 
 # Function to create colored markers based on chlorophyll-a concentration
 def color_marker(chl_a):
-    if chl_a <= 5:
+    if chl_a <= 10:
         return 'green'  # No bloom
     else:
         return 'red'  # Bloom
 
 # Function to create Folium map
-def create_map(selected_date):
-    # Filter data for the selected date
-    filtered_df = df[df['Date'].dt.date == selected_date]
+def create_map(selected_year, selected_month):
+    # Filter data for the selected year and month
+    filtered_df = df[(df['Date'].dt.year == selected_year) & (df['Date'].dt.month == selected_month)]
 
     # Create map centered at mean latitude and longitude
-    map_data = folium.Map(location=[df['Latitude'].mean(), df['Longitude'].mean()], zoom_start=10)
+    map_data = folium.Map(location=[df['lat'].mean(), df['lon'].mean()], zoom_start=10)
 
     # Add markers for each data point
     for index, row in filtered_df.iterrows():
-        folium.Marker([row['Latitude'], row['Longitude']],
+        folium.Marker([row['lat'], row['lon']],
                       popup=f"Chlorophyll-a (ug/L): {row['Chlorophyll-a (ug/L)']}",
                       icon=folium.Icon(color=color_marker(row['Chlorophyll-a (ug/L)']))).add_to(map_data)
 
@@ -96,11 +96,19 @@ elif selected_page == 'Apalachicola Bay-Estuary':
 elif selected_page == 'Pensacola-Perdido Bay-Estuary':
     st.title('Spatial Distribution of Chlorophyll-a Concentrations')
 
-    # Controls for date selection
-    selected_date = st.date_input('Select Date', min_value=df['Date'].min(), max_value=df['Date'].max())
+    # Set default values for year and month based on the data range
+    min_date = df['Date'].min().date()
+    max_date = df['Date'].max().date()
+    default_date = min_date + (max_date - min_date) // 2
+    default_year = default_date.year
+    default_month = default_date.month
 
-    # Create map based on selected date
-    map_data = create_map(selected_date)
+    # Controls for year and month selection
+    selected_year = st.slider('Select Year', min_value=min_date.year, max_value=max_date.year, value=default_year)
+    selected_month = st.slider('Select Month', min_value=1, max_value=12, value=default_month)
+
+    # Create map based on selected year and month
+    map_data = create_map(selected_year, selected_month)
 
     # Render the map
     folium_static(map_data)
