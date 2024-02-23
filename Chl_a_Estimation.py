@@ -111,5 +111,8 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
     # Create map based on selected year and month
     map_data = create_map(selected_year, selected_month)
 
-    # Render the map
+    # Add tile layer to the map
+    folium.TileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', attr='OpenStreetMap').add_to(map_data)
+
+    # Display the map
     st.write(map_data._repr_html_(), unsafe_allow_html=True)
