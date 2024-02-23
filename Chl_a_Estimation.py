@@ -7,7 +7,8 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import pydeck as pdk
 import folium
-
+import cartopy.crs as ccrs
+from collections import defaultdict
 
 # Load data
 df = pd.read_csv('DataFile_ML_All.csv')
@@ -32,22 +33,77 @@ def color_marker(chl_a):
     else:
         return 'red'  # Bloom
 
-# Function to create Folium map
+# Define color marker function
+def color_marker(chl_a):
+    if chl_a <= 10:
+        return 'green'  # No bloom
+    else:
+        return 'red'  # Bloom
+
+# Function to create map
 def create_map(selected_year, selected_month):
     # Filter data for the selected year and month
     filtered_df = df[(df['Date'].dt.year == selected_year) & (df['Date'].dt.month == selected_month)]
 
-    # Create map centered at mean latitude and longitude
-    map_data = folium.Map(location=[df['lat'].mean(), df['lon'].mean()], zoom_start=10)
+    # Calculate extent
+    extent = [filtered_df['lon'].min(), filtered_df['lon'].max(), filtered_df['lat'].min(), filtered_df['lat'].max()]
 
-    # Add markers for each data point
+    # Calculate number of ticks
+    num_ticks = 5
+    lon_ticks = np.linspace(extent[0], extent[1], num_ticks)
+    lat_ticks = np.linspace(extent[2], extent[3], num_ticks)
+
+    # Create main plot with specified extent
+    fig = plt.figure(figsize=(10, 8))
+    ax = fig.add_subplot(111, projection=ccrs.PlateCarree(), extent=extent)
+
+    # Plot coastlines
+    ax.coastlines()
+
+    # Sort station codes based on longitude
+    sorted_station_codes = sorted(filtered_df['station_code'].unique(), key=lambda x: filtered_df[filtered_df['station_code'] == x]['lon'].iloc[0])
+
+    # Create a dictionary to store coordinates for each station
+    station_coordinates = defaultdict(list)
+    for station in sorted_station_codes:
+        station_coordinates[station] = (filtered_df[filtered_df['station_code'] == station]['lon'].iloc[0], filtered_df[filtered_df['station_code'] == station]['lat'].iloc[0])
+
+    # Sort station coordinates by longitude
+    sorted_station_coordinates = sorted(station_coordinates.items(), key=lambda x: x[1][0])
+
+    # Annotate station names and handle overlapping
+    used_coordinates = set()
+    for i, (station, (lon, lat)) in enumerate(sorted_station_coordinates):
+        arrow_shift = 0
+        while (lon, lat) in used_coordinates:  # Check for overlapping
+            lat += 0.02  # Adjust the latitude to avoid overlapping
+            arrow_shift += 1
+
+        # Annotate station name with arrow
+        ax.annotate(station, xy=(lon, lat), xytext=(15, 15), textcoords='offset points', fontsize=15, color='red',
+                    arrowprops=dict(facecolor='red', arrowstyle='->'))
+
+        used_coordinates.add((lon, lat))
+
+    # Plot markers
     for index, row in filtered_df.iterrows():
-        folium.Marker([row['lat'], row['lon']],
-                      popup=f"Chlorophyll-a (ug/L): {row['Chlorophyll-a (ug/L)']}",
-                      icon=folium.Icon(color=color_marker(row['Chlorophyll-a (ug/L)']))).add_to(map_data)
+        ax.scatter(row['lon'], row['lat'], s=100, c=color_marker(row['Chlorophyll-a (ug/L)']))
 
-    # Display the map
-    return map_data
+    # Set x and y ticks
+    ax.set_xticks(lon_ticks)
+    ax.set_yticks(lat_ticks)
+
+    # Set labels for x and y ticks
+    ax.set_xticklabels([f"{x:.1f}" for x in lon_ticks])
+    ax.set_yticklabels([f"{y:.1f}" for y in lat_ticks])
+
+    # Set labels and title
+    ax.set_xlabel('Longitude')
+    ax.set_ylabel('Latitude')
+    ax.set_title('Spatial Distribution of Chlorophyll-a Concentrations')
+
+    return fig
+
 
 
 # Perform train-test split
@@ -97,22 +153,19 @@ elif selected_page == 'Apalachicola Bay-Estuary':
 elif selected_page == 'Pensacola-Perdido Bay-Estuary':
     st.title('Spatial Distribution of Chlorophyll-a Concentrations')
 
-    # Set default values for year and month based on the data range
-    min_date = df['Date'].min().date()
-    max_date = df['Date'].max().date()
-    default_date = min_date + (max_date - min_date) // 2
-    default_year = default_date.year
-    default_month = default_date.month
+# Load data
+# Assuming df contains the necessary data with columns: 'Date', 'Long', 'Lat', 'Chlorophyll-a (ug/L)', 'Station'
 
-    # Controls for year and month selection
-    selected_year = st.slider('Select Year', min_value=min_date.year, max_value=max_date.year, value=default_year)
-    selected_month = st.slider('Select Month', min_value=1, max_value=12, value=default_month)
+# Get unique years and months
+unique_years = df['Date'].dt.year.unique()
+unique_months = df['Date'].dt.month.unique()
 
-    # Create map based on selected year and month
-    map_data = create_map(selected_year, selected_month)
+# Sidebar widgets
+selected_year = st.sidebar.selectbox('Select Year', unique_years)
+selected_month = st.sidebar.selectbox('Select Month', unique_months)
 
-    # Add tile layer to the map
-    folium.TileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', attr='OpenStreetMap').add_to(map_data)
+# Create map
+fig = create_map(selected_year, selected_month)
 
-    # Display the map
-    st.write(map_data._repr_html_(), unsafe_allow_html=True)
+# Display the plot
+st.pyplot(fig)
