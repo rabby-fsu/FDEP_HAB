@@ -46,11 +46,11 @@ extent = [df['lon'].min()-0.2, df['lon'].max()+0.2, df['lat'].min()-0.2, df['lat
 num_ticks = 5
 lon_ticks = np.linspace(extent[0], extent[1], num_ticks)
 lat_ticks = np.linspace(extent[2], extent[3], num_ticks)
+
 # Function to create map
 def create_map(selected_year, selected_month):
     # Filter data for the selected year and month
     filtered_df = df[(df['Date'].dt.year == selected_year) & (df['Date'].dt.month == selected_month)]
-
 
     # Create main plot with specified extent
     fig = plt.figure(figsize=(10, 8))
@@ -64,17 +64,20 @@ def create_map(selected_year, selected_month):
 
     # Create a dictionary to store coordinates for each station
     station_coordinates = defaultdict(list)
-    for station in sorted_station_codes:
-        station_coordinates[station] = (filtered_df[filtered_df['station_code'] == station]['lon'].iloc[0], filtered_df[filtered_df['station_code'] == station]['lat'].iloc[0])
+    for i, station in enumerate(sorted_station_codes):
+        station_name = f'G{i+1}'
+        station_coordinates[station_name] = (filtered_df[filtered_df['station_code'] == station]['lon'].iloc[0], filtered_df[filtered_df['station_code'] == station]['lat'].iloc[0])
 
     # Sort station coordinates by longitude
     sorted_station_coordinates = sorted(station_coordinates.items(), key=lambda x: x[1][0])
+
     # Plot chlorophyll-a concentration using color plot
     sc = ax.scatter(filtered_df['lon'], filtered_df['lat'], s=100, c=filtered_df['Chlorophyll-a (ug/L)'], cmap='viridis', edgecolor='black')
 
     # Add color bar
     cbar = plt.colorbar(sc, ax=ax, orientation='vertical', pad=0.02)
     cbar.set_label('Chlorophyll-a (ug/L)')
+
     # Annotate station names and handle overlapping
     used_coordinates = set()
     for i, (station, (lon, lat)) in enumerate(sorted_station_coordinates):
@@ -89,21 +92,8 @@ def create_map(selected_year, selected_month):
 
         used_coordinates.add((lon, lat))
 
-
-    # Set x and y ticks
-    ax.set_xticks(lon_ticks)
-    ax.set_yticks(lat_ticks)
-
-    # Set labels for x and y ticks
-    ax.set_xticklabels([f"{x:.1f}" for x in lon_ticks])
-    ax.set_yticklabels([f"{y:.1f}" for y in lat_ticks])
-
-    # Set labels and title
-    ax.set_xlabel('Longitude')
-    ax.set_ylabel('Latitude')
-    ax.set_title('Spatial Distribution of Chlorophyll-a Concentrations')
-
     return fig
+
 
 
 
