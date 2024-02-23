@@ -173,7 +173,7 @@ elif selected_page == 'Apalachicola Bay-Estuary':
         model_queue = Queue()  
 
         # Start training the model in a separate thread
-        model_training_thread = threading.Thread(target=train_model, args=(X, y, model_queue))
+        model_training_thread = threading.Thread(target=train_model, args=(X_train, y_train, model_queue))
         model_training_thread.start()
 
         # Wait for the thread to finish and get the trained model
