@@ -67,7 +67,7 @@ def create_map(selected_year, selected_month):
     filtered_df = df[(df['Date'].dt.year == selected_year) & (df['Date'].dt.month == selected_month)]
 
     # Create main plot with specified extent
-    fig = plt.figure(figsize=(10, 8))
+    fig = plt.figure(figsize=(8, 6))
     ax = fig.add_subplot(111, projection=ccrs.PlateCarree(), extent=extent)
 
     # Plot coastlines
