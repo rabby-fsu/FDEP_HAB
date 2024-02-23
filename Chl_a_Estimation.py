@@ -85,7 +85,7 @@ def create_map(selected_year, selected_month):
             arrow_shift += 1
 
         # Annotate station name with arrow
-        ax.annotate(station, xy=(lon, lat), xytext=(15, 15), textcoords='offset points', fontsize=15, color='red',
+        ax.annotate(station, xy=(lon, lat), xytext=(15, 15), textcoords='offset points', fontsize=10, color='red',
                     arrowprops=dict(facecolor='red', arrowstyle='->'))
 
         used_coordinates.add((lon, lat))
