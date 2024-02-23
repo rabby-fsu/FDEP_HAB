@@ -38,7 +38,7 @@ def create_map(selected_year, selected_month):
     filtered_df = df_ap_nut[(df_ap_nut['Date'].dt.year == selected_year) & (df_ap_nut['Date'].dt.month == selected_month)]
 
     # Create main plot with specified extent
-    fig = plt.figure(figsize=(6, 4))
+    fig = plt.figure(figsize=(8, 6))
     ax = fig.add_subplot(111, projection=ccrs.PlateCarree(), extent=extent)
 
     # Plot coastlines
@@ -128,7 +128,6 @@ elif selected_page == 'Apalachicola Bay-Estuary':
 
         # Sort station coordinates by longitude
         sorted_station_coordinates = sorted(station_coordinates.items(), key=lambda x: x[1][0])
-        st.title('Spatial Distribution of Chlorophyll-a Concentrations')
     
         # Set default values for year and month based on the data range
         min_date = df_ap_nut['Date'].min().date()
