@@ -37,10 +37,16 @@ elif selected_page == 'Apalachicola Bay-Estuary':
 
     # Create combined training data by randomly selecting 80% data from each station
     combined_training_data = pd.DataFrame(columns=df.columns)
+    combined_testing_data = pd.DataFrame(columns=df.columns)
+    station_samples = []
     for station in df['station_code'].unique():
         station_data = df[df['station_code'] == station]
         train_data, test_data = train_test_split(station_data, test_size=0.2, random_state=42)
         combined_training_data = pd.concat([combined_training_data, train_data])
+        combined_testing_data = pd.concat([combined_testing_data, test_data])
+        # Store the number of samples for this station in the list
+        station_samples.append({'Station': station, 'Training Samples': len(train_data), 'Testing Samples': len(test_data)})
+        
 
     # Use combined_training_data for the following model
     X_train = combined_training_data[selected_features]
