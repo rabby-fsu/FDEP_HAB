@@ -21,16 +21,16 @@ X = df[selected_features]
 y = df['Chlorophyll-a (ug/L)']
 
 # Perform train-test split
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+#X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     
 # Initialize and fit the XGBoost Regressor
-xgb_regressor = XGBRegressor(n_estimators=334, max_depth=4, learning_rate=0.07818940902700418, random_state=42)
-xgb_regressor.fit(X_train, y_train)
+#xgb_regressor = XGBRegressor(n_estimators=334, max_depth=4, learning_rate=0.07818940902700418, random_state=42)
+#xgb_regressor.fit(X_train, y_train)
     
 
 # Introduction Page
-st.sidebar.title('Pages')
-selected_page = st.sidebar.radio('Go to', ['Introduction', 'Apalachicola Bay-Estuary', 'Pensacola-Perdido Bay-Estuary'])
+#st.sidebar.title('Pages')
+#selected_page = st.sidebar.radio('Go to', ['Introduction', 'Apalachicola Bay-Estuary', 'Pensacola-Perdido Bay-Estuary'])
 
 if selected_page == 'Introduction':
     st.title('Introduction')
@@ -64,4 +64,23 @@ elif selected_page == 'Apalachicola Bay-Estuary':
       st.write(f"Test R^2 Score: {test_r2}")
       st.write(f"Test RMSE: {test_rmse}")
     
-elif selected_page == 'Apalachicola Bay-Estuary':
+elif selected_page == 'Pensacola-Perdido Bay-Estuary':
+    st.title('Gauged Stations')
+
+    # Create the map
+    map_data = df[['lat', 'lon']]
+    st.map(map_data, use_container_width=True)
+
+    # Get click coordinates
+    click_coordinates = st.map_clicks()
+
+    if click_coordinates:
+        # Extract click coordinates
+        click_lat, click_lon = click_coordinates["lat"], click_coordinates["lon"]
+
+        # Filter data for the selected location
+        selected_location_data = df[(df['Latitude'] == click_lat) & (df['Longitude'] == click_lon)]
+
+        # Display boxplot of Chlorophyll-a for the selected location
+        st.write("Boxplot of Chlorophyll-a (ug/L) for the selected location:")
+        st.write(selected_location_data['Chlorophyll-a (ug/L)'].plot(kind='box'))
