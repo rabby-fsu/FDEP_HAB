@@ -93,16 +93,6 @@ def create_map(selected_year, selected_month):
     sc = ax.scatter(filtered_df['lon'], filtered_df['lat'], s=100, c=filtered_df['Chlorophyll-a (ug/L)'], cmap='BuGn', edgecolor='black',vmin=df_ap_nut['Chlorophyll-a (ug/L)'].min(), vmax=df_ap_nut['Chlorophyll-a (ug/L)'].max())
     #sc = ax.scatter(filtered_df['lon'], filtered_df['lat'], s=100, c=filtered_df['Chlorophyll-a (ug/L)'], cmap='BuGn', edgecolor='black',vmin=df_ap_nut['Chlorophyll-a (ug/L)'].min(), vmax=df_ap_nut['Chlorophyll-a (ug/L)'].max())
 
-    # Handle overlapping points
-    for i, (x, y) in enumerate(zip(filtered_df['lon'], filtered_df['lat'])):
-        shift_amount = 0.01  # Adjust this value as needed
-        if (x, y) in used_coordinates:
-            x += shift_amount
-            y += shift_amount
-        used_coordinates.add((x, y))
-        ax.scatter(x, y, s=100, c=filtered_df['Chlorophyll-a (ug/L)'].iloc[i], cmap='BuGn', edgecolor='black', vmin=df_ap_nut['Chlorophyll-a (ug/L)'].min(), vmax=df_ap_nut['Chlorophyll-a (ug/L)'].max())
-
-      
     # Add color bar
     cbar = plt.colorbar(sc, ax=ax, orientation='vertical', pad=0.02)
     cbar.set_label('Chlorophyll-a (ug/L)')
