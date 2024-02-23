@@ -5,7 +5,7 @@ from sklearn.metrics import r2_score, mean_squared_error
 from xgboost import XGBRegressor
 import streamlit as st
 
-
+import pydeck as pdk
 
 
 # Introduction Page
