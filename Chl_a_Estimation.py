@@ -14,6 +14,7 @@ import matplotlib.colors as mcolors
 
 # Load data
 df = pd.read_csv('DataFile_ML_All.csv')
+df_ap_nut = pd.read_csv('combined_AP_nut.csv')
 
 # Define selected features
 selected_features = ['Salinity(ppt)', 'Turbidity(NTU)', 'DO(mg/l)', 'pH', 'ATemp_max',
@@ -27,6 +28,7 @@ y = df['Chlorophyll-a (ug/L)']
 
 # Convert 'Date' column to datetime
 df['Date'] = pd.to_datetime(df['Date'])
+df_ap_nut['Date'] = pd.to_datetime(df_ap_nut['Date'])
 
 # Function to create colored markers based on chlorophyll-a concentration
 def color_marker(chl_a):
@@ -42,7 +44,7 @@ def color_marker(chl_a):
     else:
         return 'red'  # Bloom
 # Calculate Map extent
-extent = [df['lon'].min()-0.2, df['lon'].max()+0.2, df['lat'].min()-0.2, df['lat'].max()+0.2]
+extent = [df_ap_nut['lon'].min()-0.2, df_ap_nut['lon'].max()+0.2, df_ap_nut['lat'].min()-0.2, df_ap_nut['lat'].max()+0.2]
 
 # Calculate number of ticks
 num_ticks = 5
@@ -50,13 +52,13 @@ lon_ticks = np.linspace(extent[0], extent[1], num_ticks)
 lat_ticks = np.linspace(extent[2], extent[3], num_ticks)
 
 # Sort station codes based on longitude
-sorted_station_codes = sorted(df['station_code'].unique(), key=lambda x: df[df['station_code'] == x]['lon'].iloc[0])
+sorted_station_codes = sorted(df_ap_nut['station_code'].unique(), key=lambda x: df_ap_nut[df_ap_nut['station_code'] == x]['lon'].iloc[0])
 
 # Create a dictionary to store coordinates for each station
 station_coordinates = defaultdict(list)
 for i, station in enumerate(sorted_station_codes):
     station_name = f'G{i+1}'
-    station_coordinates[station_name] = (df[df['station_code'] == station]['lon'].iloc[0], df[df['station_code'] == station]['lat'].iloc[0])
+    station_coordinates[station_name] = (df_ap_nut[df_ap_nut['station_code'] == station]['lon'].iloc[0], df_ap_nut[df_ap_nut['station_code'] == station]['lat'].iloc[0])
 
 # Sort station coordinates by longitude
 sorted_station_coordinates = sorted(station_coordinates.items(), key=lambda x: x[1][0])
@@ -66,7 +68,7 @@ sorted_station_coordinates = sorted(station_coordinates.items(), key=lambda x: x
 # Function to create map
 def create_map(selected_year, selected_month):
     # Filter data for the selected year and month
-    filtered_df = df[(df['Date'].dt.year == selected_year) & (df['Date'].dt.month == selected_month)]
+    filtered_df = df_ap_nut[(df_ap_nut['Date'].dt.year == selected_year) & (df_ap_nut['Date'].dt.month == selected_month)]
 
     # Create main plot with specified extent
     fig = plt.figure(figsize=(8, 6))
@@ -76,7 +78,7 @@ def create_map(selected_year, selected_month):
     ax.coastlines()
 
     # Plot chlorophyll-a concentration using color plot
-    sc = ax.scatter(filtered_df['lon'], filtered_df['lat'], s=100, c=filtered_df['Chlorophyll-a (ug/L)'], cmap='BuGn', edgecolor='black',vmin=df['Chlorophyll-a (ug/L)'].min(), vmax=df['Chlorophyll-a (ug/L)'].max())
+    sc = ax.scatter(filtered_df['lon'], filtered_df['lat'], s=100, c=filtered_df['Chlorophyll-a (ug/L)'], cmap='BuGn', edgecolor='black',vmin=df_ap_nut['Chlorophyll-a (ug/L)'].min(), vmax=df_ap_nut['Chlorophyll-a (ug/L)'].max())
   
     # Annotate station names and handle overlapping
     used_coordinates = set()
@@ -131,7 +133,7 @@ if selected_page == 'Introduction':
 elif selected_page == 'Apalachicola Bay-Estuary':
     
     st.title('Gauged Stations')
-    st.map(df,latitude='Latitude',longitude='Longitude',use_container_width=True)
+    st.map(df_ap_nut,latitude='lat',longitude='lon',use_container_width=True)
 
 
     # Button to evaluate the model
@@ -160,8 +162,8 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
     st.title('Spatial Distribution of Chlorophyll-a Concentrations')
     
     # Set default values for year and month based on the data range
-    min_date = df['Date'].min().date()
-    max_date = df['Date'].max().date()
+    min_date = df_ap_nut['Date'].min().date()
+    max_date = df_ap_nut['Date'].max().date()
     default_date = min_date + (max_date - min_date) // 2
     default_year = default_date.year
     default_month = default_date.month
