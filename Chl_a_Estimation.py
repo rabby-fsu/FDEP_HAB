@@ -5,6 +5,8 @@ from sklearn.metrics import r2_score, mean_squared_error
 from xgboost import XGBRegressor
 import streamlit as st
 
+import matplotlib.pyplot as plt
+
 # Load data
 df = pd.read_csv('DataFile_ML_All.csv')
 
