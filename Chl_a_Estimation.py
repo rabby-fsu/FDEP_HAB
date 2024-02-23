@@ -164,26 +164,26 @@ elif selected_page == 'Apalachicola Bay-Estuary':
         with st.container(height= 500, border=True):
            st.pyplot(fig)
 
-        if subpage_selected == 'Prediction':
-          # Display a table summarizing the data size and selected features
-          st.write("## Data Summary")
-          st.write(f"Number of Samples: {len(X)}")
-          st.write(f"Number of Features: {X.shape[1]}")
-          st.write(f"Selected Features: {selected_features}")
-          st.write(f"Target Variable: Chlorophyll-a (ug/L)")
-          # Split the data into train and test sets
-          #X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    if subpage_selected == 'Prediction':
+        # Display a table summarizing the data size and selected features
+        st.write("## Data Summary")
+        st.write(f"Number of Samples: {len(X)}")
+        st.write(f"Number of Features: {X.shape[1]}")
+        st.write(f"Selected Features: {selected_features}")
+        st.write(f"Target Variable: Chlorophyll-a (ug/L)")
+        # Split the data into train and test sets
+        #X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-          # Display the train and test sample sizes
-          st.write("## Train/Test Sample Sizes")
-          st.write(f"Train Samples: {len(X_train)}")
-          st.write(f"Test Samples: {len(X_test)}")
+        # Display the train and test sample sizes
+        st.write("## Train/Test Sample Sizes")
+        st.write(f"Train Samples: {len(X_train)}")
+        st.write(f"Test Samples: {len(X_test)}")
 
-          # Display model's hyperparameters
-          st.write("## Model's Hyperparameters")
-          uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
-          # Button to evaluate the model
-          if st.button('Evaluate Model'):
+        # Display model's hyperparameters
+        st.write("## Model's Hyperparameters")
+        uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
+        # Button to evaluate the model
+        if st.button('Evaluate Model'):
             xgb_regressor = model
             y_train_pred = xgb_regressor.predict(X_train)
             y_test_pred = xgb_regressor.predict(X_test)
