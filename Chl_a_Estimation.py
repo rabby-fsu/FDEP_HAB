@@ -6,7 +6,7 @@ from xgboost import XGBRegressor
 import streamlit as st
 import pydeck as pdk
 
-
+from bokeh.plotting import figure
 
 
 # Introduction Page
