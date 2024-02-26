@@ -172,7 +172,7 @@ def generate_hab_quotient_map(df, case, scenario, min_lat=None, max_lat=None,min
     location_counts['HABRiskQuotient'] = location_counts['NormalizedHABOccurrences'] * location_counts['NormalizedTotalDataPoints']
     
     # Create main plot with specified extent
-    fig = plt.figure(figsize=(8, 8))
+    fig = plt.figure(figsize=(10, 10))
     ax = fig.add_subplot(111, projection=ccrs.PlateCarree())
 
     # Add OpenStreetMap basemap
@@ -386,7 +386,7 @@ elif selected_page == 'Saint Andrew Bay-Estuary':
         modified_predictions = cases[2]['model'].predict(modified_df[selected_case['selected_features']])
         modified_df['Predicted Chlorophyll-a'] = modified_predictions
         # Generate map for Hypothetical Scenario
-        plot2 = generate_hab_quotient_map(modified_df, cases[2], scenario='Hypothetical Scenario',min_lat=30, max_lat=30.5, min_lon=-85.9, max_lon=-85.3)  # Pass modified DataFrame
+        plot2 = generate_hab_quotient_map(modified_df, cases[2], scenario='Hypothetical Scenario',min_lat=30, max_lat=30.35, min_lon=-85.9, max_lon=-85.45)  # Pass modified DataFrame
 
 
 
