@@ -60,8 +60,8 @@ cases = [
         'test_size' : 0.2
     },
     {
-        'name': 'pensacola_perdido',
-        'data_files': 'pensacola_perdido.csv',
+        'name': 'Pensacola-Perdido',
+        'data_files': 'PenPerd.csv',
         'threshold': 10,
         'selected_features': ['Salinity(ppt)', 'Turbidity(NTU)', 'DO(mg/l)', 'pH', 'ATemp_max',
                               'ATemp_max_1dlag', 'ATemp_max_2dlag', 'ATemp_max_3dlag',
