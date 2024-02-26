@@ -142,7 +142,7 @@ def process_case(case):
 
     
     # Model evaluation
-    evaluate_model(model, X_train, X_test, y_train, y_test)
+    #evaluate_model(model, X_train, X_test, y_train, y_test)
 
     # Return the trained model along with other results
     return {
@@ -182,8 +182,8 @@ def process_case(case):
     plt.show()
 
 # Process each case
-for case in cases:
-    process_case(case)
+#for case in cases:
+    #process_case(case)
 
     
 
@@ -255,16 +255,14 @@ elif selected_page == 'Apalachicola Bay-Estuary':
         st.write(f"Target Variable: Chlorophyll-a (ug/L)")
         # Display the train and test sample sizes
         st.write("Train/Test Sample Sizes: 80% Training and 20% Testing")
-if subpage_selected == 'Prediction':
-    st.header('Model Evaluation')
 
-    # Process the Apalachicola case
-    apalachicola_case = process_case(cases[0])  # Assuming Apalachicola case is the first case in the list
+        # Process the Apalachicola case
+        apalachicola_case = process_case(cases[0]) 
 
-    # Button to evaluate the model
-    if st.button('Evaluate Model'):
-        # Evaluate the model using the returned model from process_case
-        evaluate_model(apalachicola_case['model'], apalachicola_case['X_train'], apalachicola_case['X_test'], apalachicola_case['y_train'], apalachicola_case['y_test'])
+        # Button to evaluate the model
+        if st.button('Evaluate Model'):
+           # Evaluate the model using the returned model from process_case
+           evaluate_model(apalachicola_case['model'], apalachicola_case['X_train'], apalachicola_case['X_test'], apalachicola_case['y_train'], apalachicola_case['y_test'])
 
         # Remaining code for uploading user's CSV file, making predictions, and downloading results
         uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
