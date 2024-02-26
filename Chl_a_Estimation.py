@@ -460,7 +460,7 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
         modified_predictions = cases[3]['model'].predict(modified_df[selected_case['selected_features']])
         modified_df['Predicted Chlorophyll-a'] = modified_predictions
         # Generate map for Hypothetical Scenario
-        plot2 = generate_hab_quotient_map(modified_df, cases[3], scenario='Hypothetical Scenario',min_lat=30, max_lat=30.35, min_lon=-87, max_lon=-86)  # Pass modified DataFrame
+        plot2 = generate_hab_quotient_map(modified_df, cases[3], scenario='Hypothetical Scenario',min_lat=30, max_lat=34, min_lon=-89, max_lon=-86)  # Pass modified DataFrame
 
 
 
