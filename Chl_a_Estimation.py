@@ -280,39 +280,25 @@ elif selected_page == 'Saint Andrew Bay-Estuary':
         handle_prediction('Andrew', 2)  # Passing the subpage name and case index
     elif subpage_selected == 'Vulnerability':
         # Your code for vulnerability
-        pass
-
-elif selected_page == 'Pensacola-Perdido Bay-Estuary':
-    # Subpage navigation for Pensacola-Perdido Bay-Estuary
-    subpage_selected = st.sidebar.radio('Go to', ['Prediction', 'Vulnerability'])
-    if subpage_selected == 'Prediction':
-        handle_prediction('Pensacola-Perdido', 3)  # Passing the subpage name and case index
-    elif subpage_selected == 'Vulnerability':
-        st.title('Vulnerability Analysis')
-
         selected_case = process_case(cases[3])
-        
+
         # Sliders for scenarios
         ocean_acidification = st.slider('Ocean Acidification', min_value=-1.0, max_value=1.0, step=0.1)
         cool_warm_climate = st.slider('Cool-Warm Climate', min_value=-1.0, max_value=1.0, step=0.1)
         salinity_increase = st.slider('Salinity Increase (%)', min_value=-100, max_value=100, step=1)
 
-        original_predictions = cases[3]['model'].predict(selected_case['X'])
+        original_predictions = cases[3]['model'].predict(selected_case['X_test'])
         selected_case['df']['Predicted Chlorophyll-a'] = original_predictions
 
         # Generate map for Business-as-Usual
         generate_hab_quotient_map(selected_case['df'], selected_case, scenario='Business-as-Usual')
 
-
-
-
-        
         # Generate maps for Business-as-Usual and Hypothetical Scenario
         modified_df = selected_case['df'].copy()  # Corrected copy operation
         modified_df['pH'] += ocean_acidification  # Apply modifications to the copied DataFrame
 
         # Predict chlorophyll-a for modified scenario
-        modified_predictions = cases[3]['model'].predict(modified_df[selected_case['X']])
+        modified_predictions = cases[3]['model'].predict(modified_df[selected_case['selected_features']])
         modified_df['Predicted Chlorophyll-a'] = modified_predictions
         # Generate map for Hypothetical Scenario
-        generate_hab_quotient_map(modified_df, cases[3], scenario='Hypothetical Scenario')
+        generate_hab_quotient_map(modified_df, cases[3], scenario='Hypothetical Scenario')  # Pass modified DataFrame
