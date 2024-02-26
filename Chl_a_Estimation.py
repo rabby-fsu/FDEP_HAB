@@ -185,7 +185,46 @@ def process_case(case):
 #for case in cases:
     #process_case(case)
 
-    
+ def handle_prediction(subpage_name, case_index):
+    # Process the selected case
+    selected_case = process_case(cases[case_index])
+
+    # Button to evaluate the model
+    if st.button('Evaluate Model'):
+        # Evaluate the model using the returned model from process_case
+        evaluate_model(selected_case['model'], selected_case['X_train'], selected_case['X_test'], selected_case['y_train'], selected_case['y_test'])
+
+    # Remaining code for uploading user's CSV file, making predictions, and downloading results
+    uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
+
+    if uploaded_file is not None:
+        user_data = pd.read_csv(uploaded_file)
+        # Ask the user to match column names with selected features
+        st.write("### Match Column Names")
+        selected_columns = {}
+        for feature in selected_case['selected_features']:
+            selected_columns[feature] = st.selectbox(f"Select column for '{feature}'", user_data.columns)
+        # Extract the selected columns from user_data
+        user_data_selected = user_data[list(selected_columns.values())]
+
+        # Ensure column names match expected features
+        if set(user_data_selected.columns) == set(selected_case['selected_features']):
+            # Make predictions
+            user_data['Predicted Chlorophyll-a (ug/L)'] = selected_case['model'].predict(user_data[selected_case['selected_features']])
+            # Display the modified DataFrame
+            st.write("## Predicted Data")
+            st.write(user_data)
+
+            # Download the results as a CSV file
+            st.write("Download the results as a CSV file.")
+            csv = user_data.to_csv(index=False)
+            b64 = base64.b64encode(csv.encode()).decode()  # B64 encoding
+            href = f'<a href="data:file/csv;base64,{b64}" download="model_b_predictions.csv">Download CSV</a>'
+            st.markdown(href, unsafe_allow_html=True)
+        else:
+            st.write("Uploaded CSV file does not contain expected features.")
+
+
 
 #Introduction Page
 st.sidebar.title('Pages')
