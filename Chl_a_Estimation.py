@@ -298,7 +298,7 @@ elif selected_page == 'Apalachicola Bay-Estuary':
         # Generate maps for Business-as-Usual and Hypothetical Scenario
         modified_df = selected_case['df'].copy()  # Corrected copy operation
         modified_df['pH'] += ocean_acidification  # Apply modifications to the copied DataFrame
-        modified_df['Salinity'] *= ((salinity_change / 100) + 1)
+        modified_df['Salinity(ppt)'] *= ((salinity_change / 100) + 1)
         modified_df['Cool-Warm Climate'] += cool_warm_climate
 
         # Predict chlorophyll-a for modified scenario
@@ -344,7 +344,7 @@ elif selected_page == 'Saint Joseph Bay-Estuary':
         # Generate maps for Business-as-Usual and Hypothetical Scenario
         modified_df = selected_case['df'].copy()  # Corrected copy operation
         modified_df['pH'] += ocean_acidification  # Apply modifications to the copied DataFrame
-        modified_df['Salinity'] *= ((salinity_change / 100) + 1)
+        modified_df['Salinity(ppt)'] *= ((salinity_change / 100) + 1)
         modified_df['Cool-Warm Climate'] += cool_warm_climate
 
         # Predict chlorophyll-a for modified scenario
@@ -388,7 +388,7 @@ elif selected_page == 'Saint Andrew Bay-Estuary':
         # Generate maps for Business-as-Usual and Hypothetical Scenario
         modified_df = selected_case['df'].copy()  # Corrected copy operation
         modified_df['pH'] += ocean_acidification  # Apply modifications to the copied DataFrame
-        modified_df['Salinity'] *= ((salinity_change / 100) + 1)
+        modified_df['Salinity(ppt)'] *= ((salinity_change / 100) + 1)
         modified_df['Cool-Warm Climate'] += cool_warm_climate
 
         # Predict chlorophyll-a for modified scenario
@@ -432,7 +432,7 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
         # Generate maps for Business-as-Usual and Hypothetical Scenario
         modified_df = selected_case['df'].copy()  # Corrected copy operation
         modified_df['pH'] += ocean_acidification  # Apply modifications to the copied DataFrame
-        modified_df['Salinity'] *= ((salinity_change / 100) + 1)
+        modified_df['Salinity(ppt)'] *= ((salinity_change / 100) + 1)
         modified_df['Cool-Warm Climate'] += cool_warm_climate
 
         # Predict chlorophyll-a for modified scenario
