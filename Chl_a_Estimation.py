@@ -271,7 +271,8 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
     elif subpage_selected == 'Vulnerability':
         st.title('Vulnerability Analysis')
 
-        # Sliders for scenarios
+        selected_case = process_case(cases[3])
+        
         # Sliders for scenarios
         ocean_acidification = st.slider('Ocean Acidification', min_value=-1.0, max_value=1.0, step=0.1)
         cool_warm_climate = st.slider('Cool-Warm Climate', min_value=-1.0, max_value=1.0, step=0.1)
