@@ -291,4 +291,3 @@ elif selected_page == 'Saint Andrew Bay-Estuary':
         modified_df['Predicted Chlorophyll-a'] = modified_predictions
         # Generate map for Hypothetical Scenario
         generate_hab_quotient_map(modified_df, cases[3], scenario='Hypothetical Scenario')  # Pass modified DataFrame
-        st.pyplot(fig)
