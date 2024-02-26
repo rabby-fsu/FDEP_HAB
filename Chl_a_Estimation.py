@@ -147,6 +147,8 @@ def process_case(case):
     # Return the trained model along with other results
     return {
         'model': model,
+        'X': X,
+        'y': y,
         'X_train': X_train,
         'X_test': X_test,
         'y_train': y_train,
@@ -287,7 +289,7 @@ elif selected_page == 'Saint Andrew Bay-Estuary':
         cool_warm_climate = st.slider('Cool-Warm Climate', min_value=-1.0, max_value=1.0, step=0.1)
         salinity_increase = st.slider('Salinity Increase (%)', min_value=-100, max_value=100, step=1)
 
-        original_predictions = cases[3]['model'].predict(selected_case['X_test'])
+        original_predictions = cases[3]['model'].predict(selected_case['X'])
         selected_case['df']['Predicted Chlorophyll-a'] = original_predictions
 
         # Generate map for Business-as-Usual
