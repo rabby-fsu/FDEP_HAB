@@ -185,6 +185,11 @@ def generate_hab_quotient_map(df, case, scenario):
     plt.title(f'HAB Risk Quotient - {scenario}')
     plt.xlabel('Longitude')
     plt.ylabel('Latitude')
+    # Set latitude and longitude as ticks based on min and max values
+    ax.set_xticks(np.arange(np.floor(df['Long'].min()), np.ceil(df['Long'].max())+1, 1))
+    ax.set_yticks(np.arange(np.floor(df['Lat'].min()), np.ceil(df['Lat'].max())+1, 1))
+
+    return fig
     return fig
 
 
