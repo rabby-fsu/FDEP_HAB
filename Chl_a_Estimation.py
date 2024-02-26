@@ -172,14 +172,14 @@ def generate_hab_quotient_map(df, case, scenario):
     location_counts['HABRiskQuotient'] = location_counts['NormalizedHABOccurrences'] * location_counts['NormalizedTotalDataPoints']
     
     # Create main plot with specified extent
-    fig = plt.figure(figsize=(10, 10))
+    fig = plt.figure(figsize=(6, 6))
     ax = fig.add_subplot(111, projection=ccrs.PlateCarree())
 
     # Plot coastlines
     ax.coastlines()
 
     # Plot HAB Risk Quotient
-    sc = ax.scatter(location_counts['Long'], location_counts['Lat'], c=location_counts['HABRiskQuotient'], cmap='OrRd', marker='o', s=5000, alpha=0.8)
+    sc = ax.scatter(location_counts['Long'], location_counts['Lat'], c=location_counts['HABRiskQuotient'], cmap='OrRd', marker='o', s=500, alpha=0.8)
     plt.colorbar(sc, label='HAB Risk Quotient')
     # Modify the way to set the title to avoid KeyError
     plt.title(f'HAB Risk Quotient - {scenario}')
