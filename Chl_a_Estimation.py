@@ -172,7 +172,7 @@ def generate_hab_quotient_map(df, case, scenario):
     location_counts['HABRiskQuotient'] = location_counts['NormalizedHABOccurrences'] * location_counts['NormalizedTotalDataPoints']
     
     # Create main plot with specified extent
-    fig = plt.figure(figsize=(6, 6))
+    fig = plt.figure(figsize=(8, 8))
     ax = fig.add_subplot(111, projection=ccrs.PlateCarree())
 
     # Plot coastlines
@@ -186,10 +186,9 @@ def generate_hab_quotient_map(df, case, scenario):
     plt.xlabel('Longitude')
     plt.ylabel('Latitude')
     # Set latitude and longitude as ticks based on min and max values
-    ax.set_xticks(np.arange(np.floor(df['Long'].min()), np.ceil(df['Long'].max())+1, 1))
-    ax.set_yticks(np.arange(np.floor(df['Lat'].min()), np.ceil(df['Lat'].max())+1, 1))
+    ax.set_xticks(np.arange(np.floor(df['Long'].min()), np.ceil(df['Long'].max())+1, 3))
+    ax.set_yticks(np.arange(np.floor(df['Lat'].min()), np.ceil(df['Lat'].max())+1, 3))
 
-    return fig
     return fig
 
 
