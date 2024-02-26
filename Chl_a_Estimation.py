@@ -154,7 +154,7 @@ def process_case(case):
         'y_train': y_train,
         'y_test': y_test,
         'selected_features': case['selected_features'],
-        'df': df
+        'df': df,
         'threshold': case['threshold']
     }
     
