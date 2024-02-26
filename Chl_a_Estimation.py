@@ -260,34 +260,6 @@ def handle_prediction(subpage_name, case_index):
         else:
             st.write("Uploaded CSV file does not contain expected features.")
 
-def generate_vulnerability_plot(case_index, min_lat, max_lat, min_lon, max_lon):
-    selected_case = process_case(cases[case_index])
-
-    # Sliders for scenarios
-    ocean_acidification = st.slider('Ocean Acidification', min_value=-1.0, max_value=1.0, step=0.1)
-    cool_warm_climate = st.slider('Cool-Warm Climate', min_value=-1.0, max_value=1.0, step=0.1)
-    salinity_increase = st.slider('Salinity Increase (%)', min_value=-100, max_value=100, step=1)
-
-    original_predictions = cases[case_index]['model'].predict(selected_case['X'])
-    selected_case['df']['Predicted Chlorophyll-a'] = original_predictions
-
-    # Generate map for Business-as-Usual
-    plot1 = generate_hab_quotient_map(selected_case['df'], selected_case, scenario='Business-as-Usual',
-                                       min_lat=min_lat, max_lat=max_lat, min_lon=min_lon, max_lon=max_lon)
-    # Generate maps for Business-as-Usual and Hypothetical Scenario
-    modified_df = selected_case['df'].copy()  # Corrected copy operation
-    modified_df['pH'] += ocean_acidification  # Apply modifications to the copied DataFrame
-
-    # Predict chlorophyll-a for modified scenario
-    modified_predictions = cases[case_index]['model'].predict(modified_df[selected_case['selected_features']])
-    modified_df['Predicted Chlorophyll-a'] = modified_predictions
-    # Generate map for Hypothetical Scenario
-    plot2 = generate_hab_quotient_map(modified_df, cases[case_index], scenario='Hypothetical Scenario',
-                                       min_lat=min_lat, max_lat=max_lat, min_lon=min_lon, max_lon=max_lon)
-
-    return plot1, plot2
-
-
 
 #Introduction Page
 st.sidebar.title('Pages')
@@ -423,17 +395,42 @@ elif selected_page == 'Saint Andrew Bay-Estuary':
 
 
 elif selected_page == 'Pensacola-Perdido Bay-Estuary':
-    # Subpage navigation for Pensacola-Perdido Bay-Estuary
+    # Subpage navigation for Saint Andrew Bay-Estuary
     subpage_selected = st.sidebar.radio('Go to', ['Prediction', 'Vulnerability'])
     if subpage_selected == 'Prediction':
         handle_prediction('Pensacola-Perdido', 3)  # Passing the subpage name and case index
     elif subpage_selected == 'Vulnerability':
-        plot1, plot2 = generate_vulnerability_plot(0, 29.5, 30.5, -85, -83)
+        # Your code for vulnerability
+        selected_case = process_case(cases[3])
+
+        # Sliders for scenarios
+        ocean_acidification = st.slider('Ocean Acidification', min_value=-1.0, max_value=1.0, step=0.1)
+        cool_warm_climate = st.slider('Cool-Warm Climate', min_value=-1.0, max_value=1.0, step=0.1)
+        salinity_increase = st.slider('Salinity Increase (%)', min_value=-100, max_value=100, step=1)
+
+        original_predictions = cases[3]['model'].predict(selected_case['X'])
+        selected_case['df']['Predicted Chlorophyll-a'] = original_predictions
+
+        # Generate map for Business-as-Usual
+        plot1= generate_hab_quotient_map(selected_case['df'], selected_case, scenario='Business-as-Usual',min_lat=30, max_lat=30.35, min_lon=-85.9, max_lon=-85.35)
         # Display plots side by side using columns layout
         col1, col2 = st.columns(2)
         with col1:
             st.write("Plot 1")
             st.pyplot(plot1)
+
+        # Generate maps for Business-as-Usual and Hypothetical Scenario
+        modified_df = selected_case['df'].copy()  # Corrected copy operation
+        modified_df['pH'] += ocean_acidification  # Apply modifications to the copied DataFrame
+
+        # Predict chlorophyll-a for modified scenario
+        modified_predictions = cases[3]['model'].predict(modified_df[selected_case['selected_features']])
+        modified_df['Predicted Chlorophyll-a'] = modified_predictions
+        # Generate map for Hypothetical Scenario
+        plot2 = generate_hab_quotient_map(modified_df, cases[3], scenario='Hypothetical Scenario',min_lat=30, max_lat=30.35, min_lon=-85.9, max_lon=-85.35)  # Pass modified DataFrame
+
+
+
         with col2:
             st.write("Plot 2")
             st.pyplot(plot2)
