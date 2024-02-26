@@ -320,10 +320,12 @@ elif selected_page == 'Saint Joseph Bay-Estuary':
         # Your code for vulnerability
         selected_case = process_case(cases[1])
 
+
         # Sliders for scenarios
-        ocean_acidification = st.slider('Ocean Acidification', min_value=-1.0, max_value=1.0, step=0.1)
-        cool_warm_climate = st.slider('Cool-Warm Climate', min_value=-1.0, max_value=1.0, step=0.1)
-        salinity_increase = st.slider('Salinity Increase (%)', min_value=-100, max_value=100, step=1)
+        ocean_acidification = st.slider('Ocean Acidification', min_value=-1.0, max_value=1.0, value=0.0, step=0.1)
+        cool_warm_climate = st.slider('Cool-Warm Climate', min_value=-1.0, max_value=1.0, value=0.0, step=0.1)
+        salinity_increase = st.slider('Salinity Increase (%)', min_value=-100, max_value=100, value=0, step=1)
+
 
         original_predictions = cases[1]['model'].predict(selected_case['X'])
         selected_case['df']['Predicted Chlorophyll-a'] = original_predictions
