@@ -68,7 +68,7 @@ cases = [
                               'ATemp_max_1dlag', 'ATemp_max_2dlag', 'ATemp_max_3dlag',
                               'ATemp_max_4dlag', 'ATemp_max_5dlag', 'ATemp_max_6dlag', 'ATemp_max_7dlag'],
         'model': RandomForestRegressor(n_estimators=10, random_state=42),
-        'test_size' = 0.3
+        'test_size' : 0.3
     }
 ]
 
