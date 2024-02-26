@@ -1,12 +1,16 @@
 import pandas as pd
 import numpy as np
+import geopandas as gpd
+from shapely.geometry import Point
+import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import r2_score, mean_squared_error
 from xgboost import XGBRegressor
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import r2_score, mean_squared_error
+
 import streamlit as st
 import threading
 from queue import Queue
-import matplotlib.pyplot as plt
 import pydeck as pdk
 import folium
 import cartopy.crs as ccrs
@@ -20,20 +24,134 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error
 
 
-# Load data
-df = pd.read_csv('DataFile_ML_All.csv')
-df_ap_nut = pd.read_csv('combined_AP_nut.csv')
-# Convert 'Date' column to datetime
-df['Date'] = pd.to_datetime(df['Date'])
 
-# Define selected features
-selected_features = ['Salinity(ppt)', 'Turbidity(NTU)', 'DO(mg/l)', 'pH', 'ATemp_max',
-                     'ATemp_max_1dlag', 'ATemp_max_2dlag', 'ATemp_max_3dlag',
-                     'ATemp_max_4dlag', 'ATemp_max_5dlag', 'ATemp_max_6dlag',
-                     'ATemp_max_7dlag']
 
-X = df[selected_features]
-y = df['Chlorophyll-a (ug/L)']
+# Define a list of dictionaries for each case
+cases = [
+    {
+        'name': 'Apalachicola',
+        'data_file': 'Apalachicola.csv',
+        'threshold': 5,
+        'selected_features': ['Salinity(ppt)', 'Turbidity(NTU)', 'DO(mg/l)', 'ATemp_max',
+                              'ATemp_max_1dlag', 'ATemp_max_2dlag', 'ATemp_max_3dlag',
+                              'ATemp_max_4dlag', 'ATemp_max_5dlag', 'ATemp_max_6dlag',
+                              'ATemp_max_7dlag'],
+        'model': XGBRegressor(n_estimators=335, max_depth=4, learning_rate=0.037818940902700418, random_state=42),
+        'test_size' = 0.2
+    },
+    {
+        'name': 'Joseph',
+        'data_file': 'Joseph.csv',
+        'threshold': 5,
+        'selected_features': ['Salinity(ppt)', 'Turbidity(NTU)', 'DO(mg/l)', 'pH', 'ATemp_max',
+                              'Nitrogen, Kjeldahl (mg/L)', 'ATemp_max_1dlag', 'ATemp_max_2dlag',
+                              'ATemp_max_3dlag', 'ATemp_max_4dlag', 'ATemp_max_5dlag', 'ATemp_max_6dlag',
+                              'ATemp_max_7dlag'],
+        'model': RandomForestRegressor(n_estimators=10, max_depth=10, random_state=42),
+        'test_size' = 0.2
+    },
+    {
+        'name': 'Andrew',
+        'data_file': 'Andrew.csv',
+        'threshold': 10,
+        'selected_features': ['Salinity(ppt)', 'Turbidity(NTU)', 'DO(mg/l)', 'pH', 'ATemp_max',
+                              'ATemp_max_1dlag', 'ATemp_max_2dlag', 'ATemp_max_3dlag',
+                              'ATemp_max_4dlag', 'ATemp_max_5dlag', 'ATemp_max_6dlag', 'ATemp_max_7dlag'],
+        'model': XGBRegressor(n_estimators=11, max_depth=5, random_state=42),
+        'test_size' = 0.2
+    },
+    {
+        'name': 'Pensacola-Perdido',
+        'data_files': ['Pensacola.csv', 'Perdido.csv'],
+        'threshold': 10,
+        'selected_features': ['Salinity(ppt)', 'Turbidity(NTU)', 'DO(mg/l)', 'pH', 'ATemp_max',
+                              'ATemp_max_1dlag', 'ATemp_max_2dlag', 'ATemp_max_3dlag',
+                              'ATemp_max_4dlag', 'ATemp_max_5dlag', 'ATemp_max_6dlag', 'ATemp_max_7dlag'],
+        'model': RandomForestRegressor(n_estimators=10, random_state=42),
+        'test_size' = 0.3
+    }
+]
+
+# Function to process each case
+def process_case(case):
+    # Read data
+    if 'data_file' in case:
+        df = pd.read_csv(case['data_file'])
+    else:
+        df = pd.concat([pd.read_csv(file) for file in case['data_files']], ignore_index=True)
+    
+    # Drop NaNs in selected features
+    df.dropna(subset=case['selected_features'], inplace=True)
+    
+    # Separate features and target
+    X = df[case['selected_features']]
+    y = df['Chlorophyll-a (ug/L)']
+    
+    # Train-test split
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=case['test_size'], random_state=42)
+    
+    # Model training
+    model = case['model']
+    model.fit(X_train, y_train)
+    
+    # Predictions
+    y_train_pred = model.predict(X_train)
+    y_test_pred = model.predict(X_test)
+    
+    # Calculate metrics
+    r2_train = r2_score(y_train, y_train_pred)
+    rmse_train = np.sqrt(mean_squared_error(y_train, y_train_pred))
+    r2_test = r2_score(y_test, y_test_pred)
+    rmse_test = np.sqrt(mean_squared_error(y_test, y_test_pred))
+    
+    # Predict for the whole dataset
+    df['Predicted Chlorophyll-a'] = model.predict(X)
+    
+    # Group by latitude and longitude
+    location_counts = df.groupby(['Lat', 'Long']).size().reset_index(name='TotalDataPoints')
+    hab_counts = df[df['Predicted Chlorophyll-a'] > case['threshold']].groupby(['Lat', 'Long']).size().reset_index(name='HABOccurrences')
+    location_counts = location_counts.merge(hab_counts, on=['Lat', 'Long'], how='left')
+    location_counts['HABOccurrences'].fillna(0, inplace=True)
+    location_counts['NormalizedHABOccurrences'] = location_counts['HABOccurrences'] / location_counts['TotalDataPoints']
+    max_total_data_points = location_counts['TotalDataPoints'].max()
+    location_counts['NormalizedTotalDataPoints'] = location_counts['TotalDataPoints'] / max_total_data_points
+    location_counts['HABRiskQuotient'] = location_counts['NormalizedHABOccurrences'] * location_counts['NormalizedTotalDataPoints']
+    
+    # Create GeoDataFrame for plotting
+    gdf = gpd.GeoDataFrame(geometry=gpd.points_from_xy(location_counts['Long'], location_counts['Lat']))
+    gdf['HABRiskQuotient'] = location_counts['HABRiskQuotient']
+    
+    # Plotting the HAB Risk Quotient on a map
+    fig, ax = plt.subplots(figsize=(10, 10))
+    gdf.plot(column='HABRiskQuotient', cmap='OrRd', marker='o', markersize=5000, alpha=0.8, legend=True, ax=ax)
+    plt.title(f'HAB Risk Quotient for {case["name"]}')
+    plt.xlabel('Longitude')
+    plt.ylabel('Latitude')
+    plt.show()
+
+# Process each case
+for case in cases:
+    process_case(case)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
