@@ -185,7 +185,7 @@ def generate_hab_quotient_map(df, case, scenario):
     plt.title(f'HAB Risk Quotient - {scenario}')
     plt.xlabel('Longitude')
     plt.ylabel('Latitude')
-    st.pyplot(fig)
+    return fig
 
 
 
