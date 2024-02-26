@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-import geopandas as gpd
 from shapely.geometry import Point
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
@@ -166,13 +165,17 @@ def process_case(case):
     location_counts['NormalizedTotalDataPoints'] = location_counts['TotalDataPoints'] / max_total_data_points
     location_counts['HABRiskQuotient'] = location_counts['NormalizedHABOccurrences'] * location_counts['NormalizedTotalDataPoints']
     
-    # Create GeoDataFrame for plotting
-    gdf = gpd.GeoDataFrame(geometry=gpd.points_from_xy(location_counts['Long'], location_counts['Lat']))
-    gdf['HABRiskQuotient'] = location_counts['HABRiskQuotient']
-    
-    # Plotting the HAB Risk Quotient on a map
-    fig, ax = plt.subplots(figsize=(10, 10))
-    gdf.plot(column='HABRiskQuotient', cmap='OrRd', marker='o', markersize=5000, alpha=0.8, legend=True, ax=ax)
+
+    # Create main plot with specified extent
+    fig = plt.figure(figsize=(10, 10))
+    ax = fig.add_subplot(111, projection=ccrs.PlateCarree())
+
+    # Plot coastlines
+    ax.coastlines()
+
+    # Plot HAB Risk Quotient
+    sc = ax.scatter(location_counts['Long'], location_counts['Lat'], c=location_counts['HABRiskQuotient'], cmap='OrRd', marker='o', s=5000, alpha=0.8)
+    plt.colorbar(sc, label='HAB Risk Quotient')
     plt.title(f'HAB Risk Quotient for {case["name"]}')
     plt.xlabel('Longitude')
     plt.ylabel('Latitude')
