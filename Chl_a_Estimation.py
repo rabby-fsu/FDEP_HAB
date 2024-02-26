@@ -110,8 +110,8 @@ def process_case(case):
     # Read data
     if 'data_file' in case:
         df = pd.read_csv(case['data_file'])
-    else:
-        df = pd.concat([pd.read_csv(file) for file in case['data_files']], ignore_index=True)
+    #else:
+        #df = pd.concat([pd.read_csv(file) for file in case['data_files']], ignore_index=True)
     
     # Drop NaNs in selected features
     df.dropna(subset=case['selected_features'], inplace=True)
