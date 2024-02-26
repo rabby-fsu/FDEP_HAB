@@ -245,10 +245,6 @@ elif selected_page == 'Apalachicola Bay-Estuary':
            st.pyplot(fig)
 
     if subpage_selected == 'Prediction':
-        #st.write(f"Selected Features: {apalachicola_case['selected_features']}")
-        #st.write(f"Target Variable: Chlorophyll-a (ug/L)")
-        # Display the train and test sample sizes
-        #st.write("Train/Test Sample Sizes: 80% Training and 20% Testing")
 
         # Process the Apalachicola case
         apalachicola_case = process_case(cases[0]) 
@@ -341,7 +337,7 @@ elif selected_page == 'Saint Andrew Bay-Estuary':
     if subpage_selected == 'Prediction':
 
         # Process the andrew case
-        andrew_case = process_case(cases[3]) 
+        andrew_case = process_case(cases[2]) 
 
         # Button to evaluate the model
         if st.button('Evaluate Model'):
