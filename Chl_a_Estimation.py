@@ -304,7 +304,9 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
 
         # Predict chlorophyll-a for scenarios
         original_predictions = cases[3]['model'].predict(df[cases[3]['selected_features']])
+        df['Predicted Chlorophyll-a'] = original_predictions
         modified_predictions = cases[3]['model'].predict(modified_df[cases[3]['selected_features']])
+        modified_df['Predicted Chlorophyll-a'] = modified_predictions
 
         # Generate maps for Business-as-Usual and Hypothetical Scenario
         generate_hab_quotient_map(df, cases[3], scenario='Business-as-Usual')
