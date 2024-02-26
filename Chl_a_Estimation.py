@@ -195,10 +195,12 @@ def generate_hab_quotient_map(df, case, scenario, min_lat=None, max_lat=None,min
         ax.set_ylim(bottom=min_lat, top=max_lat)
     if min_lon is not None and max_lon is not None:
         ax.set_xlim(left=min_lon, right=max_lon)
-
+    
     # Set latitude and longitude as ticks based on min and max values
-    ax.set_xticks(min_lon, max_lon, 0.3)
-    ax.set_yticks(min_lat, max_lat, 0.3)
+    if min_lat is not None and max_lat is not None:
+        ax.set_yticks(np.arange(np.floor(min_lat), np.ceil(max_lat), 0.3))
+    if min_lon is not None and max_lon is not None:
+        ax.set_xticks(np.arange(np.floor(min_lon), np.ceil(max_lon), 0.3))
 
     return fig
 
