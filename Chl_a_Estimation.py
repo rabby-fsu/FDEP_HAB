@@ -299,7 +299,14 @@ elif selected_page == 'Apalachicola Bay-Estuary':
         modified_df = selected_case['df'].copy()  # Corrected copy operation
         modified_df['pH'] += ocean_acidification  # Apply modifications to the copied DataFrame
         modified_df['Salinity(ppt)'] *= ((salinity_change / 100) + 1)
-        modified_df['Cool-Warm Climate'] += cool_warm_climate
+        # Columns to modify for cool-warm climate
+        columns_to_modify = ['ATemp_max', 'ATemp_max_1dlag', 'ATemp_max_2dlag', 'ATemp_max_3dlag',
+                     'ATemp_max_4dlag', 'ATemp_max_5dlag', 'ATemp_max_6dlag', 'ATemp_max_7dlag']
+        # Apply modification for cool-warm climate to selected columns
+        modified_df[columns_to_modify] += cool_warm_climate
+
+
+
 
         # Predict chlorophyll-a for modified scenario
         modified_predictions = cases[0]['model'].predict(modified_df[selected_case['selected_features']])
@@ -345,7 +352,13 @@ elif selected_page == 'Saint Joseph Bay-Estuary':
         modified_df = selected_case['df'].copy()  # Corrected copy operation
         modified_df['pH'] += ocean_acidification  # Apply modifications to the copied DataFrame
         modified_df['Salinity(ppt)'] *= ((salinity_change / 100) + 1)
-        modified_df['Cool-Warm Climate'] += cool_warm_climate
+        # Columns to modify for cool-warm climate
+        columns_to_modify = ['ATemp_max', 'ATemp_max_1dlag', 'ATemp_max_2dlag', 'ATemp_max_3dlag',
+                     'ATemp_max_4dlag', 'ATemp_max_5dlag', 'ATemp_max_6dlag', 'ATemp_max_7dlag']
+        # Apply modification for cool-warm climate to selected columns
+        modified_df[columns_to_modify] += cool_warm_climate
+
+        
 
         # Predict chlorophyll-a for modified scenario
         modified_predictions = cases[1]['model'].predict(modified_df[selected_case['selected_features']])
@@ -389,7 +402,11 @@ elif selected_page == 'Saint Andrew Bay-Estuary':
         modified_df = selected_case['df'].copy()  # Corrected copy operation
         modified_df['pH'] += ocean_acidification  # Apply modifications to the copied DataFrame
         modified_df['Salinity(ppt)'] *= ((salinity_change / 100) + 1)
-        modified_df['Cool-Warm Climate'] += cool_warm_climate
+        # Columns to modify for cool-warm climate
+        columns_to_modify = ['ATemp_max', 'ATemp_max_1dlag', 'ATemp_max_2dlag', 'ATemp_max_3dlag',
+                     'ATemp_max_4dlag', 'ATemp_max_5dlag', 'ATemp_max_6dlag', 'ATemp_max_7dlag']
+        # Apply modification for cool-warm climate to selected columns
+        modified_df[columns_to_modify] += cool_warm_climate
 
         # Predict chlorophyll-a for modified scenario
         modified_predictions = cases[2]['model'].predict(modified_df[selected_case['selected_features']])
@@ -433,7 +450,11 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
         modified_df = selected_case['df'].copy()  # Corrected copy operation
         modified_df['pH'] += ocean_acidification  # Apply modifications to the copied DataFrame
         modified_df['Salinity(ppt)'] *= ((salinity_change / 100) + 1)
-        modified_df['Cool-Warm Climate'] += cool_warm_climate
+        # Columns to modify for cool-warm climate
+        columns_to_modify = ['ATemp_max', 'ATemp_max_1dlag', 'ATemp_max_2dlag', 'ATemp_max_3dlag',
+                     'ATemp_max_4dlag', 'ATemp_max_5dlag', 'ATemp_max_6dlag', 'ATemp_max_7dlag']
+        # Apply modification for cool-warm climate to selected columns
+        modified_df[columns_to_modify] += cool_warm_climate
 
         # Predict chlorophyll-a for modified scenario
         modified_predictions = cases[3]['model'].predict(modified_df[selected_case['selected_features']])
