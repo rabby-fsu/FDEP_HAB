@@ -272,8 +272,9 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
         st.title('Vulnerability Analysis')
 
         # Sliders for scenarios
-        ocean_acidification = st.slider('Ocean Acidification', min_value=-1, max_value=1, step=0.1)
-        cool_warm_climate = st.slider('Cool-Warm Climate', min_value=-1, max_value=1, step=0.1)
+        # Sliders for scenarios
+        ocean_acidification = st.slider('Ocean Acidification', min_value=-1.0, max_value=1.0, step=0.1)
+        cool_warm_climate = st.slider('Cool-Warm Climate', min_value=-1.0, max_value=1.0, step=0.1)
         salinity_increase = st.slider('Salinity Increase (%)', min_value=-100, max_value=100, step=1)
 
         # Apply changes to features based on user selection
