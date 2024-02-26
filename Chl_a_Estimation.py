@@ -22,7 +22,7 @@ import seaborn as sns
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error
 
-
+df = pd.read_csv('PenPerd.csv')
 
 
 # Define a list of dictionaries for each case
