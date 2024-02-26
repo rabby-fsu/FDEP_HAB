@@ -284,8 +284,6 @@ elif selected_page == 'Apalachicola Bay-Estuary':
            st.pyplot(fig)
 
     elif subpage_selected == 'Prediction':
-
-    elif subpage_selected == 'Prediction':
         handle_prediction('Apalachicola', 0)  # Passing the subpage name and case index
     elif subpage_selected == 'Vulnerability':
         # Your code for vulnerability
