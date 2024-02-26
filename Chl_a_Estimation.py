@@ -281,7 +281,11 @@ elif selected_page == 'Saint Andrew Bay-Estuary':
 
         # Generate map for Business-as-Usual
         plot1= generate_hab_quotient_map(selected_case['df'], selected_case, scenario='Business-as-Usual')
-
+        # Display plots side by side using columns layout
+        col1, col2 = st.columns(2)
+        with col1:
+            st.write("Plot 1")
+            st.pyplot(plot1)
 
         # Generate maps for Business-as-Usual and Hypothetical Scenario
         modified_df = selected_case['df'].copy()  # Corrected copy operation
@@ -293,11 +297,7 @@ elif selected_page == 'Saint Andrew Bay-Estuary':
         # Generate map for Hypothetical Scenario
         plot2 = generate_hab_quotient_map(modified_df, cases[3], scenario='Hypothetical Scenario')  # Pass modified DataFrame
 
-        # Display plots side by side using columns layout
-        col1, col2 = st.columns(2)
-        with col1:
-            st.write("Plot 1")
-            st.pyplot(plot1)
+
 
         with col2:
             st.write("Plot 2")
