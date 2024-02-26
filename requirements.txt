@@ -10,3 +10,4 @@ scikit-learn
 cartopy
 folium
 cartopy
+geopandas
