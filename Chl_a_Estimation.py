@@ -297,9 +297,7 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
         cool_warm_climate = st.slider('Cool-Warm Climate', min_value=-1.0, max_value=1.0, step=0.1)
         salinity_increase = st.slider('Salinity Increase (%)', min_value=-100, max_value=100, step=1)
 
-
-
-
+        original_predictions = cases[3]['model'].predict(df[cases[3]['selected_features']])
         selected_case['df']['Predicted Chlorophyll-a'] = original_predictions
 
         # Generate map for Business-as-Usual
@@ -310,20 +308,12 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
 
         
         # Generate maps for Business-as-Usual and Hypothetical Scenario
-        df_copy = df.copy()  # Make a copy of the DataFrame to avoid chained assignment
-        original_predictions = cases[3]['model'].predict(df[cases[3]['selected_features']])
-        df_copy['Predicted Chlorophyll-a'] = original_predictions
-        # Generate map for Business-as-Usual
-        generate_hab_quotient_map(df_copy, cases[3], scenario='Business-as-Usual')
-
-        # Modify pH values for Ocean Acidification
-        modified_df = df.copy()
+        modified_df = selected_case['df'].copy  # Make a copy of the DataFrame to avoid chained assignment
         modified_df['pH'] += ocean_acidification
 
         # Predict chlorophyll-a for modified scenario
         modified_predictions = cases[3]['model'].predict(modified_df[cases[3]['selected_features']])
         modified_df['Predicted Chlorophyll-a'] = modified_predictions
-
         # Generate map for Hypothetical Scenario
         generate_hab_quotient_map(modified_df, cases[3], scenario='Hypothetical Scenario')
 
