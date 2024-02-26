@@ -287,20 +287,6 @@ def generate_vulnerability_plot(case_index, min_lat, max_lat, min_lon, max_lon):
 
     return plot1, plot2
 
-# Subpage navigation for Apalachicola Bay-Estuary
-subpage_selected = st.sidebar.radio('Go to', ['Prediction', 'Vulnerability'])
-if subpage_selected == 'Prediction':
-    handle_prediction('Apalachicola', 0)  # Passing the subpage name and case index
-elif subpage_selected == 'Vulnerability':
-    plot1, plot2 = generate_vulnerability_plot(0, 29.5, 30.5, -85, -83)
-    # Display plots side by side using columns layout
-    col1, col2 = st.columns(2)
-    with col1:
-        st.write("Plot 1")
-        st.pyplot(plot1)
-    with col2:
-        st.write("Plot 2")
-        st.pyplot(plot2)
 
 
 #Introduction Page
