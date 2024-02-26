@@ -283,45 +283,14 @@ elif selected_page == 'Apalachicola Bay-Estuary':
         with st.container(height= 500, border=True):
            st.pyplot(fig)
 
-    if subpage_selected == 'Prediction':
+    elif subpage_selected == 'Prediction':
 
-        # Process the Apalachicola case
-        apalachicola_case = process_case(cases[0]) 
+    elif subpage_selected == 'Prediction':
+        handle_prediction('Apalachicola', 0)  # Passing the subpage name and case index
+    elif subpage_selected == 'Vulnerability':
+        # Your code for vulnerability
+        pass
 
-        # Button to evaluate the model
-        if st.button('Evaluate Model'):
-           # Evaluate the model using the returned model from process_case
-           evaluate_model(apalachicola_case['model'], apalachicola_case['X_train'], apalachicola_case['X_test'], apalachicola_case['y_train'], apalachicola_case['y_test'])
-
-        # Remaining code for uploading user's CSV file, making predictions, and downloading results
-        uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
-
-        if uploaded_file is not None:
-            user_data = pd.read_csv(uploaded_file)
-            # Ask the user to match column names with selected features
-            st.write("### Match Column Names")
-            selected_columns = {}
-            for feature in apalachicola_case['selected_features']:
-                selected_columns[feature] = st.selectbox(f"Select column for '{feature}'", user_data.columns)
-            # Extract the selected columns from user_data
-            user_data_selected = user_data[list(selected_columns.values())]
-            
-            # Ensure column names match expected features
-            if set(user_data_selected.columns) == set(apalachicola_case['selected_features']):
-                # Make predictions
-                user_data['Predicted Chlorophyll-a (ug/L)'] = apalachicola_case['model'].predict(user_data[apalachicola_case['selected_features']])
-                # Display the modified DataFrame
-                st.write("## Predicted Data")
-                st.write(user_data)
-
-                # Download the results as a CSV file
-                st.write("Download the results as a CSV file.")
-                csv = user_data.to_csv(index=False)
-                b64 = base64.b64encode(csv.encode()).decode()  # B64 encoding
-                href = f'<a href="data:file/csv;base64,{b64}" download="model_b_predictions.csv">Download CSV</a>'
-                st.markdown(href, unsafe_allow_html=True)
-            else:
-                st.write("Uploaded CSV file does not contain expected features.")
 
 elif selected_page == 'Saint Joseph Bay-Estuary':
     #st.header('Gauged Stations')
