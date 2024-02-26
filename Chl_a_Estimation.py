@@ -269,13 +269,6 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
     if subpage_selected == 'Prediction':
         handle_prediction('Pensacola-Perdido', 3)  # Passing the subpage name and case index
     elif subpage_selected == 'Vulnerability':
-        # Your code for vulnerability
-        elif selected_page == 'Pensacola-Perdido Bay-Estuary':
-    # Subpage navigation for Pensacola-Perdido Bay-Estuary
-    subpage_selected = st.sidebar.radio('Go to', ['Prediction', 'Vulnerability'])
-    if subpage_selected == 'Prediction':
-        handle_prediction('Pensacola-Perdido', 3)  # Passing the subpage name and case index
-    elif subpage_selected == 'Vulnerability':
         st.title('Vulnerability Analysis')
 
         # Sliders for scenarios
