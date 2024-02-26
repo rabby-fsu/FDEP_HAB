@@ -155,6 +155,8 @@ def process_case(case):
         'df': df
     }
     
+# Function to generate HAB Risk Quotient map
+def generate_hab_quotient_map(df, case):
     # Group by latitude and longitude
     location_counts = df.groupby(['Lat', 'Long']).size().reset_index(name='TotalDataPoints')
     hab_counts = df[df['Predicted Chlorophyll-a'] > case['threshold']].groupby(['Lat', 'Long']).size().reset_index(name='HABOccurrences')
@@ -165,7 +167,6 @@ def process_case(case):
     location_counts['NormalizedTotalDataPoints'] = location_counts['TotalDataPoints'] / max_total_data_points
     location_counts['HABRiskQuotient'] = location_counts['NormalizedHABOccurrences'] * location_counts['NormalizedTotalDataPoints']
     
-
     # Create main plot with specified extent
     fig = plt.figure(figsize=(10, 10))
     ax = fig.add_subplot(111, projection=ccrs.PlateCarree())
@@ -269,4 +270,29 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
         handle_prediction('Pensacola-Perdido', 3)  # Passing the subpage name and case index
     elif subpage_selected == 'Vulnerability':
         # Your code for vulnerability
-        pass
+        elif selected_page == 'Pensacola-Perdido Bay-Estuary':
+    # Subpage navigation for Pensacola-Perdido Bay-Estuary
+    subpage_selected = st.sidebar.radio('Go to', ['Prediction', 'Vulnerability'])
+    if subpage_selected == 'Prediction':
+        handle_prediction('Pensacola-Perdido', 3)  # Passing the subpage name and case index
+    elif subpage_selected == 'Vulnerability':
+        st.title('Vulnerability Analysis')
+
+        # Sliders for scenarios
+        ocean_acidification = st.slider('Ocean Acidification', min_value=-1, max_value=1, step=0.1)
+        cool_warm_climate = st.slider('Cool-Warm Climate', min_value=-1, max_value=1, step=0.1)
+        salinity_increase = st.slider('Salinity Increase (%)', min_value=-100, max_value=100, step=1)
+
+        # Apply changes to features based on user selection
+        # For example, modify pH values for Ocean Acidification
+        modified_df = df.copy()
+        modified_df['pH'] += ocean_acidification
+
+        # Predict chlorophyll-a for scenarios
+        original_predictions = cases[3]['model'].predict(df[cases[3]['selected_features']])
+        modified_predictions = cases[3]['model'].predict(modified_df[cases[3]['selected_features']])
+
+        # Generate maps for Business-as-Usual and Hypothetical Scenario
+        generate_hab_quotient_map(df, cases[3], scenario='Business-as-Usual')
+        generate_hab_quotient_map(modified_df, cases[3], scenario='Hypothetical Scenario')
+
