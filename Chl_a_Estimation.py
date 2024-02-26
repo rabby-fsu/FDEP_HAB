@@ -281,7 +281,7 @@ elif selected_page == 'Apalachicola Bay-Estuary':
        
         # Sliders for scenarios
         ocean_acidification = st.slider('Ocean Acidification', min_value=-3.0, max_value=3.0, value=0.0, step=0.1)
-        cool_warm_climate = st.slider('Cool-Warm Climate', min_value=-10.0, max_value=10.0, value=0.0, step=1)
+        cool_warm_climate = st.slider('Cool-Warm Climate', min_value=-10.0, max_value=10.0, value=0.0, step=1.0)
         salinity_change = st.slider('Salinity Change (%)', min_value=-100, max_value=100, value=0, step=1)
 
         original_predictions = cases[0]['model'].predict(selected_case['X'])
@@ -327,7 +327,7 @@ elif selected_page == 'Saint Joseph Bay-Estuary':
         # Sliders for scenarios
         ocean_acidification = st.slider('Ocean Acidification', min_value=-3.0, max_value=3.0, value=0.0, step=0.1)
         cool_warm_climate = st.slider('Cool-Warm Climate', min_value=-10.0, max_value=10.0, value=0.0, step=1.0)
-        salinity_change = st.slider('Salinity Change (%)', min_value=-100, max_value=100, value=0, step=1.0)
+        salinity_change = st.slider('Salinity Change (%)', min_value=-100, max_value=100, value=0, step=1)
 
 
         original_predictions = cases[1]['model'].predict(selected_case['X'])
@@ -372,7 +372,7 @@ elif selected_page == 'Saint Andrew Bay-Estuary':
         # Sliders for scenarios
         ocean_acidification = st.slider('Ocean Acidification', min_value=-3.0, max_value=3.0, value=0.0, step=0.1)
         cool_warm_climate = st.slider('Cool-Warm Climate', min_value=-10.0, max_value=10.0, value=0.0, step=1.0)
-        salinity_change = st.slider('Salinity Change (%)', min_value=-100, max_value=100, value=0, step=1.0)
+        salinity_change = st.slider('Salinity Change (%)', min_value=-100, max_value=100, value=0, step=1)
 
         original_predictions = cases[2]['model'].predict(selected_case['X'])
         selected_case['df']['Predicted Chlorophyll-a'] = original_predictions
@@ -416,7 +416,7 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
         # Sliders for scenarios
         ocean_acidification = st.slider('Ocean Acidification', min_value=-3.0, max_value=3.0, value=0.0, step=0.1)
         cool_warm_climate = st.slider('Cool-Warm Climate', min_value=-10.0, max_value=10.0, value=0.0, step=1.0)
-        salinity_change = st.slider('Salinity Change (%)', min_value=-100, max_value=100, value=0, step=1.0)
+        salinity_change = st.slider('Salinity Change (%)', min_value=-100, max_value=100, value=0, step=1)
 
         original_predictions = cases[3]['model'].predict(selected_case['X'])
         selected_case['df']['Predicted Chlorophyll-a'] = original_predictions
