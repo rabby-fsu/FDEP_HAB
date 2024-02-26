@@ -280,10 +280,8 @@ elif selected_page == 'Saint Andrew Bay-Estuary':
         selected_case['df']['Predicted Chlorophyll-a'] = original_predictions
 
         # Generate map for Business-as-Usual
-        #generate_hab_quotient_map(selected_case['df'], selected_case, scenario='Business-as-Usual')
-        st.subheader('Business-as-Usual Scenario')
-        st.write("Original Map")
-        st.plotly_chart(generate_hab_quotient_map(selected_case['df'], selected_case, scenario='Business-as-Usual'))
+        plot1= generate_hab_quotient_map(selected_case['df'], selected_case, scenario='Business-as-Usual')
+
 
         # Generate maps for Business-as-Usual and Hypothetical Scenario
         modified_df = selected_case['df'].copy()  # Corrected copy operation
@@ -293,6 +291,15 @@ elif selected_page == 'Saint Andrew Bay-Estuary':
         modified_predictions = cases[3]['model'].predict(modified_df[selected_case['selected_features']])
         modified_df['Predicted Chlorophyll-a'] = modified_predictions
         # Generate map for Hypothetical Scenario
-        #generate_hab_quotient_map(modified_df, cases[3], scenario='Hypothetical Scenario')  # Pass modified DataFrame
-        st.write("Modified Map")
-        st.plotly_chart(generate_hab_quotient_map(modified_df, cases[3], scenario='Hypothetical Scenario'))  # Pass modified DataFrame
+        plot2 = generate_hab_quotient_map(modified_df, cases[3], scenario='Hypothetical Scenario')  # Pass modified DataFrame
+
+        # Display plots side by side using columns layout
+        col1, col2 = st.columns(2)
+        with col1:
+            st.write("Plot 1")
+            st.pyplot(plot1)
+
+        with col2:
+            st.write("Plot 2")
+            st.pyplot(plot2)
+
