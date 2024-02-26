@@ -184,7 +184,7 @@ def generate_hab_quotient_map(df, case, scenario, min_lat=None, max_lat=None,min
     ax.coastlines()
 
     # Plot HAB Risk Quotient
-    sc = ax.scatter(location_counts['Long'], location_counts['Lat'], c=location_counts['HABRiskQuotient'], cmap='OrRd', marker='o', s=300, alpha=0.8, edgecolors='green')
+    sc = ax.scatter(location_counts['Long'], location_counts['Lat'], c=location_counts['HABRiskQuotient'], cmap='OrRd', marker='o', s=200, alpha=1, edgecolors='green')
     plt.colorbar(sc, label='HAB Risk Quotient')
     # Modify the way to set the title to avoid KeyError
     plt.title(f'HAB Risk Quotient - {scenario}')
@@ -260,6 +260,47 @@ def handle_prediction(subpage_name, case_index):
         else:
             st.write("Uploaded CSV file does not contain expected features.")
 
+def generate_vulnerability_plot(case_index, min_lat, max_lat, min_lon, max_lon):
+    selected_case = process_case(cases[case_index])
+
+    # Sliders for scenarios
+    ocean_acidification = st.slider('Ocean Acidification', min_value=-1.0, max_value=1.0, step=0.1)
+    cool_warm_climate = st.slider('Cool-Warm Climate', min_value=-1.0, max_value=1.0, step=0.1)
+    salinity_increase = st.slider('Salinity Increase (%)', min_value=-100, max_value=100, step=1)
+
+    original_predictions = cases[case_index]['model'].predict(selected_case['X'])
+    selected_case['df']['Predicted Chlorophyll-a'] = original_predictions
+
+    # Generate map for Business-as-Usual
+    plot1 = generate_hab_quotient_map(selected_case['df'], selected_case, scenario='Business-as-Usual',
+                                       min_lat=min_lat, max_lat=max_lat, min_lon=min_lon, max_lon=max_lon)
+    # Generate maps for Business-as-Usual and Hypothetical Scenario
+    modified_df = selected_case['df'].copy()  # Corrected copy operation
+    modified_df['pH'] += ocean_acidification  # Apply modifications to the copied DataFrame
+
+    # Predict chlorophyll-a for modified scenario
+    modified_predictions = cases[case_index]['model'].predict(modified_df[selected_case['selected_features']])
+    modified_df['Predicted Chlorophyll-a'] = modified_predictions
+    # Generate map for Hypothetical Scenario
+    plot2 = generate_hab_quotient_map(modified_df, cases[case_index], scenario='Hypothetical Scenario',
+                                       min_lat=min_lat, max_lat=max_lat, min_lon=min_lon, max_lon=max_lon)
+
+    return plot1, plot2
+
+# Subpage navigation for Apalachicola Bay-Estuary
+subpage_selected = st.sidebar.radio('Go to', ['Prediction', 'Vulnerability'])
+if subpage_selected == 'Prediction':
+    handle_prediction('Apalachicola', 0)  # Passing the subpage name and case index
+elif subpage_selected == 'Vulnerability':
+    plot1, plot2 = generate_vulnerability_plot(0, 29.5, 30.5, -85, -83)
+    # Display plots side by side using columns layout
+    col1, col2 = st.columns(2)
+    with col1:
+        st.write("Plot 1")
+        st.pyplot(plot1)
+    with col2:
+        st.write("Plot 2")
+        st.pyplot(plot2)
 
 
 #Introduction Page
@@ -401,37 +442,12 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
     if subpage_selected == 'Prediction':
         handle_prediction('Pensacola-Perdido', 3)  # Passing the subpage name and case index
     elif subpage_selected == 'Vulnerability':
-        # Your code for vulnerability
-        selected_case = process_case(cases[3])
-
-        # Sliders for scenarios
-        ocean_acidification = st.slider('Ocean Acidification', min_value=-1.0, max_value=1.0, step=0.1)
-        cool_warm_climate = st.slider('Cool-Warm Climate', min_value=-1.0, max_value=1.0, step=0.1)
-        salinity_increase = st.slider('Salinity Increase (%)', min_value=-100, max_value=100, step=1)
-
-        original_predictions = cases[3]['model'].predict(selected_case['X'])
-        selected_case['df']['Predicted Chlorophyll-a'] = original_predictions
-
-        # Generate map for Business-as-Usual
-        plot1= generate_hab_quotient_map(selected_case['df'], selected_case, scenario='Business-as-Usual',min_lat=30, max_lat=31, min_lon=-88, max_lon=-87)
+        plot1, plot2 = generate_vulnerability_plot(0, 29.5, 30.5, -85, -83)
         # Display plots side by side using columns layout
         col1, col2 = st.columns(2)
         with col1:
             st.write("Plot 1")
             st.pyplot(plot1)
-
-        # Generate maps for Business-as-Usual and Hypothetical Scenario
-        modified_df = selected_case['df'].copy()  # Corrected copy operation
-        modified_df['pH'] += ocean_acidification  # Apply modifications to the copied DataFrame
-
-        # Predict chlorophyll-a for modified scenario
-        modified_predictions = cases[3]['model'].predict(modified_df[selected_case['selected_features']])
-        modified_df['Predicted Chlorophyll-a'] = modified_predictions
-        # Generate map for Hypothetical Scenario
-        plot2 = generate_hab_quotient_map(modified_df, cases[3], scenario='Hypothetical Scenario',min_lat=30, max_lat=31, min_lon=-88, max_lon=-87)  # Pass modified DataFrame
-
-
-
         with col2:
             st.write("Plot 2")
             st.pyplot(plot2)
