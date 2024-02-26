@@ -236,58 +236,14 @@ if selected_page == 'Introduction':
 
 elif selected_page == 'Apalachicola Bay-Estuary':
     # Subpage navigation for Apalachicola Bay-Estuary
-    subpage_selected = st.sidebar.radio('Go to', ['Historical Observation', 'Prediction', 'Vulnerability'])
-    # Content for subpages of Apalachicola Bay-Estuary
-    if subpage_selected == 'Historical Observation':
-      
-        st.header('Historical Observations')
-
-        df_ap_nut = pd.read_csv('combined_AP_nut.csv')
-        df_ap_nut['Date'] = pd.to_datetime(df_ap_nut['Date'])
-
-        # Calculate Map extent
-        extent = [df_ap_nut['lon'].min()-0.2, df_ap_nut['lon'].max()+0.2, df_ap_nut['lat'].min()-0.2, df_ap_nut['lat'].max()+0.2]
-
-        # Calculate number of ticks
-        num_ticks = 5
-        lon_ticks = np.linspace(extent[0], extent[1], num_ticks)
-        lat_ticks = np.linspace(extent[2], extent[3], num_ticks)
-
-        # Sort station codes based on longitude
-        sorted_station_codes = sorted(df_ap_nut['station_code'].unique(), key=lambda x: df_ap_nut[df_ap_nut['station_code'] == x]['lon'].iloc[0])
-
-        # Create a dictionary to store coordinates for each station
-        station_coordinates = defaultdict(list)
-        for i, station in enumerate(sorted_station_codes):
-          station_name = f'{i+1}'
-          station_coordinates[station_name] = (df_ap_nut[df_ap_nut['station_code'] == station]['lon'].iloc[0], df_ap_nut[df_ap_nut['station_code'] == station]['lat'].iloc[0])
-
-        # Sort station coordinates by longitude
-        sorted_station_coordinates = sorted(station_coordinates.items(), key=lambda x: x[1][0])
-    
-        # Set default values for year and month based on the data range
-        min_date = df_ap_nut['Date'].min().date()
-        max_date = df_ap_nut['Date'].max().date()
-        default_date = min_date + (max_date - min_date) // 2
-        default_year = default_date.year
-        default_month = default_date.month
-    
-        # Slider for selecting year and month
-        selected_year = st.slider('Select Year', min_value=min_date.year, max_value=max_date.year, value=default_year)
-        selected_month = st.slider('Select Month', min_value=1, max_value=12, value=default_month)
-    
-        # Create map based on selected year and month
-        fig = create_map(selected_year, selected_month)
-
-        # Display the map
-        with st.container(height= 500, border=True):
-           st.pyplot(fig)
-
+    subpage_selected = st.sidebar.radio('Go to', ['Prediction', 'Vulnerability'])
     if subpage_selected == 'Prediction':
         handle_prediction('Apalachicola', 0)  # Passing the subpage name and case index
     elif subpage_selected == 'Vulnerability':
         # Your code for vulnerability
         pass
+
+
 elif selected_page == 'Saint Joseph Bay-Estuary':
     # Subpage navigation for Joseph Bay-Estuary
     subpage_selected = st.sidebar.radio('Go to', ['Prediction', 'Vulnerability'])
