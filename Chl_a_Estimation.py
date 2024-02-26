@@ -269,7 +269,39 @@ elif selected_page == 'Saint Joseph Bay-Estuary':
         handle_prediction('Joseph', 1)  # Passing the subpage name and case index
     elif subpage_selected == 'Vulnerability':
         # Your code for vulnerability
-        pass
+        selected_case = process_case(cases[1])
+
+        # Sliders for scenarios
+        ocean_acidification = st.slider('Ocean Acidification', min_value=-1.0, max_value=1.0, step=0.1)
+        cool_warm_climate = st.slider('Cool-Warm Climate', min_value=-1.0, max_value=1.0, step=0.1)
+        salinity_increase = st.slider('Salinity Increase (%)', min_value=-100, max_value=100, step=1)
+
+        original_predictions = cases[1]['model'].predict(selected_case['X'])
+        selected_case['df']['Predicted Chlorophyll-a'] = original_predictions
+
+        # Generate map for Business-as-Usual
+        plot1= generate_hab_quotient_map(selected_case['df'], selected_case, scenario='Business-as-Usual')
+        # Display plots side by side using columns layout
+        col1, col2 = st.columns(2)
+        with col1:
+            st.write("Plot 1")
+            st.pyplot(plot1)
+
+        # Generate maps for Business-as-Usual and Hypothetical Scenario
+        modified_df = selected_case['df'].copy()  # Corrected copy operation
+        modified_df['pH'] += ocean_acidification  # Apply modifications to the copied DataFrame
+
+        # Predict chlorophyll-a for modified scenario
+        modified_predictions = cases[1]['model'].predict(modified_df[selected_case['selected_features']])
+        modified_df['Predicted Chlorophyll-a'] = modified_predictions
+        # Generate map for Hypothetical Scenario
+        plot2 = generate_hab_quotient_map(modified_df, cases[1], scenario='Hypothetical Scenario')  # Pass modified DataFrame
+
+
+
+        with col2:
+            st.write("Plot 2")
+            st.pyplot(plot2)
 
 elif selected_page == 'Saint Andrew Bay-Estuary':
     # Subpage navigation for Saint Andrew Bay-Estuary
