@@ -160,7 +160,7 @@ def process_case(case):
     
 
 # Function to generate HAB Risk Quotient map
-def generate_hab_quotient_map(df, case, scenario):
+def generate_hab_quotient_map(df, case, scenario, min_lat=None, max_lat=None,min_lon=None, max_lon=None):
     # Group by latitude and longitude
     location_counts = df.groupby(['Lat', 'Long']).size().reset_index(name='TotalDataPoints')
     hab_counts = df[df['Predicted Chlorophyll-a'] > case['threshold']].groupby(['Lat', 'Long']).size().reset_index(name='HABOccurrences')
@@ -190,9 +190,11 @@ def generate_hab_quotient_map(df, case, scenario):
     plt.title(f'HAB Risk Quotient - {scenario}')
     plt.xlabel('Longitude')
     plt.ylabel('Latitude')
-    # Set latitude and longitude as ticks based on min and max values
-    ax.set_xticks(np.arange(np.floor(df['Long'].min()), np.ceil(df['Long'].max())+1, 3))
-    ax.set_yticks(np.arange(np.floor(df['Lat'].min()), np.ceil(df['Lat'].max())+1, 3))
+    # Set latitude and longitude limits if provided
+    if min_lat is not None and max_lat is not None:
+        ax.set_ylim(bottom=min_lat, top=max_lat)
+    if min_lon is not None and max_lon is not None:
+        ax.set_xlim(left=min_lon, right=max_lon)
 
     return fig
 
@@ -270,7 +272,7 @@ elif selected_page == 'Apalachicola Bay-Estuary':
         selected_case['df']['Predicted Chlorophyll-a'] = original_predictions
 
         # Generate map for Business-as-Usual
-        plot1= generate_hab_quotient_map(selected_case['df'], selected_case, scenario='Business-as-Usual')
+        plot1= generate_hab_quotient_map(selected_case['df'], selected_case, scenario='Business-as-Usual',min_lat=29.5, max_lat=30.5, min_lon=-85, max_lon=-83)
         # Display plots side by side using columns layout
         col1, col2 = st.columns(2)
         with col1:
@@ -285,7 +287,7 @@ elif selected_page == 'Apalachicola Bay-Estuary':
         modified_predictions = cases[0]['model'].predict(modified_df[selected_case['selected_features']])
         modified_df['Predicted Chlorophyll-a'] = modified_predictions
         # Generate map for Hypothetical Scenario
-        plot2 = generate_hab_quotient_map(modified_df, cases[0], scenario='Hypothetical Scenario')  # Pass modified DataFrame
+        plot2 = generate_hab_quotient_map(modified_df, cases[0], scenario='Hypothetical Scenario',min_lat=29.5, max_lat=30.5, min_lon=-85, max_lon=-83)  # Pass modified DataFrame
 
 
 
@@ -312,7 +314,7 @@ elif selected_page == 'Saint Joseph Bay-Estuary':
         selected_case['df']['Predicted Chlorophyll-a'] = original_predictions
 
         # Generate map for Business-as-Usual
-        plot1= generate_hab_quotient_map(selected_case['df'], selected_case, scenario='Business-as-Usual')
+        plot1= generate_hab_quotient_map(selected_case['df'], selected_case, scenario='Business-as-Usual',min_lat=29.5, max_lat=30.5, min_lon=-85.5, max_lon=-84.5)
         # Display plots side by side using columns layout
         col1, col2 = st.columns(2)
         with col1:
@@ -327,7 +329,7 @@ elif selected_page == 'Saint Joseph Bay-Estuary':
         modified_predictions = cases[1]['model'].predict(modified_df[selected_case['selected_features']])
         modified_df['Predicted Chlorophyll-a'] = modified_predictions
         # Generate map for Hypothetical Scenario
-        plot2 = generate_hab_quotient_map(modified_df, cases[1], scenario='Hypothetical Scenario')  # Pass modified DataFrame
+        plot2 = generate_hab_quotient_map(modified_df, cases[1], scenario='Hypothetical Scenario',min_lat=29.5, max_lat=30.5, min_lon=-85.5, max_lon=-84.5)  # Pass modified DataFrame
 
 
 
@@ -353,7 +355,7 @@ elif selected_page == 'Saint Andrew Bay-Estuary':
         selected_case['df']['Predicted Chlorophyll-a'] = original_predictions
 
         # Generate map for Business-as-Usual
-        plot1= generate_hab_quotient_map(selected_case['df'], selected_case, scenario='Business-as-Usual')
+        plot1= generate_hab_quotient_map(selected_case['df'], selected_case, scenario='Business-as-Usual',min_lat=30, max_lat=31, min_lon=-86, max_lon=-85)
         # Display plots side by side using columns layout
         col1, col2 = st.columns(2)
         with col1:
@@ -368,7 +370,7 @@ elif selected_page == 'Saint Andrew Bay-Estuary':
         modified_predictions = cases[2]['model'].predict(modified_df[selected_case['selected_features']])
         modified_df['Predicted Chlorophyll-a'] = modified_predictions
         # Generate map for Hypothetical Scenario
-        plot2 = generate_hab_quotient_map(modified_df, cases[2], scenario='Hypothetical Scenario')  # Pass modified DataFrame
+        plot2 = generate_hab_quotient_map(modified_df, cases[2], scenario='Hypothetical Scenario',min_lat=30, max_lat=31, min_lon=-86, max_lon=-85)  # Pass modified DataFrame
 
 
 
@@ -395,7 +397,7 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
         selected_case['df']['Predicted Chlorophyll-a'] = original_predictions
 
         # Generate map for Business-as-Usual
-        plot1= generate_hab_quotient_map(selected_case['df'], selected_case, scenario='Business-as-Usual')
+        plot1= generate_hab_quotient_map(selected_case['df'], selected_case, scenario='Business-as-Usual',min_lat=30, max_lat=31, min_lon=-88, max_lon=-87)
         # Display plots side by side using columns layout
         col1, col2 = st.columns(2)
         with col1:
@@ -410,7 +412,7 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
         modified_predictions = cases[3]['model'].predict(modified_df[selected_case['selected_features']])
         modified_df['Predicted Chlorophyll-a'] = modified_predictions
         # Generate map for Hypothetical Scenario
-        plot2 = generate_hab_quotient_map(modified_df, cases[3], scenario='Hypothetical Scenario')  # Pass modified DataFrame
+        plot2 = generate_hab_quotient_map(modified_df, cases[3], scenario='Hypothetical Scenario',min_lat=30, max_lat=31, min_lon=-88, max_lon=-87)  # Pass modified DataFrame
 
 
 
