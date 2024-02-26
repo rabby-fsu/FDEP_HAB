@@ -247,14 +247,10 @@ elif selected_page == 'Apalachicola Bay-Estuary':
            st.pyplot(fig)
 
     if subpage_selected == 'Prediction':
-        # Display a table summarizing the data size and selected features
-        st.write("## Data Summary")
-        st.write(f"Number of Samples: {len(X)}")
-        st.write(f"Number of Features: {X.shape[1]}")
-        st.write(f"Selected Features: {selected_features}")
+        st.write(f"Selected Features: {apalachicola_case['selected_features']}")
         st.write(f"Target Variable: Chlorophyll-a (ug/L)")
         # Display the train and test sample sizes
-        st.write("Train/Test Sample Sizes: 80% Training and 20% Testing")
+        #st.write("Train/Test Sample Sizes: 80% Training and 20% Testing")
 
         # Process the Apalachicola case
         apalachicola_case = process_case(cases[0]) 
