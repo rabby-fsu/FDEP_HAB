@@ -155,8 +155,9 @@ def process_case(case):
         'df': df
     }
     
+
 # Function to generate HAB Risk Quotient map
-def generate_hab_quotient_map(df, case):
+def generate_hab_quotient_map(df, case, scenario):
     # Group by latitude and longitude
     location_counts = df.groupby(['Lat', 'Long']).size().reset_index(name='TotalDataPoints')
     hab_counts = df[df['Predicted Chlorophyll-a'] > case['threshold']].groupby(['Lat', 'Long']).size().reset_index(name='HABOccurrences')
@@ -177,10 +178,28 @@ def generate_hab_quotient_map(df, case):
     # Plot HAB Risk Quotient
     sc = ax.scatter(location_counts['Long'], location_counts['Lat'], c=location_counts['HABRiskQuotient'], cmap='OrRd', marker='o', s=5000, alpha=0.8)
     plt.colorbar(sc, label='HAB Risk Quotient')
-    plt.title(f'HAB Risk Quotient for {case["name"]}')
+    plt.title(f'HAB Risk Quotient for {case["name"]} - {scenario}')
     plt.xlabel('Longitude')
     plt.ylabel('Latitude')
     plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Process each case
 #for case in cases:
