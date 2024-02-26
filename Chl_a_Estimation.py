@@ -189,15 +189,13 @@ def process_case(case):
 
 #Introduction Page
 st.sidebar.title('Pages')
-selected_page = st.sidebar.radio('Go to', ['Introduction', 'Apalachicola Bay-Estuary', 'Pensacola-Perdido Bay-Estuary'])
+selected_page = st.sidebar.radio('Go to', ['Introduction', 'Apalachicola Bay-Estuary', 'Saint Joseph Bay-Estuary', 'Saint Andrew Bay-Estuary', 'Pensacola-Perdido Bay-Estuary'])
 
 if selected_page == 'Introduction':
     st.title('Introduction')
     st.write('This is an application to evaluate the Apalachicola Bay Model.')
 
 elif selected_page == 'Apalachicola Bay-Estuary':
-    #st.header('Gauged Stations')
-    #st.map(df_ap_nut,latitude='lat',longitude='lon',use_container_width=True)
     # Subpage navigation for Apalachicola Bay-Estuary
     subpage_selected = st.sidebar.radio('Go to', ['Historical Observation', 'Prediction', 'Vulnerability'])
     # Content for subpages of Apalachicola Bay-Estuary
@@ -277,6 +275,52 @@ elif selected_page == 'Apalachicola Bay-Estuary':
             if set(user_data_selected.columns) == set(apalachicola_case['selected_features']):
                 # Make predictions
                 user_data['Predicted Chlorophyll-a (ug/L)'] = apalachicola_case['model'].predict(user_data[apalachicola_case['selected_features']])
+                # Display the modified DataFrame
+                st.write("## Predicted Data")
+                st.write(user_data)
+
+                # Download the results as a CSV file
+                st.write("Download the results as a CSV file.")
+                csv = user_data.to_csv(index=False)
+                b64 = base64.b64encode(csv.encode()).decode()  # B64 encoding
+                href = f'<a href="data:file/csv;base64,{b64}" download="model_b_predictions.csv">Download CSV</a>'
+                st.markdown(href, unsafe_allow_html=True)
+            else:
+                st.write("Uploaded CSV file does not contain expected features.")
+
+elif selected_page == 'Saint Joseph Bay-Estuary':
+    #st.header('Gauged Stations')
+    #st.map(df_ap_nut,latitude='lat',longitude='lon',use_container_width=True)
+    # Subpage navigation for Apalachicola Bay-Estuary
+    subpage_selected = st.sidebar.radio('Go to', ['Historical Observation', 'Prediction', 'Vulnerability'])
+
+    if subpage_selected == 'Prediction':
+
+        # Process the Apalachicola case
+        joseph_case = process_case(cases[1]) 
+
+        # Button to evaluate the model
+        if st.button('Evaluate Model'):
+           # Evaluate the model using the returned model from process_case
+           evaluate_model(joseph_case['model'], joseph_case['X_train'], joseph_case['X_test'], joseph_case['y_train'], joseph_case['y_test'])
+
+        # Remaining code for uploading user's CSV file, making predictions, and downloading results
+        uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
+
+        if uploaded_file is not None:
+            user_data = pd.read_csv(uploaded_file)
+            # Ask the user to match column names with selected features
+            st.write("### Match Column Names")
+            selected_columns = {}
+            for feature in joseph_case['selected_features']:
+                selected_columns[feature] = st.selectbox(f"Select column for '{feature}'", user_data.columns)
+            # Extract the selected columns from user_data
+            user_data_selected = user_data[list(selected_columns.values())]
+            
+            # Ensure column names match expected features
+            if set(user_data_selected.columns) == set(joseph_case['selected_features']):
+                # Make predictions
+                user_data['Predicted Chlorophyll-a (ug/L)'] = joseph_case['model'].predict(user_data[joseph_case['selected_features']])
                 # Display the modified DataFrame
                 st.write("## Predicted Data")
                 st.write(user_data)
