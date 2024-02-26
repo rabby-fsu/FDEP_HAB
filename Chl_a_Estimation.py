@@ -37,7 +37,7 @@ cases = [
                               'ATemp_max_4dlag', 'ATemp_max_5dlag', 'ATemp_max_6dlag',
                               'ATemp_max_7dlag'],
         'model': XGBRegressor(n_estimators=335, max_depth=4, learning_rate=0.037818940902700418, random_state=42),
-        'test_size' = 0.2
+        'test_size': 0.2
     },
     {
         'name': 'Joseph',
@@ -48,7 +48,7 @@ cases = [
                               'ATemp_max_3dlag', 'ATemp_max_4dlag', 'ATemp_max_5dlag', 'ATemp_max_6dlag',
                               'ATemp_max_7dlag'],
         'model': RandomForestRegressor(n_estimators=10, max_depth=10, random_state=42),
-        'test_size' = 0.2
+        'test_size': 0.2
     },
     {
         'name': 'Andrew',
@@ -58,11 +58,11 @@ cases = [
                               'ATemp_max_1dlag', 'ATemp_max_2dlag', 'ATemp_max_3dlag',
                               'ATemp_max_4dlag', 'ATemp_max_5dlag', 'ATemp_max_6dlag', 'ATemp_max_7dlag'],
         'model': XGBRegressor(n_estimators=11, max_depth=5, random_state=42),
-        'test_size' = 0.2
+        'test_size' : 0.2
     },
     {
         'name': 'Pensacola-Perdido',
-        'data_files': ['Pensacola.csv', 'Perdido.csv'],
+        'data_files': 'pensacola_perdido.csv',
         'threshold': 10,
         'selected_features': ['Salinity(ppt)', 'Turbidity(NTU)', 'DO(mg/l)', 'pH', 'ATemp_max',
                               'ATemp_max_1dlag', 'ATemp_max_2dlag', 'ATemp_max_3dlag',
