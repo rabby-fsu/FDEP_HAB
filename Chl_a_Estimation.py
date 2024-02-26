@@ -184,7 +184,7 @@ def generate_hab_quotient_map(df, case, scenario, min_lat=None, max_lat=None,min
     ax.coastlines()
 
     # Plot HAB Risk Quotient
-    sc = ax.scatter(location_counts['Long'], location_counts['Lat'], c=location_counts['HABRiskQuotient'], cmap='OrRd', marker='o', s=500, alpha=0.8, edgecolors='green')
+    sc = ax.scatter(location_counts['Long'], location_counts['Lat'], c=location_counts['HABRiskQuotient'], cmap='OrRd', marker='o', s=300, alpha=0.8, edgecolors='green')
     plt.colorbar(sc, label='HAB Risk Quotient')
     # Modify the way to set the title to avoid KeyError
     plt.title(f'HAB Risk Quotient - {scenario}')
