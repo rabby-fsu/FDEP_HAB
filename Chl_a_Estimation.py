@@ -341,7 +341,7 @@ elif selected_page == 'Saint Joseph Bay-Estuary':
         selected_case['df']['Predicted Chlorophyll-a'] = original_predictions
 
         # Generate map for Business-as-Usual
-        plot1= generate_hab_quotient_map(selected_case['df'], selected_case, scenario='Business-as-Usual',min_lat=29.5, max_lat=30.5, min_lon=-85.5, max_lon=-84.5)
+        plot1= generate_hab_quotient_map(selected_case['df'], selected_case, scenario='Business-as-Usual',min_lat=29.6, max_lat=29.9, min_lon=-85.4, max_lon=-85.2)
         # Display plots side by side using columns layout
         col1, col2 = st.columns(2)
         with col1:
