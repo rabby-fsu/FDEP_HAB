@@ -6,7 +6,7 @@ from sklearn.model_selection import train_test_split
 from xgboost import XGBRegressor
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import r2_score, mean_squared_error
-
+import cartopy.feature as cfeature
 import streamlit as st
 import threading
 from queue import Queue
@@ -175,6 +175,11 @@ def generate_hab_quotient_map(df, case, scenario):
     fig = plt.figure(figsize=(8, 8))
     ax = fig.add_subplot(111, projection=ccrs.PlateCarree())
 
+    # Add OpenStreetMap basemap
+    ax.add_feature(cfeature.OCEAN)
+    ax.add_feature(cfeature.LAND, edgecolor='black')
+    ax.add_feature(cfeature.COASTLINE)
+    ax.add_feature(cfeature.BORDERS, linestyle=':')
     # Plot coastlines
     ax.coastlines()
 
