@@ -21,7 +21,7 @@ import base64
 import seaborn as sns
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error
-
+import contextily as ctx
 
 
 
@@ -180,13 +180,14 @@ def generate_hab_quotient_map(df, case, scenario, min_lat=None, max_lat=None,min
     ax = fig.add_subplot(111, projection=ccrs.PlateCarree())
 
     # Add OpenStreetMap basemap
+    ax.set_extent([min_lon, max_lon, min_lat, max_lat], crs=ccrs.PlateCarree())
+    ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik)
     ax.add_feature(cfeature.OCEAN)
     ax.add_feature(cfeature.LAND, edgecolor='black')
     ax.add_feature(cfeature.COASTLINE)
     ax.add_feature(cfeature.BORDERS, linestyle=':')
     # Plot coastlines
     ax.coastlines()
-
     # Plot HAB Ratio
     sc = ax.scatter(location_counts['Long'], location_counts['Lat'], c=location_counts['NormalizedHABOccurrences'], cmap='OrRd', marker='o', s=300, alpha=1, edgecolors='green')
     plt.colorbar(sc, label='NormalizedHABOccurrences')
