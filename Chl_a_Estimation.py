@@ -297,6 +297,7 @@ elif selected_page == 'Apalachicola Bay-Estuary':
         with col1:
             st.write("Plot 1")
             st.pyplot(plot1)
+            download_plot(plot1, "plot1.png")
 
         # Generate maps for Business-as-Usual and Hypothetical Scenario
         modified_df = selected_case['df'].copy()  # Corrected copy operation
@@ -322,6 +323,7 @@ elif selected_page == 'Apalachicola Bay-Estuary':
         with col2:
             st.write("Plot 2")
             st.pyplot(plot2)
+            download_plot(plot2, "plot2.png")
 
 
 elif selected_page == 'Saint Joseph Bay-Estuary':
@@ -402,6 +404,7 @@ elif selected_page == 'Saint Andrew Bay-Estuary':
         with col1:
             st.write("Plot 1")
             st.pyplot(plot1)
+            download_plot(plot1, "plot1.png")
 
         # Generate maps for Business-as-Usual and Hypothetical Scenario
         modified_df = selected_case['df'].copy()  # Corrected copy operation
@@ -424,6 +427,7 @@ elif selected_page == 'Saint Andrew Bay-Estuary':
         with col2:
             st.write("Plot 2")
             st.pyplot(plot2)
+            download_plot(plot2, "plot2.png")
 
 
 elif selected_page == 'Pensacola-Perdido Bay-Estuary':
@@ -450,6 +454,7 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
         with col1:
             st.write("Plot 1")
             st.pyplot(plot1)
+            download_plot(plot1, "plot1.png")
 
         # Generate maps for Business-as-Usual and Hypothetical Scenario
         modified_df = selected_case['df'].copy()  # Corrected copy operation
@@ -472,3 +477,4 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
         with col2:
             st.write("Plot 2")
             st.pyplot(plot2)
+            download_plot(plot2, "plot2.png")
