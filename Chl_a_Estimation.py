@@ -215,7 +215,10 @@ def generate_hab_quotient_map(df, case, scenario, min_lat=None, max_lat=None,min
     return fig
 
 
-
+# Add download button for plots
+def download_plot(plot, filename):
+    plot.savefig(filename)
+    st.download_button(label="Download Plot", data=open(filename, 'rb').read(), file_name=filename, mime='image/png')
 
 # Process each case
 #for case in cases:
@@ -347,6 +350,7 @@ elif selected_page == 'Saint Joseph Bay-Estuary':
         with col1:
             st.write("Plot 1")
             st.pyplot(plot1)
+            download_plot(plot1, "plot1.png")
 
         # Generate maps for Business-as-Usual and Hypothetical Scenario
         modified_df = selected_case['df'].copy()  # Corrected copy operation
@@ -371,6 +375,7 @@ elif selected_page == 'Saint Joseph Bay-Estuary':
         with col2:
             st.write("Plot 2")
             st.pyplot(plot2)
+            download_plot(plot2, "plot2.png")
 
 elif selected_page == 'Saint Andrew Bay-Estuary':
     # Subpage navigation for Saint Andrew Bay-Estuary
