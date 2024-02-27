@@ -188,9 +188,9 @@ def generate_hab_quotient_map(df, case, scenario, min_lat=None, max_lat=None,min
     sc = ax.scatter(location_counts['Long'], location_counts['Lat'], c=location_counts['NormalizedHABOccurrences'], cmap='OrRd', marker='o', s=300, alpha=1, edgecolors='green')
     plt.colorbar(sc, label='NormalizedHABOccurrences')
     # Modify the way to set the title to avoid KeyError
-    plt.title(f'HAB Occurences Ratio- {scenario}')
-    plt.xlabel('Longitude')
-    plt.ylabel('Latitude')
+    plt.title(f'HAB Occurences Ratio- {scenario}',fontsize=20)
+    plt.xlabel('Longitude',fontsize=15)
+    plt.ylabel('Latitude',fontsize=25)
     # Set latitude and longitude limits if provided
     if min_lat is not None and max_lat is not None:
         ax.set_ylim(bottom=min_lat, top=max_lat)
