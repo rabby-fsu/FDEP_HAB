@@ -104,6 +104,7 @@ def evaluate_model(trained_model, X_train, X_test, y_train, y_test):
 
     # Display the plots
     st.pyplot(fig)
+    return fig
 
 # Function to process each case
 def process_case(case):
@@ -232,7 +233,6 @@ def handle_prediction(subpage_name, case_index):
     if st.button('Evaluate Model'):
         # Evaluate the model using the returned model from process_case
         evaluate_model(selected_case['model'], selected_case['X_train'], selected_case['X_test'], selected_case['y_train'], selected_case['y_test'])
-
     # Remaining code for uploading user's CSV file, making predictions, and downloading results
     uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
 
