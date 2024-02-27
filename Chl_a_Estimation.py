@@ -173,7 +173,7 @@ def generate_hab_quotient_map(df, case, scenario, min_lat=None, max_lat=None,min
     location_counts['HABRiskQuotient'] = location_counts['NormalizedHABOccurrences'] * location_counts['NormalizedTotalDataPoints']
     
     # Create main plot with specified extent
-    fig = plt.figure(figsize=(15, 12))
+    fig = plt.figure(figsize=(15, 15))
     ax = fig.add_subplot(111, projection=ccrs.PlateCarree())
 
     # Add OpenStreetMap basemap
@@ -188,7 +188,7 @@ def generate_hab_quotient_map(df, case, scenario, min_lat=None, max_lat=None,min
     sc = ax.scatter(location_counts['Long'], location_counts['Lat'], c=location_counts['NormalizedHABOccurrences'], cmap='OrRd', marker='o', s=300, alpha=1, edgecolors='green')
     plt.colorbar(sc, label='NormalizedHABOccurrences')
     # Modify the way to set the title to avoid KeyError
-    plt.title(f'HAB Occurences Ratio- {scenario}',fontsize=305)
+    plt.title(f'HAB Occurences Ratio- {scenario}',fontsize=35)
     plt.xlabel('Longitude',fontsize=25)
     plt.ylabel('Latitude',fontsize=25)
     # Set latitude and longitude limits if provided
