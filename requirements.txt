@@ -11,4 +11,4 @@ cartopy
 folium
 cartopy
 geopandas
-contextly
+contextily
