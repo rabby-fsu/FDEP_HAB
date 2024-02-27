@@ -22,7 +22,7 @@ import seaborn as sns
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error
 
-df = pd.read_csv('PenPerd.csv')
+
 
 
 # Define a list of dictionaries for each case
@@ -184,10 +184,10 @@ def generate_hab_quotient_map(df, case, scenario, min_lat=None, max_lat=None,min
     ax.coastlines()
 
     # Plot HAB Risk Quotient
-    sc = ax.scatter(location_counts['Long'], location_counts['Lat'], c=location_counts['HABRiskQuotient'], cmap='OrRd', marker='o', s=300, alpha=1, edgecolors='green')
-    plt.colorbar(sc, label='HAB Risk Quotient')
+    sc = ax.scatter(location_counts['Long'], location_counts['Lat'], c=location_counts['NormalizedHABOccurrences'], cmap='OrRd', marker='o', s=300, alpha=1, edgecolors='green')
+    plt.colorbar(sc, label='NormalizedHABOccurrences')
     # Modify the way to set the title to avoid KeyError
-    plt.title(f'HAB Risk Quotient - {scenario}')
+    plt.title(f'HAB Occurences Ratio- {scenario}')
     plt.xlabel('Longitude')
     plt.ylabel('Latitude')
     # Set latitude and longitude limits if provided
