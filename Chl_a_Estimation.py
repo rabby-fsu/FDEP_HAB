@@ -188,8 +188,8 @@ def generate_hab_quotient_map(df, case, scenario, min_lat=None, max_lat=None,min
     sc = ax.scatter(location_counts['Long'], location_counts['Lat'], c=location_counts['NormalizedHABOccurrences'], cmap='OrRd', marker='o', s=300, alpha=1, edgecolors='green')
     plt.colorbar(sc, label='NormalizedHABOccurrences')
     # Modify the way to set the title to avoid KeyError
-    plt.title(f'HAB Occurences Ratio- {scenario}',fontsize=20)
-    plt.xlabel('Longitude',fontsize=15)
+    plt.title(f'HAB Occurences Ratio- {scenario}',fontsize=305)
+    plt.xlabel('Longitude',fontsize=25)
     plt.ylabel('Latitude',fontsize=25)
     # Set latitude and longitude limits if provided
     if min_lat is not None and max_lat is not None:
@@ -203,14 +203,14 @@ def generate_hab_quotient_map(df, case, scenario, min_lat=None, max_lat=None,min
         lat_interval = (max_lat - min_lat) / 3
         # Calculate tick positions
         lat_ticks = [min_lat, min_lat + lat_interval, max_lat - lat_interval, max_lat]
-        ax.set_yticks(lat_ticks)
+        ax.set_yticks(lat_ticks,fontsize=12)
         
     if min_lon is not None and max_lon is not None:
         # Calculate the interval between min and max values
         lon_interval = (max_lon - min_lon) / 3
         # Calculate tick positions
         lon_ticks = [min_lon, min_lon + lon_interval, max_lon - lon_interval, max_lon]
-        ax.set_xticks(lon_ticks)
+        ax.set_xticks(lon_ticks,fontsize=12)
 
 
     return fig
