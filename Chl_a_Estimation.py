@@ -203,14 +203,14 @@ def generate_hab_quotient_map(df, case, scenario, min_lat=None, max_lat=None,min
         lat_interval = (max_lat - min_lat) / 3
         # Calculate tick positions
         lat_ticks = [min_lat, min_lat + lat_interval, max_lat - lat_interval, max_lat]
-        ax.set_yticks(lat_ticks,fontsize=12)
+        ax.set_yticks(lat_ticks)
         
     if min_lon is not None and max_lon is not None:
         # Calculate the interval between min and max values
         lon_interval = (max_lon - min_lon) / 3
         # Calculate tick positions
         lon_ticks = [min_lon, min_lon + lon_interval, max_lon - lon_interval, max_lon]
-        ax.set_xticks(lon_ticks,fontsize=12)
+        ax.set_xticks(lon_ticks)
 
 
     return fig
