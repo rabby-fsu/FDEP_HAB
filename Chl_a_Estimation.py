@@ -61,12 +61,12 @@ cases = [
     },
     {
         'name': 'Pensacola-Perdido',
-        'data_file': 'PenPerd.csv',
+        'data_file': 'PenPerd1.csv',
         'threshold': 10,
         'selected_features': ['Salinity(ppt)', 'Turbidity(NTU)', 'DO(mg/l)', 'pH', 'ATemp_max',
                               'ATemp_max_1dlag', 'ATemp_max_2dlag', 'ATemp_max_3dlag',
                               'ATemp_max_4dlag', 'ATemp_max_5dlag', 'ATemp_max_6dlag', 'ATemp_max_7dlag'],
-        'model': RandomForestRegressor(n_estimators=10, random_state=42),
+        'model': RandomForestRegressor(n_estimators=34, random_state=42),
         'test_size' : 0.3
     }
 ]
