@@ -31,7 +31,7 @@ cases = [
         'name': 'Apalachicola',
         'data_file': 'Apalachicola.csv',
         'threshold': 5,
-        'selected_features': ['Salinity(ppt)', 'Turbidity(NTU)', 'DO(mg/l)', 'pH', 'ATemp_max',
+        'selected_features': ['Salinity(ppt)', 'Turbidity(NTU)', 'DO(mg/l)', 'pH', 'Temperature (deg cels)', 'ATemp_max',
                               'ATemp_max_1dlag', 'ATemp_max_2dlag', 'ATemp_max_3dlag',
                               'ATemp_max_4dlag', 'ATemp_max_5dlag', 'ATemp_max_6dlag',
                               'ATemp_max_7dlag'],
