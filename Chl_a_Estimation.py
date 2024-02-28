@@ -31,11 +31,11 @@ cases = [
         'name': 'Apalachicola',
         'data_file': 'Apalachicola.csv',
         'threshold': 5,
-        'selected_features': ['Salinity(ppt)', 'Turbidity(NTU)', 'DO(mg/l)', 'ATemp_max',
+        'selected_features': ['Salinity(ppt)', 'Turbidity(NTU)', 'DO(mg/l)', 'pH', 'ATemp_max',
                               'ATemp_max_1dlag', 'ATemp_max_2dlag', 'ATemp_max_3dlag',
                               'ATemp_max_4dlag', 'ATemp_max_5dlag', 'ATemp_max_6dlag',
                               'ATemp_max_7dlag'],
-        'model': XGBRegressor(n_estimators=335, max_depth=4, learning_rate=0.037818940902700418, random_state=42),
+        'model': XGBRegressor(n_estimators=190, random_state=42, max_depth=6, learning_rate=0.0109),
         'test_size': 0.2
     },
     {
