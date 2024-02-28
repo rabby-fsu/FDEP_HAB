@@ -189,7 +189,7 @@ def generate_hab_quotient_map(df, case, scenario, min_lat=None, max_lat=None,min
     # Plot coastlines
     ax.coastlines()
     # Plot HAB Ratio
-    sc = ax.scatter(location_counts['Long'], location_counts['Lat'], c=location_counts['Weighted HAB Ratio'], cmap='OrRd', marker='o', s=300, alpha=1, edgecolors='green')
+    sc = ax.scatter(location_counts['Long'], location_counts['Lat'], c=location_counts['NormalizedHABOccurrences'], cmap='OrRd', marker='o', s=300, alpha=1, edgecolors='green')
     plt.colorbar(sc, label='NormalizedHABOccurrences')
     # Modify the way to set the title to avoid KeyError
     plt.title(f'HAB Occurences Ratio- {scenario}')
@@ -274,7 +274,7 @@ selected_page = st.sidebar.radio('Go to', ['Introduction', 'Apalachicola Bay-Est
 
 if selected_page == 'Introduction':
     st.title('Introduction')
-    st.write('This is an application to evaluate the Apalachicola Bay Model.')
+    st.write('This is a web-based application to predict HABs in five estuarine systems of the Florida panhandle and evaluate the vulnerability of each system under what-if scenarios such as warmer temperatures, shifting salinity regimes and ocean acidification')
 
 elif selected_page == 'Apalachicola Bay-Estuary':
     # Subpage navigation for Apalachicola Bay-Estuary
