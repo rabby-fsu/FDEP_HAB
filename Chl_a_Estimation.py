@@ -22,7 +22,7 @@ import seaborn as sns
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error
 import contextily as ctx
-import leafmap.foliumap as leafmap
+
 
 # Define a list of dictionaries for each case
 cases = [
