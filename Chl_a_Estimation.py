@@ -127,20 +127,20 @@ def evaluate_model(trained_model, X_train, X_test, y_train, y_test, case_name):
     fig, axes = plt.subplots(2, 2, figsize=(12, 10))
 
     # Train dataset plot with correction
-    sns.scatterplot(x=y_train, y=y_train_pred_corrected, ax=axes[0, 0])
+    sns.scatterplot(x=y_train, y=y_train_pred_corrected, ax=axes[0])
     axes[0].set_title('Actual vs. Predicted Chlorophyll-a (Train)')
     axes[0].set_xlabel('Actual Chlorophyll-a (ug/L)')
     axes[0].set_ylabel('Predicted Chlorophyll-a (ug/L)')
     axes[0].plot([y_train.min(), y_train.max()], [y_train.min(), y_train.max()], 'k--', lw=2)
-    axes[0].text(0.1, 0.9, f'R2: {train_r2_corrected:.2f}\nRMSE: {train_rmse_corrected:.2f}', transform=axes[0, 0].transAxes)
+    axes[0].text(0.1, 0.9, f'R2: {train_r2_corrected:.2f}\nRMSE: {train_rmse_corrected:.2f}', transform=axes[0].transAxes)
 
     # Test dataset plot with correction
-    sns.scatterplot(x=y_test, y=y_test_pred_corrected, ax=axes[0, 1])
+    sns.scatterplot(x=y_test, y=y_test_pred_corrected, ax=axes[1])
     axes[1].set_title('Actual vs.Predicted Chlorophyll-a (Test)')
     axes[1].set_xlabel('Actual Chlorophyll-a (ug/L)')
     axes[1].set_ylabel('Predicted Chlorophyll-a (ug/L)')
     axes[1].plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'k--', lw=2)
-    axes[1].text(0.1, 0.9, f'R2: {test_r2_corrected:.2f}\nRMSE: {test_rmse_corrected:.2f}', transform=axes[0, 1].transAxes)
+    axes[1].text(0.1, 0.9, f'R2: {test_r2_corrected:.2f}\nRMSE: {test_rmse_corrected:.2f}', transform=axes[1].transAxes)
 
     # Display the plots
     plt.tight_layout()
