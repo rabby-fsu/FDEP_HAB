@@ -181,20 +181,15 @@ def generate_hab_quotient_map(df, case, scenario, min_lat=None, max_lat=None,min
     location_counts = location_counts.merge(hab_counts, on=['Lat', 'Long'], how='left')
     location_counts['HABOccurrences'].fillna(0)
     location_counts['HAB_Occurrences_Fequency_Ratio'] = location_counts['HABOccurrences'] / location_counts['TotalDataPoints']
-    #max_total_data_points = location_counts['TotalDataPoints'].max()
     #location_counts['NormalizedTotalDataPoints'] = location_counts['TotalDataPoints'] / max_total_data_points
     total_data_points = location_counts['TotalDataPoints'].max()
     location_counts['NormalizedTotalDataPoints'] = location_counts['TotalDataPoints'] / total_data_points
-    
-    location_counts['Weighted HAB Ratio'] = location_counts['HAB_Occurrences_Fequency_Ratio'] * location_counts['NormalizedTotalDataPoints']
-    
+    #location_counts['Weighted HAB Ratio'] = location_counts['HAB_Occurrences_Fequency_Ratio'] * location_counts['NormalizedTotalDataPoints']
+
     # Create main plot with specified extent
     fig = plt.figure(figsize=(15, 15))
     ax = fig.add_subplot(111, projection=ccrs.PlateCarree())
 
-    # Add OpenStreetMap basemap
-    #ax.set_extent([min_lon, max_lon, min_lat, max_lat], crs=ccrs.PlateCarree())
-    #ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik)
     ax.add_feature(cfeature.OCEAN)
     ax.add_feature(cfeature.LAND, edgecolor='black')
     ax.add_feature(cfeature.COASTLINE)
@@ -219,14 +214,14 @@ def generate_hab_quotient_map(df, case, scenario, min_lat=None, max_lat=None,min
         # Calculate the interval between min and max values
         lat_interval = (max_lat - min_lat) / 3
         # Calculate tick positions
-        lat_ticks = [min_lat, min_lat + lat_interval, max_lat - lat_interval, max_lat]
+        lat_ticks = [round(tick, 2) for tick in [min_lat, min_lat + lat_interval, max_lat - lat_interval, max_lat]]
         ax.set_yticks(lat_ticks)
         
     if min_lon is not None and max_lon is not None:
         # Calculate the interval between min and max values
         lon_interval = (max_lon - min_lon) / 3
         # Calculate tick positions
-        lon_ticks = [min_lon, min_lon + lon_interval, max_lon - lon_interval, max_lon]
+        lon_ticks = [round(tick, 2) for tick in [min_lon, min_lon + lon_interval, max_lon - lon_interval, max_lon]]
         ax.set_xticks(lon_ticks)
 
 
