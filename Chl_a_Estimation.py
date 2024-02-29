@@ -248,6 +248,10 @@ def handle_prediction(subpage_name, case_index):
         evaluate_model(selected_case['model'], selected_case['X_train'], selected_case['X_test'], selected_case['y_train'], selected_case['y_test'])
     # Remaining code for uploading user's CSV file, making predictions, and downloading results
     uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
+    st.write('Note 1: ATemp_max -> Maximum Air Temperature of that same day of water quality data and chlorophyll-a prediction -> [d].')
+    st.write('Note 2: ATemp_max_1dlag -> Maximum Air Temperature of the previous day -> [d-1]. Similarly, 2dlag -> [d-2],........, 7dlag->[d-7]')
+    st.write('Note 3: Unit of the temperatures: Degree Celsius ')
+    st.write('Note 4: User must have the varaibles asked to match below. The column names can be different and user can specify that by matching their columns with the tools requirements.')
 
     if uploaded_file is not None:
         user_data = pd.read_csv(uploaded_file)
