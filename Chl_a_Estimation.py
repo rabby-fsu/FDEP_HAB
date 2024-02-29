@@ -801,7 +801,7 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
         
         elif selected_option == 'Maximum Chlorophyll-a Values (Predicted)':
             # Display plots side by side using columns layout
-            col1, col2 = st.columns(3)
+            col1, col2 = st.columns(2)
             with col1:
                 st.write("Maximum Chlorophyll-a(ug/L) Predicted (Business-as-Usual)")
                 st.pyplot(plot3)
