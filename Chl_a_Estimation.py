@@ -274,7 +274,7 @@ selected_page = st.sidebar.radio('Go to', ['Introduction', 'Apalachicola Bay-Est
 
 if selected_page == 'Introduction':
     st.title('Introduction')
-    st.write('This is a web-based application to predict HABs in four estuarine systems of the Florida panhandle and evaluate the vulnerability of each system under what-if scenarios such as warmer temperatures, shifting salinity regimes and ocean acidification')
+    st.write('This is a web-based application to predict chlorophyll-a (an indicator of Harmful Algal Blooms) in four estuarine systems of the Florida panhandle and evaluate the vulnerability of each system under what-if scenarios such as cooler-warmer temperatures, shifting salinity regimes and ocean acidification status')
 
 elif selected_page == 'Apalachicola Bay-Estuary':
     # Subpage navigation for Apalachicola Bay-Estuary
