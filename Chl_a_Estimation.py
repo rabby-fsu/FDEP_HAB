@@ -124,7 +124,7 @@ def evaluate_model(trained_model, X_train, X_test, y_train, y_test, case_name):
     train_rmse_corrected = np.sqrt(mean_squared_error(y_train, y_train_pred_corrected))
 
     # Plot Actual vs Predicted Chlorophyll-a for train and test datasets
-    fig, axes = plt.subplots(1, 2, figsize=(12, 10))
+    fig, axes = plt.subplots(1, 2, figsize=(12, 15))
 
     # Train dataset plot with correction
     sns.scatterplot(x=y_train, y=y_train_pred_corrected, ax=axes[0])
@@ -328,7 +328,7 @@ def plot_max_predicted_chlorophyll_a(df, case, scenario, min_lat=None, max_lat=N
     max_chlorophyll_a = df.groupby(['Lat', 'Long'])['Predicted Chlorophyll-a'].max().reset_index()
 
     # Create the plot
-    fig = plt.figure(figsize=(15, 5))
+    fig = plt.figure(figsize=(15, 15))
     ax = fig.add_subplot(111, projection=ccrs.PlateCarree())
 
     ax.add_feature(cfeature.OCEAN)
