@@ -201,7 +201,8 @@ def generate_hab_quotient_map(df, case, scenario, min_lat=None, max_lat=None,min
     #plt.colorbar(sc, label='HAB_Occurrences_Fequency_Ratio')
     
     #plt.colorbar(sc, fontsize = 'large')
-    cbar = plt.colorbar(sc, shrink=0.7,vmin=0, vmax=1)
+    norm = Normalize(vmin=0, vmax=1)
+    cbar = plt.colorbar(sc, shrink=0.7,norm=norm)
     cbar.ax.tick_params(labelsize='large')
     # Modify the way to set the title to avoid KeyError
     plt.title(f'HAB Occurences Frequency Ratio-\n {scenario}',fontsize=20)
