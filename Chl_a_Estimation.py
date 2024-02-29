@@ -235,6 +235,15 @@ def generate_hab_quotient_map(df, case, scenario, min_lat=None, max_lat=None,min
         ax.set_xticks(lon_ticks)
     ax.tick_params(axis='both', labelsize='large')
 
+    # Sort DataFrame by longitude
+    location_counts_sorted = location_counts.sort_values(by='Long')
+    csv_data = location_counts_sorted[['Lat', 'Long', 'TotalDataPoints', 'HABOccurrences', 'HAB_Occurrences_Fequency_Ratio']].copy()
+    csv_data['Max_Predicted_Chlorophyll-a'] = df.groupby(['Lat', 'Long'])['Predicted Chlorophyll-a'].max()
+    csv_data['Median_Predicted_Chlorophyll-a'] = df.groupby(['Lat', 'Long'])['Predicted Chlorophyll-a'].median()
+    csv_data['Min_Predicted_Chlorophyll-a'] = df.groupby(['Lat', 'Long'])['Predicted Chlorophyll-a'].min()
+    csv_data_sorted = csv_data.sort_values(by='Long')
+    csv_data_sorted.to_csv('hab_data.csv', index=False)
+
 
     return fig
 
