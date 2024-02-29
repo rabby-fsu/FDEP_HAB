@@ -292,7 +292,7 @@ def plot_median_predicted_chlorophyll_a(df, case, scenario, min_lat=None, max_la
     ax.add_feature(cfeature.BORDERS, linestyle=':')
 
     # Plot the median predicted Chlorophyll-a values
-    sc = ax.scatter(median_chlorophyll_a['Long'], median_chlorophyll_a['Lat'], c=median_chlorophyll_a['Predicted Chlorophyll-a'], cmap='Blues', marker='o', s=300, alpha=1, edgecolors='green')
+    sc = ax.scatter(median_chlorophyll_a['Long'], median_chlorophyll_a['Lat'], c=median_chlorophyll_a['Predicted Chlorophyll-a'], cmap='PuRd', marker='o', s=300, alpha=1, edgecolors='green')
     cbar = plt.colorbar(sc, shrink=0.7)
     cbar.ax.tick_params(labelsize='large')
 
