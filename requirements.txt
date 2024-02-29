@@ -12,3 +12,4 @@ folium
 cartopy
 geopandas
 contextily
+leafmap.foliumap
