@@ -453,7 +453,8 @@ elif selected_page == 'Apalachicola Bay-Estuary':
         plot1= generate_hab_quotient_map(selected_case['df'], selected_case, scenario='Business-as-Usual',min_lat=29.5, max_lat=29.9, min_lon=-85.2, max_lon=-84.7)
         plot3 = plot_max_predicted_chlorophyll_a(selected_case['df'], selected_case, scenario='Business-as-Usual',min_lat=29.5, max_lat=29.9, min_lon=-85.2, max_lon=-84.7)
         plot5 = plot_median_predicted_chlorophyll_a(selected_case['df'], selected_case, scenario='Business-as-Usual',min_lat=29.5, max_lat=29.9, min_lon=-85.2, max_lon=-84.7)
-
+        plot7 = plot_predicted_chlorophyll_boxplot(selected_case['df'], selected_case, scenario='Business-as-Usual')
+        
         # Generate maps for Business-as-Usual and Hypothetical Scenario
         modified_df = selected_case['df'].copy()  # Corrected copy operation
         modified_df['pH'] += ocean_acidification  # Apply modifications to the copied DataFrame
@@ -474,9 +475,9 @@ elif selected_page == 'Apalachicola Bay-Estuary':
         plot2 = generate_hab_quotient_map(modified_df, cases[0], scenario='Hypothetical Scenario',min_lat=29.5, max_lat=29.9, min_lon=-85.2, max_lon=-84.7)  # Pass modified DataFrame
         plot4 = plot_max_predicted_chlorophyll_a(modified_df, cases[0], scenario='Hypothetical Scenario',min_lat=29.5, max_lat=29.9, min_lon=-85.2, max_lon=-84.7)
         plot6 = plot_median_predicted_chlorophyll_a(modified_df, cases[0], scenario='Hypothetical Scenario',min_lat=29.5, max_lat=29.9, min_lon=-85.2, max_lon=-84.7)
+        plot8 = plot_predicted_chlorophyll_boxplot(modified_df,cases[0], scenario='Hypothetical Scenario')
 
-
-        dropdown_options = ['HAB Occurrences Ratio', 'Maximum Chlorophyll-a Values (Predicted)', 'Median Chlorophyll-a Values (Predicted)']
+        dropdown_options = ['HAB Occurrences Ratio', 'Maximum Chlorophyll-a Values (Predicted)', 'Median Chlorophyll-a Values (Predicted)', 'Location-wise Boxplots of Chlorophyll-a values (Predicted)']
         selected_option = st.selectbox('Select an option', dropdown_options)
         if selected_option == 'HAB Occurrences Ratio':
             # Display plots side by side using columns layout
@@ -484,11 +485,11 @@ elif selected_page == 'Apalachicola Bay-Estuary':
             with col1:
                 st.write("Plot: HAB Occurrences Ratio (Business-as-Usual)")
                 st.pyplot(plot1)
-                download_plot(plot1, "plot1.png")
+                download_plot(plot1, "HAB_Ratio_business_as_usual.png")
             with col2:
                 st.write("HAB Occurrences Ratio (Hypothetical Scenario)")
                 st.pyplot(plot2)
-                download_plot(plot2, "plot2.png")
+                download_plot(plot2, "HAB_Ratio_hyp_scenario.png")
         
         elif selected_option == 'Maximum Chlorophyll-a Values (Predicted)':
             # Display plots side by side using columns layout
@@ -496,11 +497,11 @@ elif selected_page == 'Apalachicola Bay-Estuary':
             with col1:
                 st.write("Maximum Chlorophyll-a(ug/L) Predicted (Business-as-Usual)")
                 st.pyplot(plot3)
-                download_plot(plot3, "plot3.png")
+                download_plot(plot3, "Max_business_as_usual.png")
             with col2:
                 st.write("Maximum Chlorophyll-a(ug/L) Predicted (Hypothetical Scenario)")
                 st.pyplot(plot4)
-                download_plot(plot4, "plot4.png")
+                download_plot(plot4, "Max_hyp_scenario.png")
 
         elif selected_option == 'Median Chlorophyll-a Values (Predicted)':
             # Display plots side by side using columns layout
@@ -508,11 +509,24 @@ elif selected_page == 'Apalachicola Bay-Estuary':
             with col1:
                 st.write("Median Chloropyhll-a(ug/L) Predicted (Business-as-Usual)")
                 st.pyplot(plot5)
-                download_plot(plot3, "plot5.png")
+                download_plot(plot5, "Median_business_as_usual.png")
             with col2:
                 st.write("Median Chlorophyll-a(ug/L) Predicted (Hypothetical Scenario)")
                 st.pyplot(plot6)
-                download_plot(plot6, "plot6.png")
+                download_plot(plot6, "Median_hyp_scenario.png")
+                
+        elif selected_option == 'Location-wise Boxplots of Chlorophyll-a values (Predicted)':
+            # Display plots side by side using columns layout
+            col1, col2 = st.columns(2)
+            with col1:
+                st.write("Chloropyhll-a(ug/L) Accross the stations (Business-as-Usual)")
+                st.pyplot(plot7)
+                download_plot(plot7, "boxplot_business_as_usual.png")
+            with col2:
+                st.write("Chloropyhll-a(ug/L) Accross the stations (Hypothetical Scenario)")
+                st.pyplot(plot8)
+                download_plot(plot8, "boxplot_hyp_scenario.png")
+
 
 
 elif selected_page == 'St. Joseph Bay-Estuary':
@@ -538,7 +552,8 @@ elif selected_page == 'St. Joseph Bay-Estuary':
         plot1= generate_hab_quotient_map(selected_case['df'], selected_case, scenario='Business-as-Usual',min_lat=29.65, max_lat=29.9, min_lon=-85.42, max_lon=-85.29)
         plot3 = plot_max_predicted_chlorophyll_a(selected_case['df'], selected_case, scenario='Business-as-Usual',min_lat=29.65, max_lat=29.9, min_lon=-85.42, max_lon=-85.29)
         plot5 = plot_median_predicted_chlorophyll_a(selected_case['df'], selected_case, scenario='Business-as-Usual',min_lat=29.65, max_lat=29.9, min_lon=-85.42, max_lon=-85.29)
-
+        plot7 = plot_predicted_chlorophyll_boxplot(selected_case['df'], selected_case, scenario='Business-as-Usual')
+        
         # Generate maps for Business-as-Usual and Hypothetical Scenario
         modified_df = selected_case['df'].copy()  # Corrected copy operation
         modified_df['pH'] += ocean_acidification  # Apply modifications to the copied DataFrame
@@ -558,9 +573,9 @@ elif selected_page == 'St. Joseph Bay-Estuary':
         plot2 = generate_hab_quotient_map(modified_df, cases[1], scenario='Hypothetical Scenario',min_lat=29.65, max_lat=29.9, min_lon=-85.42, max_lon=-85.29)  # Pass modified DataFrame
         plot4 = plot_max_predicted_chlorophyll_a(modified_df, cases[1], scenario='Hypothetical Scenario',min_lat=29.65, max_lat=29.9, min_lon=-85.42, max_lon=-85.29)
         plot6 = plot_median_predicted_chlorophyll_a(modified_df, cases[1], scenario='Hypothetical Scenario',min_lat=29.65, max_lat=29.9, min_lon=-85.42, max_lon=-85.29)
+        plot8 = plot_predicted_chlorophyll_boxplot(modified_df,cases[1], scenario='Hypothetical Scenario')
 
-
-        dropdown_options = ['HAB Occurrences Ratio', 'Maximum Chlorophyll-a Values (Predicted)', 'Median Chlorophyll-a Values (Predicted)']
+        dropdown_options = ['HAB Occurrences Ratio', 'Maximum Chlorophyll-a Values (Predicted)', 'Median Chlorophyll-a Values (Predicted)', 'Location-wise Boxplots of Chlorophyll-a values (Predicted)']
         selected_option = st.selectbox('Select an option', dropdown_options)
         if selected_option == 'HAB Occurrences Ratio':
             # Display plots side by side using columns layout
@@ -568,11 +583,11 @@ elif selected_page == 'St. Joseph Bay-Estuary':
             with col1:
                 st.write("Plot: HAB Occurrences Ratio (Business-as-Usual)")
                 st.pyplot(plot1)
-                download_plot(plot1, "plot1.png")
+                download_plot(plot1, "HAB_Ratio_business_as_usual.png")
             with col2:
                 st.write("HAB Occurrences Ratio (Hypothetical Scenario)")
                 st.pyplot(plot2)
-                download_plot(plot2, "plot2.png")
+                download_plot(plot2, "HAB_Ratio_hyp_scenario.png")
         
         elif selected_option == 'Maximum Chlorophyll-a Values (Predicted)':
             # Display plots side by side using columns layout
@@ -580,11 +595,11 @@ elif selected_page == 'St. Joseph Bay-Estuary':
             with col1:
                 st.write("Maximum Chlorophyll-a(ug/L) Predicted (Business-as-Usual)")
                 st.pyplot(plot3)
-                download_plot(plot3, "plot3.png")
+                download_plot(plot3, "Max_business_as_usual.png")
             with col2:
                 st.write("Maximum Chlorophyll-a(ug/L) Predicted (Hypothetical Scenario)")
                 st.pyplot(plot4)
-                download_plot(plot4, "plot4.png")
+                download_plot(plot4, "Max_hyp_scenario.png")
 
         elif selected_option == 'Median Chlorophyll-a Values (Predicted)':
             # Display plots side by side using columns layout
@@ -592,11 +607,24 @@ elif selected_page == 'St. Joseph Bay-Estuary':
             with col1:
                 st.write("Median Chloropyhll-a(ug/L) Predicted (Business-as-Usual)")
                 st.pyplot(plot5)
-                download_plot(plot3, "plot5.png")
+                download_plot(plot5, "Median_business_as_usual.png")
             with col2:
                 st.write("Median Chlorophyll-a(ug/L) Predicted (Hypothetical Scenario)")
                 st.pyplot(plot6)
-                download_plot(plot6, "plot6.png")
+                download_plot(plot6, "Median_hyp_scenario.png")
+                
+        elif selected_option == 'Location-wise Boxplots of Chlorophyll-a values (Predicted)':
+            # Display plots side by side using columns layout
+            col1, col2 = st.columns(2)
+            with col1:
+                st.write("Chloropyhll-a(ug/L) Accross the stations (Business-as-Usual)")
+                st.pyplot(plot7)
+                download_plot(plot7, "boxplot_business_as_usual.png")
+            with col2:
+                st.write("Chloropyhll-a(ug/L) Accross the stations (Hypothetical Scenario)")
+                st.pyplot(plot8)
+                download_plot(plot8, "boxplot_hyp_scenario.png")
+
 
 elif selected_page == 'St. Andrews Bay-Estuary':
     # Subpage navigation for Saint Andrew Bay-Estuary
@@ -620,7 +648,8 @@ elif selected_page == 'St. Andrews Bay-Estuary':
         plot1= generate_hab_quotient_map(selected_case['df'], selected_case, scenario='Business-as-Usual',min_lat=30, max_lat=30.35, min_lon=-85.9, max_lon=-85.35)
         plot3 = plot_max_predicted_chlorophyll_a(selected_case['df'], selected_case, scenario='Business-as-Usual',min_lat=30, max_lat=30.35, min_lon=-85.9, max_lon=-85.35)
         plot5 = plot_median_predicted_chlorophyll_a(selected_case['df'], selected_case, scenario='Business-as-Usual',min_lat=30, max_lat=30.35, min_lon=-85.9, max_lon=-85.35)
-
+        plot7 = plot_predicted_chlorophyll_boxplot(selected_case['df'], selected_case, scenario='Business-as-Usual')
+        
         # Generate maps for Business-as-Usual and Hypothetical Scenario
         modified_df = selected_case['df'].copy()  # Corrected copy operation
         modified_df['pH'] += ocean_acidification  # Apply modifications to the copied DataFrame
@@ -638,9 +667,9 @@ elif selected_page == 'St. Andrews Bay-Estuary':
         plot2 = generate_hab_quotient_map(modified_df, cases[2], scenario='Hypothetical Scenario',min_lat=30, max_lat=30.35, min_lon=-85.9, max_lon=-85.35)  # Pass modified DataFrame
         plot4 = plot_max_predicted_chlorophyll_a(modified_df, cases[2], scenario='Hypothetical Scenario',min_lat=30, max_lat=30.35, min_lon=-85.9, max_lon=-85.35)
         plot6 = plot_median_predicted_chlorophyll_a(modified_df, cases[2], scenario='Hypothetical Scenario',min_lat=30, max_lat=30.35, min_lon=-85.9, max_lon=-85.35)
+        plot8 = plot_predicted_chlorophyll_boxplot(modified_df,cases[2], scenario='Hypothetical Scenario')
 
-
-        dropdown_options = ['HAB Occurrences Ratio', 'Maximum Chlorophyll-a Values (Predicted)', 'Median Chlorophyll-a Values (Predicted)']
+        dropdown_options = ['HAB Occurrences Ratio', 'Maximum Chlorophyll-a Values (Predicted)', 'Median Chlorophyll-a Values (Predicted)', 'Location-wise Boxplots of Chlorophyll-a values (Predicted)']
         selected_option = st.selectbox('Select an option', dropdown_options)
         if selected_option == 'HAB Occurrences Ratio':
             # Display plots side by side using columns layout
@@ -648,11 +677,11 @@ elif selected_page == 'St. Andrews Bay-Estuary':
             with col1:
                 st.write("Plot: HAB Occurrences Ratio (Business-as-Usual)")
                 st.pyplot(plot1)
-                download_plot(plot1, "plot1.png")
+                download_plot(plot1, "HAB_Ratio_business_as_usual.png")
             with col2:
                 st.write("HAB Occurrences Ratio (Hypothetical Scenario)")
                 st.pyplot(plot2)
-                download_plot(plot2, "plot2.png")
+                download_plot(plot2, "HAB_Ratio_hyp_scenario.png")
         
         elif selected_option == 'Maximum Chlorophyll-a Values (Predicted)':
             # Display plots side by side using columns layout
@@ -660,11 +689,11 @@ elif selected_page == 'St. Andrews Bay-Estuary':
             with col1:
                 st.write("Maximum Chlorophyll-a(ug/L) Predicted (Business-as-Usual)")
                 st.pyplot(plot3)
-                download_plot(plot3, "plot3.png")
+                download_plot(plot3, "Max_business_as_usual.png")
             with col2:
                 st.write("Maximum Chlorophyll-a(ug/L) Predicted (Hypothetical Scenario)")
                 st.pyplot(plot4)
-                download_plot(plot4, "plot4.png")
+                download_plot(plot4, "Max_hyp_scenario.png")
 
         elif selected_option == 'Median Chlorophyll-a Values (Predicted)':
             # Display plots side by side using columns layout
@@ -672,11 +701,24 @@ elif selected_page == 'St. Andrews Bay-Estuary':
             with col1:
                 st.write("Median Chloropyhll-a(ug/L) Predicted (Business-as-Usual)")
                 st.pyplot(plot5)
-                download_plot(plot3, "plot5.png")
+                download_plot(plot5, "Median_business_as_usual.png")
             with col2:
                 st.write("Median Chlorophyll-a(ug/L) Predicted (Hypothetical Scenario)")
                 st.pyplot(plot6)
-                download_plot(plot6, "plot6.png")
+                download_plot(plot6, "Median_hyp_scenario.png")
+                
+        elif selected_option == 'Location-wise Boxplots of Chlorophyll-a values (Predicted)':
+            # Display plots side by side using columns layout
+            col1, col2 = st.columns(2)
+            with col1:
+                st.write("Chloropyhll-a(ug/L) Accross the stations (Business-as-Usual)")
+                st.pyplot(plot7)
+                download_plot(plot7, "boxplot_business_as_usual.png")
+            with col2:
+                st.write("Chloropyhll-a(ug/L) Accross the stations (Hypothetical Scenario)")
+                st.pyplot(plot8)
+                download_plot(plot8, "boxplot_hyp_scenario.png")
+
 
 
 elif selected_page == 'Pensacola-Perdido Bay-Estuary':
@@ -700,6 +742,7 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
         plot1= generate_hab_quotient_map(selected_case['df'], selected_case, scenario='Business-as-Usual',min_lat=30.2, max_lat=30.7, min_lon=-87.59, max_lon=-86.9)
         plot3 = plot_max_predicted_chlorophyll_a(selected_case['df'], selected_case, scenario='Business-as-Usual', min_lat=30.2, max_lat=30.7, min_lon=-87.59, max_lon=-86.9)
         plot5 = plot_median_predicted_chlorophyll_a(selected_case['df'], selected_case, scenario='Business-as-Usual', min_lat=30.2, max_lat=30.7, min_lon=-87.59, max_lon=-86.9)
+        plot7 = plot_predicted_chlorophyll_boxplot(selected_case['df'], selected_case, scenario='Business-as-Usual')
         
         # Generate maps for Business-as-Usual and Hypothetical Scenario
         modified_df = selected_case['df'].copy()  # Corrected copy operation
@@ -719,8 +762,9 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
         plot2 = generate_hab_quotient_map(modified_df, cases[3], scenario='Hypothetical Scenario',min_lat=30.2, max_lat=30.7, min_lon=-87.59, max_lon=-86.9)  # Pass modified DataFrame
         plot4 = plot_max_predicted_chlorophyll_a(modified_df,cases[3], scenario='Hypothetical Scenario', min_lat=30.2, max_lat=30.7, min_lon=-87.59, max_lon=-86.9)
         plot6 = plot_median_predicted_chlorophyll_a(modified_df,cases[3], scenario='Hypothetical Scenario', min_lat=30.2, max_lat=30.7, min_lon=-87.59, max_lon=-86.9)
+        plot8 = plot_predicted_chlorophyll_boxplot(modified_df,cases[3], scenario='Hypothetical Scenario')
 
-        dropdown_options = ['HAB Occurrences Ratio', 'Maximum Chlorophyll-a Values (Predicted)', 'Median Chlorophyll-a Values (Predicted)']
+        dropdown_options = ['HAB Occurrences Ratio', 'Maximum Chlorophyll-a Values (Predicted)', 'Median Chlorophyll-a Values (Predicted)', 'Location-wise Boxplots of Chlorophyll-a values (Predicted)']
         selected_option = st.selectbox('Select an option', dropdown_options)
         if selected_option == 'HAB Occurrences Ratio':
             # Display plots side by side using columns layout
@@ -728,11 +772,11 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
             with col1:
                 st.write("Plot: HAB Occurrences Ratio (Business-as-Usual)")
                 st.pyplot(plot1)
-                download_plot(plot1, "plot1.png")
+                download_plot(plot1, "HAB_Ratio_business_as_usual.png")
             with col2:
                 st.write("HAB Occurrences Ratio (Hypothetical Scenario)")
                 st.pyplot(plot2)
-                download_plot(plot2, "plot2.png")
+                download_plot(plot2, "HAB_Ratio_hyp_scenario.png")
         
         elif selected_option == 'Maximum Chlorophyll-a Values (Predicted)':
             # Display plots side by side using columns layout
@@ -740,11 +784,11 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
             with col1:
                 st.write("Maximum Chlorophyll-a(ug/L) Predicted (Business-as-Usual)")
                 st.pyplot(plot3)
-                download_plot(plot3, "plot3.png")
+                download_plot(plot3, "Max_business_as_usual.png")
             with col2:
                 st.write("Maximum Chlorophyll-a(ug/L) Predicted (Hypothetical Scenario)")
                 st.pyplot(plot4)
-                download_plot(plot4, "plot4.png")
+                download_plot(plot4, "Max_hyp_scenario.png")
 
         elif selected_option == 'Median Chlorophyll-a Values (Predicted)':
             # Display plots side by side using columns layout
@@ -752,8 +796,20 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
             with col1:
                 st.write("Median Chloropyhll-a(ug/L) Predicted (Business-as-Usual)")
                 st.pyplot(plot5)
-                download_plot(plot3, "plot5.png")
+                download_plot(plot5, "Median_business_as_usual.png")
             with col2:
                 st.write("Median Chlorophyll-a(ug/L) Predicted (Hypothetical Scenario)")
                 st.pyplot(plot6)
-                download_plot(plot6, "plot6.png")
+                download_plot(plot6, "Median_hyp_scenario.png")
+                
+        elif selected_option == 'Location-wise Boxplots of Chlorophyll-a values (Predicted)':
+            # Display plots side by side using columns layout
+            col1, col2 = st.columns(2)
+            with col1:
+                st.write("Chloropyhll-a(ug/L) Accross the stations (Business-as-Usual)")
+                st.pyplot(plot7)
+                download_plot(plot7, "boxplot_business_as_usual.png")
+            with col2:
+                st.write("Chloropyhll-a(ug/L) Accross the stations (Hypothetical Scenario)")
+                st.pyplot(plot8)
+                download_plot(plot8, "boxplot_hyp_scenario.png")
