@@ -189,7 +189,7 @@ def generate_hab_quotient_map(df, case, scenario, min_lat=None, max_lat=None,min
     location_counts['Weighted HAB Ratio'] = location_counts['HAB_Occurrences_Fequency_Ratio'] * location_counts['NormalizedTotalDataPoints']
     
     # Create main plot with specified extent
-    fig = plt.figure(figsize=(15, 12))
+    fig = plt.figure(figsize=(15, 15))
     ax = fig.add_subplot(111, projection=ccrs.PlateCarree())
 
     # Add OpenStreetMap basemap
