@@ -335,6 +335,8 @@ def plot_predicted_chlorophyll_boxplot(df, case, scenario):
     plt.xlabel('Location', fontsize=14)
     plt.ylabel('Predicted Chlorophyll-a', fontsize=14)
     plt.xticks(rotation=45, ha='right')
+    # Set y-axis limits
+    ax.set_ylim(0, 50)
 
     plt.grid(True)
 
