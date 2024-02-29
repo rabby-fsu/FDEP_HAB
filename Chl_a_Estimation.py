@@ -491,7 +491,7 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
     if subpage_selected == 'Prediction':
         handle_prediction('Pensacola-Perdido', 3)  # Passing the subpage name and case index
     elif subpage_selected == 'Vulnerability':
-        # Your code for vulnerability
+        # Your code for vulnerability 
         selected_case = process_case(cases[3])
 
         # Sliders for scenarios
@@ -504,13 +504,6 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
 
         # Generate map for Business-as-Usual
         plot1= generate_hab_quotient_map(selected_case['df'], selected_case, scenario='Business-as-Usual',min_lat=30.2, max_lat=30.7, min_lon=-87.59, max_lon=-86.9)
-        # Display plots side by side using columns layout
-        col1, col2 = st.columns(2)
-        with col1:
-            st.write("Plot 1")
-            st.pyplot(plot1)
-            download_plot(plot1, "plot1.png")
-
         # Generate maps for Business-as-Usual and Hypothetical Scenario
         modified_df = selected_case['df'].copy()  # Corrected copy operation
         modified_df['pH'] += ocean_acidification  # Apply modifications to the copied DataFrame
@@ -524,12 +517,28 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
         # Predict chlorophyll-a for modified scenario
         modified_predictions = cases[3]['model'].predict(modified_df[selected_case['selected_features']])
         modified_df['Predicted Chlorophyll-a'] = modified_predictions
+        
         # Generate map for Hypothetical Scenario
         plot2 = generate_hab_quotient_map(modified_df, cases[3], scenario='Hypothetical Scenario',min_lat=30.2, max_lat=30.7, min_lon=-87.59, max_lon=-86.9)  # Pass modified DataFrame
 
+        dropdown_options = ['HAB Occurrences Ratio', 'Other Option1', 'Other Option2']
+        selected_option = st.selectbox('Select an option', dropdown_options)
+        if selected_option == 'HAB Occurrences Ratio':
+            # Display plots side by side using columns layout
+            col1, col2 = st.columns(2)
+            with col1:
+                st.write("Plot 1")
+                st.pyplot(plot1)
+                download_plot(plot1, "plot1.png")
+            with col2:
+                st.write("Plot 2")
+                st.pyplot(plot2)
+                download_plot(plot2, "plot2.png")
+        
+        elif selected_option == 'Other Option1':
+            # Code for other option 1
+            pass
 
-
-        with col2:
-            st.write("Plot 2")
-            st.pyplot(plot2)
-            download_plot(plot2, "plot2.png")
+        elif selected_option == 'Other Option2':
+            # Code for other option 2
+            pass
