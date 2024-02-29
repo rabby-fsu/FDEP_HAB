@@ -22,6 +22,7 @@ import seaborn as sns
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error
 import contextily as ctx
+from matplotlib.colors import Normalize
 
 def map_estuarine_system(system_name, min_lat, max_lat, min_lon, max_lon):
     # Create a map centered around the estuarine system
