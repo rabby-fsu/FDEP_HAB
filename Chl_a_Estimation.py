@@ -284,8 +284,8 @@ selected_page = st.sidebar.radio('Go to', ['Introduction', 'Apalachicola Bay-Est
 
 if selected_page == 'Introduction':
     st.title('Introduction')
-    st.write('This is a web-based application to predict chlorophyll-a (an indicator of Harmful Algal Blooms) in four estuarine systems of the Florida panhandle and evaluate the vulnerability of each system under following what-if scenarios:')
-
+    st.write('This is a web-based application to predict chlorophyll-a (an indicator of Harmful Algal Blooms) in four bay-estuary systems of the Florida panhandle and evaluate the vulnerability of each system under different hypothetical (what-if) scenarios')
+    st.write('Please expand from the following to see the systems and the scenarios:')
     # Define the estuarine systems with their boundaries
     systems = {
         "Apalachicola": {"min_lat": 29.5, "max_lat": 29.9, "min_lon": -85.2, "max_lon": -84.7},
