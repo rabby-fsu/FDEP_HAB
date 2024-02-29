@@ -271,7 +271,7 @@ def handle_prediction(subpage_name, case_index):
             st.write("Download the results as a CSV file.")
             csv = user_data.to_csv(index=False)
             b64 = base64.b64encode(csv.encode()).decode()  # B64 encoding
-            href = f'<a href="data:file/csv;base64,{b64}" download="model_b_predictions.csv">Download CSV</a>'
+            href = f'<a href="data:file/csv;base64,{b64}" download="user_data_appeneded_with_predictions.csv">Download CSV</a>'
             st.markdown(href, unsafe_allow_html=True)
         else:
             st.write("Uploaded CSV file does not contain expected features.")
