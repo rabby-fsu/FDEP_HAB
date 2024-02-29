@@ -22,8 +22,7 @@ import seaborn as sns
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error
 import contextily as ctx
-
-
+import leafmap.foliumap as leafmap
 
 # Define a list of dictionaries for each case
 cases = [
@@ -266,16 +265,14 @@ def handle_prediction(subpage_name, case_index):
             st.markdown(href, unsafe_allow_html=True)
         else:
             st.write("Uploaded CSV file does not contain expected features.")
-import folium
-import streamlit as st
+
 
 def map_estuarine_system(system_name, min_lat, max_lat, min_lon, max_lon):
     # Create a map centered around the estuarine system
-    m = folium.Map(location=[(min_lat + max_lat) / 2, (min_lon + max_lon) / 2], zoom_start=10)
+    m = leafmap.Map(center=[(min_lat + max_lat) / 2, (min_lon + max_lon) / 2], zoom=10)
 
     # Add a rectangle encompassing the estuarine system
-    rectangle = folium.Rectangle(bounds=[[min_lat, min_lon], [max_lat, max_lon]], color='blue', fill=True, fill_color='blue', fill_opacity=0.2)
-    m.add_child(rectangle)
+    m.add_bbox(bounds=[[min_lat, min_lon], [max_lat, max_lon]], color='blue', fill_opacity=0.2)
 
     return m
 
