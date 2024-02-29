@@ -23,7 +23,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error
 import contextily as ctx
 from matplotlib.colors import Normalize
-import matplotlib.ticker as ticker
+
 
 def map_estuarine_system(system_name, min_lat, max_lat, min_lon, max_lon):
     # Create a map centered around the estuarine system
@@ -325,7 +325,8 @@ def plot_median_predicted_chlorophyll_a(df, case, scenario, min_lat=None, max_la
 def plot_predicted_chlorophyll_boxplot(df, case, scenario):
     # Sort DataFrame by longitude
     df_sorted = df.sort_values(by='Long')
-
+    df_sorted['Long'] = df_sorted['Long'].apply(lambda x: round(x, 2))
+    
     # Create the plot
     fig = plt.figure(figsize=(10, 8))
     ax = fig.add_subplot(111)
@@ -338,7 +339,6 @@ def plot_predicted_chlorophyll_boxplot(df, case, scenario):
     plt.xticks(rotation=45, ha='right')
     # Set y-axis limits
     ax.set_ylim(0, 50)
-    ax.xaxis.set_major_formatter(ticker.StrMethodFormatter('{x:.2f}'))
 
     plt.grid(True)
 
