@@ -286,14 +286,14 @@ if selected_page == 'Introduction':
         "Pensacola-Perido": {"min_lat": 30.2, "max_lat": 30.7, "min_lon": -87.59, "max_lon": -86.9}
     }
 
-    # Display the estuarine systems with maps using expanders
+    # Display the estuarine systems with maps using a single expander
     with st.expander("Estuarine Systems"):
         for system, bounds in systems.items():
-            with st.expander(system):
-                st.text("Latitude Range: {} - {}".format(bounds["min_lat"], bounds["max_lat"]))
-                st.text("Longitude Range: {} - {}".format(bounds["min_lon"], bounds["max_lon"]))
-                st.write("Map showing the {} estuarine system:".format(system))
-                st.write(map_estuarine_system(system, bounds["min_lat"], bounds["max_lat"], bounds["min_lon"], bounds["max_lon"]))
+            st.subheader(system)
+            st.text("Latitude Range: {} - {}".format(bounds["min_lat"], bounds["max_lat"]))
+            st.text("Longitude Range: {} - {}".format(bounds["min_lon"], bounds["max_lon"]))
+            st.write("Map showing the {} estuarine system:".format(system))
+            st.write(map_estuarine_system(system, bounds["min_lat"], bounds["max_lat"], bounds["min_lon"], bounds["max_lon"]))
 
     # Infographics for what-if scenarios
     with st.expander("What-If Scenarios for Vulnerability Assessment:"):
@@ -304,6 +304,7 @@ if selected_page == 'Introduction':
             st.image("salinity_scenario.gif", caption="Shifting Salinity Regimes (Increase/Decrease in Salinity Level)")
         with col3:
             st.image("Ocean_Acid_Scenario.jpeg", caption="Ocean Acidification Status (Increase/Decrease in pH)")
+
 
 
 
