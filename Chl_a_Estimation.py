@@ -328,7 +328,7 @@ def plot_max_predicted_chlorophyll_a(df, case, scenario, min_lat=None, max_lat=N
     max_chlorophyll_a = df.groupby(['Lat', 'Long'])['Predicted Chlorophyll-a'].max().reset_index()
 
     # Create the plot
-    fig = plt.figure(figsize=(15, 15))
+    fig = plt.figure(figsize=(15, 5))
     ax = fig.add_subplot(111, projection=ccrs.PlateCarree())
 
     ax.add_feature(cfeature.OCEAN)
