@@ -88,11 +88,11 @@ def download_plot(plot, filename):
     st.download_button(label="Download Plot", data=open(filename, 'rb').read(), file_name=filename, mime='image/png')
     
 
-def evaluate_model(trained_model, X_train, X_test, y_train, y_test, case['name'])
+def evaluate_model(trained_model, X_train, X_test, y_train, y_test, case_name)
     y_train_pred = trained_model.predict(X_train)
     y_test_pred = trained_model.predict(X_test)
 
-    if case['name'] == 'Apalachicola':  # Linear correction only for Apalachicola 
+    if case_name == 'Apalachicola':  # Linear correction only for Apalachicola 
         # Calculate residuals for training data
         residuals_train = y_train - y_train_pred
 
