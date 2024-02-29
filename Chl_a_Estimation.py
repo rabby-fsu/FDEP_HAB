@@ -330,8 +330,8 @@ def plot_predicted_chlorophyll_boxplot(df, case, scenario):
     ax = fig.add_subplot(111)
 
     # Create the boxplot
-    sns.boxplot(data=df_sorted, x='Long', y='Predicted Chlorophyll-a (ug/L)', ax=ax)
-    plt.title(f'Boxplot of Predicted Chlorophyll-a(ug/L) at each Location - {scenario}', fontsize=16)
+    sns.boxplot(data=df_sorted, x='Long', y='Predicted Chlorophyll-a', ax=ax)
+    plt.title(f'Predicted Chlorophyll-a(ug/L) at each Location\n - {scenario}', fontsize=16)
     plt.xlabel('Location', fontsize=14)
     plt.ylabel('Predicted Chlorophyll-a', fontsize=14)
     plt.xticks(rotation=45, ha='right')
