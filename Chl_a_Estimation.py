@@ -174,14 +174,14 @@ def generate_hab_quotient_map(df, case, scenario, min_lat=None, max_lat=None,min
     location_counts = df.groupby(['Lat', 'Long']).size().reset_index(name='TotalDataPoints')
     hab_counts = df[df['Predicted Chlorophyll-a'] > case['threshold']].groupby(['Lat', 'Long']).size().reset_index(name='HABOccurrences')
     location_counts = location_counts.merge(hab_counts, on=['Lat', 'Long'], how='left')
-    location_counts['HABOccurrences'].fillna(0, inplace=True)
-    location_counts['NormalizedHABOccurrences'] = location_counts['HABOccurrences'] / location_counts['TotalDataPoints']
+    location_counts['HABOccurrences'].fillna(0)
+    location_counts['HAB_Occurrences_Fequency_Ratio'] = location_counts['HABOccurrences'] / location_counts['TotalDataPoints']
     #max_total_data_points = location_counts['TotalDataPoints'].max()
     #location_counts['NormalizedTotalDataPoints'] = location_counts['TotalDataPoints'] / max_total_data_points
     total_data_points = location_counts['TotalDataPoints'].max()
     location_counts['NormalizedTotalDataPoints'] = location_counts['TotalDataPoints'] / total_data_points
     
-    location_counts['Weighted HAB Ratio'] = location_counts['NormalizedHABOccurrences'] * location_counts['NormalizedTotalDataPoints']
+    location_counts['Weighted HAB Ratio'] = location_counts['HAB_Occurrences_Fequency_Ratio'] * location_counts['NormalizedTotalDataPoints']
     
     # Create main plot with specified extent
     fig = plt.figure(figsize=(15, 12))
@@ -197,10 +197,10 @@ def generate_hab_quotient_map(df, case, scenario, min_lat=None, max_lat=None,min
     # Plot coastlines
     ax.coastlines()
     # Plot HAB Ratio
-    sc = ax.scatter(location_counts['Long'], location_counts['Lat'], c=location_counts['NormalizedHABOccurrences'], cmap='OrRd', marker='o', s=300, alpha=1, edgecolors='green')
+    sc = ax.scatter(location_counts['Long'], location_counts['Lat'], c=location_counts['HAB_Occurrences_Fequency_Ratio'], cmap='OrRd', marker='o', s=300, alpha=1, edgecolors='green')
     plt.colorbar(sc, label='NormalizedHABOccurrences')
     # Modify the way to set the title to avoid KeyError
-    plt.title(f'HAB Occurences Ratio- {scenario}')
+    plt.title(f'HAB Occurences Frequency Ratio- {scenario}')
     plt.xlabel('Longitude')
     plt.ylabel('Latitude')
     # Set latitude and longitude limits if provided
