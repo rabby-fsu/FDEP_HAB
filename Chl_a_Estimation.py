@@ -566,7 +566,7 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
         # Generate map for Hypothetical Scenario
         plot4 = plot_max_predicted_chlorophyll_a(modified_df,cases[3], scenario='Hypothetical Scenario', min_lat=30.2, max_lat=30.7, min_lon=-87.59, max_lon=-86.9)
 
-        dropdown_options = ['HAB Occurrences Ratio', 'Other Option1', 'Other Option2']
+        dropdown_options = ['HAB Occurrences Ratio', 'Maximum Chlorophll-a Values (Predicted)', 'Other Option2']
         selected_option = st.selectbox('Select an option', dropdown_options)
         if selected_option == 'HAB Occurrences Ratio':
             # Display plots side by side using columns layout
