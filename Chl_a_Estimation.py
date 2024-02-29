@@ -338,6 +338,7 @@ def plot_predicted_chlorophyll_boxplot(df, case, scenario):
     plt.xticks(rotation=45, ha='right')
     # Set y-axis limits
     ax.set_ylim(0, 50)
+    ax.xaxis.set_major_formatter(ticker.StrMethodFormatter('{x:.2f}'))
 
     plt.grid(True)
 
