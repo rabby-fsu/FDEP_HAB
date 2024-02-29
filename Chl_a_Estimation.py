@@ -321,6 +321,27 @@ def plot_median_predicted_chlorophyll_a(df, case, scenario, min_lat=None, max_la
     return fig
 
 
+def plot_predicted_chlorophyll_boxplot(df, case, scenario):
+    # Sort DataFrame by longitude
+    df_sorted = df.sort_values(by='Long')
+
+    # Create the plot
+    fig = plt.figure(figsize=(10, 8))
+    ax = fig.add_subplot(111)
+
+    # Create the boxplot
+    sns.boxplot(data=df_sorted, x='Long', y='Predicted Chlorophyll-a (ug/L)', ax=ax)
+    plt.title(f'Boxplot of Predicted Chlorophyll-a(ug/L) at each Location - {scenario}', fontsize=16)
+    plt.xlabel('Location', fontsize=14)
+    plt.ylabel('Predicted Chlorophyll-a', fontsize=14)
+    plt.xticks(rotation=45, ha='right')
+
+    plt.grid(True)
+
+    plt.tight_layout()
+
+    return fig
+
 # Process each case
 #for case in cases:
     #process_case(case)
