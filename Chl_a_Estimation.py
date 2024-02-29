@@ -250,11 +250,11 @@ def plot_max_predicted_chlorophyll_a(df, case, scenario, min_lat=None, max_lat=N
     ax.add_feature(cfeature.BORDERS, linestyle=':')
 
     # Plot the maximum predicted Chlorophyll-a values
-    sc = ax.scatter(max_chlorophyll_a['Long'], max_chlorophyll_a['Lat'], c=max_chlorophyll_a['Predicted Chlorophyll-a'], cmap='viridis', marker='o', s=300, alpha=1, edgecolors='green')
+    sc = ax.scatter(max_chlorophyll_a['Long'], max_chlorophyll_a['Lat'], c=max_chlorophyll_a['Predicted Chlorophyll-a'], cmap='BuGn', marker='o', s=300, alpha=1, edgecolors='green')
     cbar = plt.colorbar(sc, shrink=0.7)
     cbar.ax.tick_params(labelsize='large')
 
-    plt.title(f'Maximum Predicted Chlorophyll-a per Location - {scenario}', fontsize=20)
+    plt.title(f'Maximum Predicted Chlorophyll-a(ug/L) at each Location\n - {scenario}', fontsize=20)
     plt.xlabel('Longitude', fontsize=18)
     plt.ylabel('Latitude', fontsize=18)
 
@@ -292,11 +292,11 @@ def plot_median_predicted_chlorophyll_a(df, case, scenario, min_lat=None, max_la
     ax.add_feature(cfeature.BORDERS, linestyle=':')
 
     # Plot the median predicted Chlorophyll-a values
-    sc = ax.scatter(median_chlorophyll_a['Long'], median_chlorophyll_a['Lat'], c=median_chlorophyll_a['Predicted Chlorophyll-a'], cmap='viridis', marker='o', s=300, alpha=1, edgecolors='green')
+    sc = ax.scatter(median_chlorophyll_a['Long'], median_chlorophyll_a['Lat'], c=median_chlorophyll_a['Predicted Chlorophyll-a'], cmap='Blues', marker='o', s=300, alpha=1, edgecolors='green')
     cbar = plt.colorbar(sc, shrink=0.7)
     cbar.ax.tick_params(labelsize='large')
 
-    plt.title(f'Median Predicted Chlorophyll-a per Location - {scenario}', fontsize=20)
+    plt.title(f'Median Predicted Chlorophyll-a(ug/L) at each Location\n - {scenario}', fontsize=20)
     plt.xlabel('Longitude', fontsize=18)
     plt.ylabel('Latitude', fontsize=18)
 
@@ -615,11 +615,11 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
             # Display plots side by side using columns layout
             col1, col2 = st.columns(2)
             with col1:
-                st.write("Plot 1")
+                st.write("Plot: HAB Occurrences Ratio (Business-as-Usual)")
                 st.pyplot(plot1)
                 download_plot(plot1, "plot1.png")
             with col2:
-                st.write("Plot 2")
+                st.write("HAB Occurrences Ratio (Hypothetical Scenario)")
                 st.pyplot(plot2)
                 download_plot(plot2, "plot2.png")
         
@@ -627,11 +627,11 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
             # Display plots side by side using columns layout
             col1, col2 = st.columns(2)
             with col1:
-                st.write("Plot 3")
+                st.write("Maximum Chlorophll-a(ug/L) Predicted (Business-as-Usual)")
                 st.pyplot(plot3)
                 download_plot(plot3, "plot3.png")
             with col2:
-                st.write("Plot 4")
+                st.write("Maximum Chlorophll-a(ug/L) Predicted (Hypothetical Scenario)")
                 st.pyplot(plot4)
                 download_plot(plot4, "plot4.png")
 
@@ -639,10 +639,10 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
             # Display plots side by side using columns layout
             col1, col2 = st.columns(2)
             with col1:
-                st.write("Plot 5")
+                st.write("Median Chlorophll-a(ug/L) Predicted (Business-as-Usual)")
                 st.pyplot(plot5)
                 download_plot(plot3, "plot5.png")
             with col2:
-                st.write("Plot 6")
+                st.write("Median Chlorophll-a(ug/L) Predicted (Hypothetical Scenario)")
                 st.pyplot(plot6)
                 download_plot(plot6, "plot6.png")
