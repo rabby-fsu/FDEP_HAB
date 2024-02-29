@@ -34,27 +34,14 @@ def map_estuarine_system(system_name, min_lat, max_lat, min_lon, max_lon):
 
     return m
 
-import numpy as np
-import matplotlib.pyplot as plt
 
-def plot_ratio_map(map1, map2):
-    # Perform element-wise division
-    ratio_map = np.divide(map2, map1)
-    
-    # Plot the ratio map
-    plt.imshow(ratio_map, cmap='viridis')  # You can choose any colormap you prefer
-    plt.colorbar(label='Ratio')
-    plt.title('Ratio Map: Hypothetical Scenario / Business-as-Usual')
-    plt.xlabel('Longitude')
-    plt.ylabel('Latitude')
-    plt.show()
 
 # Define a list of dictionaries for each case
 cases = [
     {
         'name': 'Apalachicola',
         'data_file': 'Apalachicola.csv',
-        'threshold': 5,
+        'threshold': 10,
         'selected_features': ['Salinity(ppt)', 'DO(mg/l)','Turbidity(NTU)', 'Temperature (deg cels)','pH','ATemp_max',
                               'ATemp_max_1dlag', 'ATemp_max_2dlag', 'ATemp_max_3dlag',
                               'ATemp_max_4dlag', 'ATemp_max_5dlag', 'ATemp_max_6dlag',
@@ -65,7 +52,7 @@ cases = [
     {
         'name': 'Joseph',
         'data_file': 'Joseph.csv',
-        'threshold': 5,
+        'threshold': 10,
         'selected_features': ['Salinity(ppt)', 'Turbidity(NTU)', 'DO(mg/l)', 'pH', 'ATemp_max',
                               'Nitrogen, Kjeldahl (mg/L)', 'ATemp_max_1dlag', 'ATemp_max_2dlag',
                               'ATemp_max_3dlag', 'ATemp_max_4dlag', 'ATemp_max_5dlag', 'ATemp_max_6dlag',
@@ -782,8 +769,6 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
         plot6 = plot_median_predicted_chlorophyll_a(modified_df,cases[3], scenario='Hypothetical Scenario', min_lat=30.2, max_lat=30.7, min_lon=-87.59, max_lon=-86.9)
         plot8 = plot_predicted_chlorophyll_boxplot(modified_df,cases[3], scenario='Hypothetical Scenario')
 
-        #Ratio of Max Map
-        plot9= plot_ratio_map(plot1, plot2)
 
         dropdown_options = ['HAB Occurrences Ratio', 'Maximum Chlorophyll-a Values (Predicted)', 'Median Chlorophyll-a Values (Predicted)', 'Location-wise Boxplots of Chlorophyll-a values (Predicted)']
         selected_option = st.selectbox('Select an option', dropdown_options)
@@ -801,7 +786,7 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
         
         elif selected_option == 'Maximum Chlorophyll-a Values (Predicted)':
             # Display plots side by side using columns layout
-            col1, col2, col3 = st.columns(3)
+            col1, col2 = st.columns(3)
             with col1:
                 st.write("Maximum Chlorophyll-a(ug/L) Predicted (Business-as-Usual)")
                 st.pyplot(plot3)
@@ -810,11 +795,7 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
                 st.write("Maximum Chlorophyll-a(ug/L) Predicted (Hypothetical Scenario)")
                 st.pyplot(plot4)
                 download_plot(plot4, "Max_hyp_scenario.png")
-            with col3:
-                st.write("Ratio of Maximum Chlorophyll-a(ug/L)")
-                st.pyplot(plot4)
-                download_plot(plot9, "Max_hyp_scenario.png")
-                
+
 
         elif selected_option == 'Median Chlorophyll-a Values (Predicted)':
             # Display plots side by side using columns layout
