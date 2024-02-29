@@ -23,6 +23,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error
 import contextily as ctx
 from matplotlib.colors import Normalize
+from sklearn.linear_model import LinearRegression
 
 
 def map_estuarine_system(system_name, min_lat, max_lat, min_lon, max_lon):
@@ -86,42 +87,68 @@ def download_plot(plot, filename):
     plot.savefig(filename)
     st.download_button(label="Download Plot", data=open(filename, 'rb').read(), file_name=filename, mime='image/png')
     
-# Define a function for model evaluation
-def evaluate_model(trained_model, X_train, X_test, y_train, y_test):
+
+def evaluate_model(trained_model, X_train, X_test, y_train, y_test, case['name'])
     y_train_pred = trained_model.predict(X_train)
     y_test_pred = trained_model.predict(X_test)
 
-    # Calculate evaluation metrics
-    train_r2 = r2_score(y_train, y_train_pred)
-    train_rmse = np.sqrt(mean_squared_error(y_train, y_train_pred))
+    if case['name'] == 'Apalachicola':  # Linear correction only for Apalachicola 
+        # Calculate residuals for training data
+        residuals_train = y_train - y_train_pred
 
-    test_r2 = r2_score(y_test, y_test_pred)
-    test_rmse = np.sqrt(mean_squared_error(y_test, y_test_pred))
+        # Fit linear regression on residuals for training data
+        lr_residuals_train = LinearRegression()
+        lr_residuals_train.fit(y_train_pred.reshape(-1, 1), residuals_train)
+
+        # Predict residuals for test set
+        test_residuals_pred = lr_residuals_train.predict(y_test_pred.reshape(-1, 1))
+
+        # Add residuals to predictions
+        y_test_pred_corrected = y_test_pred + test_residuals_pred
+
+        # Predict residuals for training set
+        train_residuals_pred = lr_residuals_train.predict(y_train_pred.reshape(-1, 1))
+
+        # Add residuals to predictions
+        y_train_pred_corrected = y_train_pred + train_residuals_pred
+
+    else:
+        y_test_pred_corrected = y_test_pred
+        y_train_pred_corrected = y_train_pred
+
+    # Calculate evaluation metrics for corrected predictions
+    test_r2_corrected = r2_score(y_test, y_test_pred_corrected)
+    test_rmse_corrected = np.sqrt(mean_squared_error(y_test, y_test_pred_corrected))
+
+    train_r2_corrected = r2_score(y_train, y_train_pred_corrected)
+    train_rmse_corrected = np.sqrt(mean_squared_error(y_train, y_train_pred_corrected))
 
     # Plot Actual vs Predicted Chlorophyll-a for train and test datasets
-    fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+    fig, axes = plt.subplots(2, 2, figsize=(12, 10))
 
-    # Train dataset plot
-    sns.scatterplot(x=y_train, y=y_train_pred, ax=axes[0])
+    # Train dataset plot with correction
+    sns.scatterplot(x=y_train, y=y_train_pred_corrected, ax=axes[0, 0])
     axes[0].set_title('Actual vs. Predicted Chlorophyll-a (Train)')
     axes[0].set_xlabel('Actual Chlorophyll-a (ug/L)')
     axes[0].set_ylabel('Predicted Chlorophyll-a (ug/L)')
     axes[0].plot([y_train.min(), y_train.max()], [y_train.min(), y_train.max()], 'k--', lw=2)
-    axes[0].text(0.1, 0.9, f'R2: {train_r2:.2f}\nRMSE: {train_rmse:.2f}', transform=axes[0].transAxes)
+    axes[0].text(0.1, 0.9, f'R2: {train_r2_corrected:.2f}\nRMSE: {train_rmse_corrected:.2f}', transform=axes[0, 0].transAxes)
 
-    # Test dataset plot
-    sns.scatterplot(x=y_test, y=y_test_pred, ax=axes[1])
-    axes[1].set_title('Actual vs. Predicted Chlorophyll-a (Test)')
+    # Test dataset plot with correction
+    sns.scatterplot(x=y_test, y=y_test_pred_corrected, ax=axes[0, 1])
+    axes[1].set_title('Actual vs.Predicted Chlorophyll-a (Test)')
     axes[1].set_xlabel('Actual Chlorophyll-a (ug/L)')
     axes[1].set_ylabel('Predicted Chlorophyll-a (ug/L)')
     axes[1].plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'k--', lw=2)
-    axes[1].text(0.1, 0.9, f'R2: {test_r2:.2f}\nRMSE: {test_rmse:.2f}', transform=axes[1].transAxes)
+    axes[1].text(0.1, 0.9, f'R2: {test_r2_corrected:.2f}\nRMSE: {test_rmse_corrected:.2f}', transform=axes[0, 1].transAxes)
 
     # Display the plots
-    st.pyplot(fig)
-    download_plot(fig, "evaluation_test_train.png")
+    plt.tight_layout()
+    plt.show()
+    
     return fig
 
+    
 # Function to process each case
 def process_case(case):
     # Read data
@@ -147,15 +174,64 @@ def process_case(case):
     # Predictions
     y_train_pred = model.predict(X_train)
     y_test_pred = model.predict(X_test)
+
+    
+    # Correct model's residual if it is the first case
+    if case['name'] == 'Apalachicola':
+        # Calculate residuals for training data
+        residuals_train = y_train - y_train_pred
+
+        # Fit linear regression on residuals for training data
+        lr_residuals_train = LinearRegression()
+        lr_residuals_train.fit(y_train_pred.reshape(-1, 1), residuals_train)
+
+        # Predict residuals for test set
+        test_residuals_pred = lr_residuals_train.predict(y_test_pred.reshape(-1, 1))
+
+        # Add residuals to predictions
+        y_test_pred_corrected = y_test_pred + test_residuals_pred
+
+        # Predict residuals for training set
+        train_residuals_pred = lr_residuals_train.predict(y_train_pred.reshape(-1, 1))
+
+        # Add residuals to predictions
+        y_train_pred_corrected = y_train_pred + train_residuals_pred
+
+        # Update predictions
+        y_train_pred = y_train_pred_corrected
+        y_test_pred = y_test_pred_corrected
     
     # Calculate metrics
     r2_train = r2_score(y_train, y_train_pred)
     rmse_train = np.sqrt(mean_squared_error(y_train, y_train_pred))
     r2_test = r2_score(y_test, y_test_pred)
     rmse_test = np.sqrt(mean_squared_error(y_test, y_test_pred))
+
+    # Predict for the whole dataset
+    if case['name'] == 'Apalachicola':
+        # Predictions for the whole dataset
+        y_pred = model.predict(X)
+
+        # Calculate residuals for the whole dataset
+        residuals = y - y_pred
+
+        # Fit linear regression on residuals
+        lr_residuals = LinearRegression()
+        lr_residuals.fit(y_pred.reshape(-1, 1), residuals)
+
+        # Predict residuals for the whole dataset
+        residuals_pred = lr_residuals.predict(y_pred.reshape(-1, 1))
+
+        # Add residuals to predictions
+        y_pred_corrected = y_pred + residuals_pred
+
+        # Update predictions for the whole dataset
+        df['Predicted Chlorophyll-a'] = y_pred_corrected
+    else:
+        df['Predicted Chlorophyll-a'] = model.predict(X)
     
     # Predict for the whole dataset
-    df['Predicted Chlorophyll-a'] = model.predict(X)
+    #df['Predicted Chlorophyll-a'] = model.predict(X)
 
     
     # Model evaluation
@@ -365,7 +441,7 @@ def handle_prediction(subpage_name, case_index):
     # Button to evaluate the model
     if st.button('Evaluate Model'):
         # Evaluate the model using the returned model from process_case
-        evaluate_model(selected_case['model'], selected_case['X_train'], selected_case['X_test'], selected_case['y_train'], selected_case['y_test'])
+        evaluate_model(selected_case['model'], selected_case['X_train'], selected_case['X_test'], selected_case['y_train'], selected_case['y_test'], selected_case['name'])
     # Remaining code for uploading user's CSV file, making predictions, and downloading results
     uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
     st.write('Note 1: ATemp_max -> Maximum Air Temperature of that same day of water quality data and chlorophyll-a prediction -> [d].')
