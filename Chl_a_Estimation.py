@@ -279,7 +279,7 @@ if selected_page == 'Introduction':
     # Infographics
     with st.expander("What-If Scenarios"):
         st.write("Below are visualizations demonstrating hypothetical scenarios:")
-        col1, col2, col3 = st.beta_columns(3)
+        col1, col2, col3 = st.columns(3)
         with col1:
             st.image("Temp_scenario.gif", caption="Temperature Scenario")
         with col2:
