@@ -249,6 +249,7 @@ def process_case(case):
         'selected_features': case['selected_features'],
         'df': df,
         'threshold': case['threshold']
+        'name': case['name']
     }
     
 
