@@ -201,9 +201,9 @@ def generate_hab_quotient_map(df, case, scenario, min_lat=None, max_lat=None,min
     #plt.colorbar(sc, label='HAB_Occurrences_Fequency_Ratio')
     plt.colorbar(sc)
     # Modify the way to set the title to avoid KeyError
-    plt.title(f'HAB Occurences Frequency Ratio- {scenario}',fontsize=16)
-    plt.xlabel('Longitude', fontsize=14)
-    plt.ylabel('Latitude',fontsize=14)
+    plt.title(f'HAB Occurences Frequency Ratio-\n {scenario}',fontsize=20)
+    plt.xlabel('Longitude', fontsize=16)
+    plt.ylabel('Latitude',fontsize=16)
     # Set latitude and longitude limits if provided
     if min_lat is not None and max_lat is not None:
         ax.set_ylim(bottom=min_lat, top=max_lat)
