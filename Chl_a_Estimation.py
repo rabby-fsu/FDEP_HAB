@@ -278,7 +278,7 @@ def handle_prediction(subpage_name, case_index):
 
 #Introduction Page
 st.sidebar.title('Pages')
-selected_page = st.sidebar.radio('Go to', ['Introduction', 'Apalachicola Bay-Estuary', 'Saint Joseph Bay-Estuary', 'Saint Andrew Bay-Estuary', 'Pensacola-Perdido Bay-Estuary'])
+selected_page = st.sidebar.radio('Go to', ['Introduction', 'Apalachicola Bay-Estuary', 'St. Joseph Bay-Estuary', 'St. Andrews Bay-Estuary', 'Pensacola-Perdido Bay-Estuary'])
 
 
 
@@ -290,7 +290,7 @@ if selected_page == 'Introduction':
     systems = {
         "Apalachicola": {"min_lat": 29.5, "max_lat": 29.9, "min_lon": -85.2, "max_lon": -84.7},
         "St. Joseph": {"min_lat": 29.65, "max_lat": 29.9, "min_lon": -85.42, "max_lon": -85.29},
-        "St. Andrew": {"min_lat": 30, "max_lat": 30.35, "min_lon": -85.9, "max_lon": -85.35},
+        "St. Andrews": {"min_lat": 30, "max_lat": 30.35, "min_lon": -85.9, "max_lon": -85.35},
         "Pensacola-Perido": {"min_lat": 30.2, "max_lat": 30.7, "min_lon": -87.59, "max_lon": -86.9}
     }
 
@@ -300,7 +300,7 @@ if selected_page == 'Introduction':
             st.subheader(system)
             st.text("Latitude Range: {} - {}".format(bounds["min_lat"], bounds["max_lat"]))
             st.text("Longitude Range: {} - {}".format(bounds["min_lon"], bounds["max_lon"]))
-            st.write("Map showing the {} estuarine system:".format(system))
+            st.write("Map showing the {} bay-estuary system:".format(system))
         
             # Create and display the map within the expander
             map_html = map_estuarine_system(system, bounds["min_lat"], bounds["max_lat"], bounds["min_lon"], bounds["max_lon"])._repr_html_()
@@ -372,7 +372,7 @@ elif selected_page == 'Apalachicola Bay-Estuary':
             download_plot(plot2, "plot2.png")
 
 
-elif selected_page == 'Saint Joseph Bay-Estuary':
+elif selected_page == 'St. Joseph Bay-Estuary':
     # Subpage navigation for Joseph Bay-Estuary
     subpage_selected = st.sidebar.radio('Go to', ['Prediction', 'Vulnerability'])
     if subpage_selected == 'Prediction':
@@ -425,7 +425,7 @@ elif selected_page == 'Saint Joseph Bay-Estuary':
             st.pyplot(plot2)
             download_plot(plot2, "plot2.png")
 
-elif selected_page == 'Saint Andrew Bay-Estuary':
+elif selected_page == 'St. Andrews Bay-Estuary':
     # Subpage navigation for Saint Andrew Bay-Estuary
     subpage_selected = st.sidebar.radio('Go to', ['Prediction', 'Vulnerability'])
     if subpage_selected == 'Prediction':
