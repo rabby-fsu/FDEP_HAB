@@ -250,7 +250,7 @@ def plot_max_predicted_chlorophyll_a(df, case, scenario, min_lat=None, max_lat=N
     ax.add_feature(cfeature.BORDERS, linestyle=':')
 
     # Plot the maximum predicted Chlorophyll-a values
-    sc = ax.scatter(max_chlorophyll_a['Long'], max_chlorophyll_a['Lat'], c=max_chlorophyll_a['Predicted Chlorophyll-a'], cmap='BuGn', marker='o', s=300, alpha=1, edgecolors='green')
+    sc = ax.scatter(max_chlorophyll_a['Long'], max_chlorophyll_a['Lat'], c=max_chlorophyll_a['Predicted Chlorophyll-a'], cmap='Purples', marker='o', s=300, alpha=1, edgecolors='green')
     cbar = plt.colorbar(sc, shrink=0.7)
     cbar.ax.tick_params(labelsize='large')
 
