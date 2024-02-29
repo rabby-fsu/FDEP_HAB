@@ -286,6 +286,40 @@ if selected_page == 'Introduction':
         with col3:
             st.image("Ocean_Acid_Scenario.jpeg", caption="Ocean Acidification Status (Increase/Decrease in pH)")
 
+
+#if selected_page == 'Introduction':
+    st.title('Introduction')
+    st.write('This is a web-based application to predict chlorophyll-a (an indicator of Harmful Algal Blooms) in four estuarine systems of the Florida panhandle and evaluate the vulnerability of each system under following what-if scenarios:')
+
+    # Define the estuarine systems with their boundaries
+    systems = {
+        "Apalachicola": {"min_lat": 29.5, "max_lat": 29.9, "min_lon": -85.2, "max_lon": -84.7},
+        "Joseph": {"min_lat": 29.65, "max_lat": 29.9, "min_lon": -85.42, "max_lon": -85.29},
+        "Andrew": {"min_lat": 30, "max_lat": 30.35, "min_lon": -85.9, "max_lon": -85.35},
+        "Pensacola-Perido": {"min_lat": 30.2, "max_lat": 30.7, "min_lon": -87.59, "max_lon": -86.9}
+    }
+
+    # Display the estuarine systems with maps using expanders
+    with st.expander("Estuarine Systems"):
+        for system, bounds in systems.items():
+            with st.expander(system):
+                st.text("Latitude Range: {} - {}".format(bounds["min_lat"], bounds["max_lat"]))
+                st.text("Longitude Range: {} - {}".format(bounds["min_lon"], bounds["max_lon"]))
+                st.write("Map showing the {} estuarine system:".format(system))
+                st.write(map_estuarine_system(system, bounds["min_lat"], bounds["max_lat"], bounds["min_lon"], bounds["max_lon"]))
+
+    # Infographics for what-if scenarios
+    with st.expander("What-If Scenarios for Vulnerability Assessment:"):
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.image("Temp_scenario.gif", caption="Cool-Warm Climate (Increase/Decrease in Daily Maximum Temperature)")
+        with col2:
+            st.image("salinity_scenario.gif", caption="Shifting Salinity Regimes (Increase/Decrease in Salinity Level)")
+        with col3:
+            st.image("Ocean_Acid_Scenario.jpeg", caption="Ocean Acidification Status (Increase/Decrease in pH)")
+
+
+
 elif selected_page == 'Apalachicola Bay-Estuary':
     # Subpage navigation for Apalachicola Bay-Estuary
     subpage_selected = st.sidebar.radio('Go to', ['Prediction', 'Vulnerability'])
