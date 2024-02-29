@@ -145,7 +145,8 @@ def evaluate_model(trained_model, X_train, X_test, y_train, y_test, case_name):
     # Display the plots
     plt.tight_layout()
     plt.show()
-    
+    st.pyplot(fig)
+    download_plot(fig, "evaluation_test_train.png")
     return fig
 
     
