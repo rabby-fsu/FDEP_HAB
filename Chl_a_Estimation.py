@@ -277,7 +277,7 @@ if selected_page == 'Introduction':
     st.write('This is a web-based application to predict chlorophyll-a (an indicator of Harmful Algal Blooms) in four estuarine systems of the Florida panhandle and evaluate the vulnerability of each system under what-if scenarios such as cooler-warmer temperatures, shifting salinity regimes and ocean acidification status')
 
     # Infographics
-    with st.beta_expander("What-If Scenarios"):
+    with st.expander("What-If Scenarios"):
         st.write("Below are visualizations demonstrating hypothetical scenarios:")
         col1, col2, col3 = st.beta_columns(3)
         with col1:
