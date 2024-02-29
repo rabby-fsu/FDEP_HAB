@@ -283,7 +283,7 @@ if selected_page == 'Introduction':
         with col1:
             st.image("Temp_scenario.gif", caption="Temperature Scenario")
         with col2:
-            st.image("Salinity_scenario.gif", caption="Salinity Scenario")
+            st.image("salinity_scenario.gif", caption="Salinity Scenario")
         with col3:
             st.image("Ocean_Acid_Scenario.jpeg", caption="Ocean Acidification Scenario")
 
