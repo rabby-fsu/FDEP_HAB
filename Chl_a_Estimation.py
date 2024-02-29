@@ -239,7 +239,10 @@ def generate_hab_quotient_map(df, case, scenario, min_lat=None, max_lat=None,min
     location_counts_sorted = location_counts.sort_values(by='Long')
     csv_data = location_counts_sorted[['Lat', 'Long', 'TotalDataPoints', 'HABOccurrences', 'HAB_Occurrences_Fequency_Ratio']].copy()
     csv_data_sorted = csv_data.sort_values(by='Long')
-    csv_data_sorted.to_csv('hab_data.csv', index=False)
+    csv = csv_data_sorted.to_csv(index=False)
+    b64 = base64.b64encode(csv.encode()).decode()
+    href = f'<a href="data:file/csv;base64,{b64}" download="HAB_DATA.csv">Download CSV</a>'
+    st.markdown(href, unsafe_allow_html=True)
 
 
     return fig
