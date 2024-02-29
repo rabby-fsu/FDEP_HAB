@@ -278,6 +278,48 @@ def plot_max_predicted_chlorophyll_a(df, case, scenario, min_lat=None, max_lat=N
 
     return fig
 
+def plot_median_predicted_chlorophyll_a(df, case, scenario, min_lat=None, max_lat=None, min_lon=None, max_lon=None):
+    # Group by latitude and longitude and find the median predicted Chlorophyll-a value
+    median_chlorophyll_a = df.groupby(['Lat', 'Long'])['Predicted Chlorophyll-a'].median().reset_index()
+
+    # Create the plot
+    fig = plt.figure(figsize=(15, 15))
+    ax = fig.add_subplot(111, projection=ccrs.PlateCarree())
+
+    ax.add_feature(cfeature.OCEAN)
+    ax.add_feature(cfeature.LAND, edgecolor='black')
+    ax.add_feature(cfeature.COASTLINE)
+    ax.add_feature(cfeature.BORDERS, linestyle=':')
+
+    # Plot the median predicted Chlorophyll-a values
+    sc = ax.scatter(median_chlorophyll_a['Long'], median_chlorophyll_a['Lat'], c=median_chlorophyll_a['Predicted Chlorophyll-a'], cmap='viridis', marker='o', s=300, alpha=1, edgecolors='green')
+    cbar = plt.colorbar(sc, shrink=0.7)
+    cbar.ax.tick_params(labelsize='large')
+
+    plt.title(f'Median Predicted Chlorophyll-a per Location - {scenario}', fontsize=20)
+    plt.xlabel('Longitude', fontsize=18)
+    plt.ylabel('Latitude', fontsize=18)
+
+    # Set latitude and longitude limits if provided
+    if min_lat is not None and max_lat is not None:
+        ax.set_ylim(bottom=min_lat, top=max_lat)
+    if min_lon is not None and max_lon is not None:
+        ax.set_xlim(left=min_lon, right=max_lon)
+
+    # Set latitude and longitude as ticks based on min and max values
+    if min_lat is not None and max_lat is not None:
+        lat_interval = (max_lat - min_lat) / 3
+        lat_ticks = [round(tick, 2) for tick in [min_lat, min_lat + lat_interval, max_lat - lat_interval, max_lat]]
+        ax.set_yticks(lat_ticks)
+
+    if min_lon is not None and max_lon is not None:
+        lon_interval = (max_lon - min_lon) / 3
+        lon_ticks = [round(tick, 2) for tick in [min_lon, min_lon + lon_interval, max_lon - lon_interval, max_lon]]
+        ax.set_xticks(lon_ticks)
+    ax.tick_params(axis='both', labelsize='large')
+
+    return fig
+
 
 # Process each case
 #for case in cases:
@@ -546,6 +588,7 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
         # Generate map for Business-as-Usual
         plot1= generate_hab_quotient_map(selected_case['df'], selected_case, scenario='Business-as-Usual',min_lat=30.2, max_lat=30.7, min_lon=-87.59, max_lon=-86.9)
         plot3 = plot_max_predicted_chlorophyll_a(selected_case['df'], selected_case, scenario='Business-as-Usual', min_lat=30.2, max_lat=30.7, min_lon=-87.59, max_lon=-86.9)
+        plot5 = plot_median_predicted_chlorophyll_a(selected_case['df'], selected_case, scenario='Business-as-Usual', min_lat=30.2, max_lat=30.7, min_lon=-87.59, max_lon=-86.9)
         
         # Generate maps for Business-as-Usual and Hypothetical Scenario
         modified_df = selected_case['df'].copy()  # Corrected copy operation
@@ -563,10 +606,10 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
         
         # Generate map for Hypothetical Scenario
         plot2 = generate_hab_quotient_map(modified_df, cases[3], scenario='Hypothetical Scenario',min_lat=30.2, max_lat=30.7, min_lon=-87.59, max_lon=-86.9)  # Pass modified DataFrame
-        # Generate map for Hypothetical Scenario
         plot4 = plot_max_predicted_chlorophyll_a(modified_df,cases[3], scenario='Hypothetical Scenario', min_lat=30.2, max_lat=30.7, min_lon=-87.59, max_lon=-86.9)
+        plot6 = plot_median_predicted_chlorophyll_a(modified_df,cases[3], scenario='Hypothetical Scenario', min_lat=30.2, max_lat=30.7, min_lon=-87.59, max_lon=-86.9)
 
-        dropdown_options = ['HAB Occurrences Ratio', 'Maximum Chlorophll-a Values (Predicted)', 'Other Option2']
+        dropdown_options = ['HAB Occurrences Ratio', 'Maximum Chlorophll-a Values (Predicted)', 'Median Chlorophll-a Values (Predicted)']
         selected_option = st.selectbox('Select an option', dropdown_options)
         if selected_option == 'HAB Occurrences Ratio':
             # Display plots side by side using columns layout
@@ -592,6 +635,14 @@ elif selected_page == 'Pensacola-Perdido Bay-Estuary':
                 st.pyplot(plot4)
                 download_plot(plot4, "plot4.png")
 
-        elif selected_option == 'Other Option2':
-            # Code for other option 2
-            pass
+        elif selected_option == 'Median Chlorophll-a Values (Predicted)':
+            # Display plots side by side using columns layout
+            col1, col2 = st.columns(2)
+            with col1:
+                st.write("Plot 5")
+                st.pyplot(plot5)
+                download_plot(plot3, "plot5.png")
+            with col2:
+                st.write("Plot 6")
+                st.pyplot(plot6)
+                download_plot(plot6, "plot6.png")
