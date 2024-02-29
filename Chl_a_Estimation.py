@@ -23,6 +23,15 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error
 import contextily as ctx
 
+def map_estuarine_system(system_name, min_lat, max_lat, min_lon, max_lon):
+    # Create a map centered around the estuarine system
+    m = folium.Map(location=[(min_lat + max_lat) / 2, (min_lon + max_lon) / 2], zoom_start=10)
+
+    # Add a rectangle encompassing the estuarine system
+    folium.Rectangle(bounds=[[min_lat, min_lon], [max_lat, max_lon]], color='blue', fill=True, fill_color='blue', fill_opacity=0.2).add_to(m)
+
+    return m
+
 
 # Define a list of dictionaries for each case
 cases = [
@@ -267,15 +276,6 @@ def handle_prediction(subpage_name, case_index):
             st.write("Uploaded CSV file does not contain expected features.")
 
 
-def map_estuarine_system(system_name, min_lat, max_lat, min_lon, max_lon):
-    # Create a map centered around the estuarine system
-    m = leafmap.Map(center=[(min_lat + max_lat) / 2, (min_lon + max_lon) / 2], zoom=10)
-
-    # Add a rectangle encompassing the estuarine system
-    m.add_bbox(bounds=[[min_lat, min_lon], [max_lat, max_lon]], color='blue', fill_opacity=0.2)
-
-    return m
-
 #Introduction Page
 st.sidebar.title('Pages')
 selected_page = st.sidebar.radio('Go to', ['Introduction', 'Apalachicola Bay-Estuary', 'Saint Joseph Bay-Estuary', 'Saint Andrew Bay-Estuary', 'Pensacola-Perdido Bay-Estuary'])
@@ -301,8 +301,12 @@ if selected_page == 'Introduction':
             st.text("Latitude Range: {} - {}".format(bounds["min_lat"], bounds["max_lat"]))
             st.text("Longitude Range: {} - {}".format(bounds["min_lon"], bounds["max_lon"]))
             st.write("Map showing the {} estuarine system:".format(system))
-            st.write(map_estuarine_system(system, bounds["min_lat"], bounds["max_lat"], bounds["min_lon"], bounds["max_lon"]))
+        
+            # Create and display the map within the expander
+            map_html = map_estuarine_system(system, bounds["min_lat"], bounds["max_lat"], bounds["min_lon"], bounds["max_lon"])._repr_html_()
+            st.components.v1.html(map_html, width=700, height=500)
 
+    
     # Infographics for what-if scenarios
     with st.expander("What-If Scenarios for Vulnerability Assessment:"):
         col1, col2, col3 = st.columns(3)
