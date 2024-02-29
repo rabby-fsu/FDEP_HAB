@@ -78,7 +78,11 @@ cases = [
         'test_size' : 0.3
     }
 ]
-
+# Add download button for plots
+def download_plot(plot, filename):
+    plot.savefig(filename)
+    st.download_button(label="Download Plot", data=open(filename, 'rb').read(), file_name=filename, mime='image/png')
+    
 # Define a function for model evaluation
 def evaluate_model(trained_model, X_train, X_test, y_train, y_test):
     y_train_pred = trained_model.predict(X_train)
@@ -112,6 +116,7 @@ def evaluate_model(trained_model, X_train, X_test, y_train, y_test):
 
     # Display the plots
     st.pyplot(fig)
+    download_plot(fig, "evaluation_test_train.png")
     return fig
 
 # Function to process each case
@@ -228,10 +233,6 @@ def generate_hab_quotient_map(df, case, scenario, min_lat=None, max_lat=None,min
     return fig
 
 
-# Add download button for plots
-def download_plot(plot, filename):
-    plot.savefig(filename)
-    st.download_button(label="Download Plot", data=open(filename, 'rb').read(), file_name=filename, mime='image/png')
 
 # Process each case
 #for case in cases:
