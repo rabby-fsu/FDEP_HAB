@@ -124,7 +124,7 @@ def evaluate_model(trained_model, X_train, X_test, y_train, y_test, case_name):
     train_rmse_corrected = np.sqrt(mean_squared_error(y_train, y_train_pred_corrected))
 
     # Plot Actual vs Predicted Chlorophyll-a for train and test datasets
-    fig, axes = plt.subplots(2, 2, figsize=(12, 10))
+    fig, axes = plt.subplots(1, 2, figsize=(12, 10))
 
     # Train dataset plot with correction
     sns.scatterplot(x=y_train, y=y_train_pred_corrected, ax=axes[0])
