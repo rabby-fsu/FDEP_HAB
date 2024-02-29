@@ -317,16 +317,8 @@ if selected_page == 'Introduction':
         with col3:
             st.image("Ocean_Acid_Scenario.jpeg", caption="Ocean Acidification Status (Increase/Decrease in pH)")
 
-elif selected_page == 'Apalachicola Bay-Estuary':
-    st.title('Apalachicola Bay-Estuary')
-    # Display the map for Apalachicola Bay-Estuary in the sidebar
-    st.sidebar.subheader("Map of Apalachicola Bay-Estuary:")
-    map_html = map_estuarine_system("Apalachicola", 29.5, 29.9, -85.2, -84.7)._repr_html_()
-    st.sidebar.components.v1.html(map_html, width=250, height=250)
-    #map_html = map_estuarine_system("Apalachicola", 29.5, 29.9, -85.2, -84.7)._repr_html_()
-    #st.sidebar.markdown(map_html, unsafe_allow_html=True)
 
-#elif selected_page == 'Apalachicola Bay-Estuary':
+elif selected_page == 'Apalachicola Bay-Estuary':
     # Subpage navigation for Apalachicola Bay-Estuary
     subpage_selected = st.sidebar.radio('Go to', ['Prediction', 'Vulnerability'])
     if subpage_selected == 'Prediction':
