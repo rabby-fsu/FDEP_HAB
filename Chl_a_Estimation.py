@@ -88,7 +88,7 @@ def download_plot(plot, filename):
     st.download_button(label="Download Plot", data=open(filename, 'rb').read(), file_name=filename, mime='image/png')
     
 
-def evaluate_model(trained_model, X_train, X_test, y_train, y_test, case_name)
+def evaluate_model(trained_model, X_train, X_test, y_train, y_test, case_name):
     y_train_pred = trained_model.predict(X_train)
     y_test_pred = trained_model.predict(X_test)
 
