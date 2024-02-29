@@ -289,13 +289,13 @@ if selected_page == 'Introduction':
     # Define the estuarine systems with their boundaries
     systems = {
         "Apalachicola": {"min_lat": 29.5, "max_lat": 29.9, "min_lon": -85.2, "max_lon": -84.7},
-        "Joseph": {"min_lat": 29.65, "max_lat": 29.9, "min_lon": -85.42, "max_lon": -85.29},
-        "Andrew": {"min_lat": 30, "max_lat": 30.35, "min_lon": -85.9, "max_lon": -85.35},
+        "St. Joseph": {"min_lat": 29.65, "max_lat": 29.9, "min_lon": -85.42, "max_lon": -85.29},
+        "St. Andrew": {"min_lat": 30, "max_lat": 30.35, "min_lon": -85.9, "max_lon": -85.35},
         "Pensacola-Perido": {"min_lat": 30.2, "max_lat": 30.7, "min_lon": -87.59, "max_lon": -86.9}
     }
 
     # Display the estuarine systems with maps using a single expander
-    with st.expander("Estuarine Systems"):
+    with st.expander("Bay-Estuary Systems"):
         for system, bounds in systems.items():
             st.subheader(system)
             st.text("Latitude Range: {} - {}".format(bounds["min_lat"], bounds["max_lat"]))
