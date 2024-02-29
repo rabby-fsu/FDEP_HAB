@@ -198,9 +198,10 @@ def generate_hab_quotient_map(df, case, scenario, min_lat=None, max_lat=None,min
     ax.coastlines()
     # Plot HAB Ratio
     sc = ax.scatter(location_counts['Long'], location_counts['Lat'], c=location_counts['HAB_Occurrences_Fequency_Ratio'], cmap='OrRd', marker='o', s=300, alpha=1, edgecolors='green')
-    plt.colorbar(sc, label='HAB_Occurrences_Fequency_Ratio')
+    #plt.colorbar(sc, label='HAB_Occurrences_Fequency_Ratio')
+    plt.colorbar(sc)
     # Modify the way to set the title to avoid KeyError
-    plt.title(f'HAB Occurences Frequency Ratio- {scenario}',fontsize=14)
+    plt.title(f'HAB Occurences Frequency Ratio- {scenario}',fontsize=16)
     plt.xlabel('Longitude', fontsize=14)
     plt.ylabel('Latitude',fontsize=14)
     # Set latitude and longitude limits if provided
